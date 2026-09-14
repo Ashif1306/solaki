@@ -18,8 +18,60 @@ import {
   BarChart2,
   Flame,
   Layers,
+  Search,
+  Map,
+  Rocket,
+  BarChart3,
+  ArrowRight,
 } from "lucide-react";
 import Image from "next/image";
+
+const processSteps = [
+  {
+    number: "01",
+    icon: Search,
+    title: "Understand",
+    subtitle: "Pahami Bisnis Anda",
+    desc: "Kami mulai dengan memahami bisnis Anda secara mendalam — target pasar, audit aset digital, dan peluang pertumbuhan.",
+    color: "#0D5C46",
+    bg: "rgba(13,92,70,0.08)",
+    border: "rgba(13,92,70,0.25)",
+    details: ["Riset target pasar & kompetitor", "Audit aset digital yang ada", "Identifikasi peluang konversi"],
+  },
+  {
+    number: "02",
+    icon: Map,
+    title: "Strategize",
+    subtitle: "Susun Strategi Tepat",
+    desc: "Merancang strategi pemasaran digital yang terarah, mulai dari struktur pilar konten hingga formulasi kampanye iklan.",
+    color: "#D95338",
+    bg: "rgba(217,83,56,0.08)",
+    border: "rgba(217,83,56,0.25)",
+    details: ["Perancangan content pillars", "Kalender editorial bulanan", "Roadmap digital ads (Meta & TikTok)"],
+  },
+  {
+    number: "03",
+    icon: Rocket,
+    title: "Create & Execute",
+    subtitle: "Produksi & Eksekusi",
+    desc: "Memproduksi konten kreatif visual & video berdaya pikat tinggi, serta mengelola penayangan iklan secara disiplin.",
+    color: "#4F46E5",
+    bg: "rgba(79,70,229,0.08)",
+    border: "rgba(79,70,229,0.25)",
+    details: ["Produksi video Reels & TikTok", "Pengelolaan & publikasi terjadwal", "Eksekusi iklan tertarget"],
+  },
+  {
+    number: "04",
+    icon: BarChart3,
+    title: "Analyze & Grow",
+    subtitle: "Evaluasi & Optimasi",
+    desc: "Mengevaluasi hasil secara berkala berbasis data riil (reach, retention, engagement) untuk optimasi pertumbuhan jangka panjang.",
+    color: "#0D5C46",
+    bg: "rgba(13,92,70,0.08)",
+    border: "rgba(13,92,70,0.25)",
+    details: ["Laporan performa berkala", "Analisis engagement & ROI", "Optimasi strategi berkelanjutan"],
+  },
+];
 
 interface ShowcaseItem {
   id: string;
@@ -238,12 +290,118 @@ export default function SocialShowcaseSection() {
           </AnimatePresence>
         </div>
 
-        {/* Footnote callout */}
-        <div className="mt-12 text-center">
-          <p className="text-xs text-solaki-muted font-inter">
-            💡 <strong className="text-white">Transparansi Strategi</strong>: Setiap konten dirancang melalui riset hook visual, retensi menit pertama, dan call-to-action terukur.
-          </p>
+        {/* ── INTEGRATED PROCESS & METHODOLOGY SUBSECTION ── */}
+        <div className="mt-20 pt-16 border-t border-solaki-border/40">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7 }}
+            className="text-center mb-12 sm:mb-16"
+          >
+            <div className="section-badge mb-4 inline-flex items-center gap-2">
+              <Rocket className="w-3.5 h-3.5 text-solaki-coral animate-pulse" />
+              <span>Metodologi & Alur Kerja</span>
+            </div>
+
+            <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
+              Bagaimana Kami Mewujudkannya:{" "}
+              <span className="gradient-text-teal">Proses Kerja 4 Tahap</span>
+            </h3>
+            <p className="text-solaki-muted text-sm sm:text-base font-inter max-w-2xl mx-auto mt-3 leading-relaxed">
+              Pendekatan sistematis yang mengubah insight bisnis Anda menjadi karya konten berdampak tinggi dan pertumbuhan terukur.
+            </p>
+          </motion.div>
+
+          {/* 4 Process Cards */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-12">
+            {processSteps.map((step, i) => (
+              <motion.div
+                key={step.title}
+                initial={{ opacity: 0, y: 30 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: i * 0.1, duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
+                className="relative"
+              >
+                {/* Connector line for desktop */}
+                {i < processSteps.length - 1 && (
+                  <div
+                    className="hidden lg:block absolute top-8 left-full w-5 h-px z-10"
+                    style={{ background: `linear-gradient(to right, ${step.color}40, transparent)` }}
+                  />
+                )}
+
+                <div
+                  className="bento-card p-6 h-full flex flex-col justify-between"
+                  style={{ borderColor: step.border }}
+                >
+                  <div>
+                    {/* Number + Icon */}
+                    <div className="flex items-center justify-between mb-5">
+                      <div
+                        className="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0"
+                        style={{ background: step.bg, border: `1px solid ${step.border}` }}
+                      >
+                        <step.icon className="w-5 h-5" style={{ color: step.color }} />
+                      </div>
+                      <span
+                        className="text-2xl font-black opacity-30 font-jakarta"
+                        style={{ color: step.color }}
+                      >
+                        {step.number}
+                      </span>
+                    </div>
+
+                    {/* Title */}
+                    <h4 className="text-base font-bold text-white mb-0.5">{step.title}</h4>
+                    <p className="text-xs font-semibold mb-3 font-inter" style={{ color: step.color }}>
+                      {step.subtitle}
+                    </p>
+
+                    {/* Desc */}
+                    <p className="text-xs text-solaki-muted font-inter leading-relaxed mb-5">
+                      {step.desc}
+                    </p>
+                  </div>
+
+                  {/* Details */}
+                  <ul className="space-y-1.5 pt-3 border-t border-solaki-border/40">
+                    {step.details.map((d) => (
+                      <li key={d} className="flex items-center gap-2">
+                        <div
+                          className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                          style={{ background: step.color }}
+                        />
+                        <span className="text-[11px] font-inter text-solaki-subtle">{d}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* CTA Banner */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.4, duration: 0.6 }}
+            className="text-center"
+          >
+            <motion.button
+              onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
+              className="btn-primary"
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              <span>Mulai Kolaborasi Bersama SOLAKI</span>
+              <ArrowRight className="w-4 h-4" />
+            </motion.button>
+            <p className="text-solaki-subtle text-xs font-inter mt-3">
+              Konsultasi awal & audit media sosial tanpa dipungut biaya
+            </p>
+          </motion.div>
         </div>
+
       </div>
 
       {/* ── MODAL: DETAIL ANALISIS KONTEN ── */}

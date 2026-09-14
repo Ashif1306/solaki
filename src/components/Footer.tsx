@@ -34,8 +34,7 @@ const footerLinks = {
   ],
   navigasi: [
     { label: "About & Identity", href: "#about" },
-    { label: "How We Work", href: "#process" },
-    { label: "Our Clients", href: "#showcase" },
+    { label: "Showcase & Proses", href: "#showcase" },
     { label: "Konsultasi & Kontak", href: "#contact" },
   ],
 };
