@@ -1,0 +1,129 @@
+// Prisma schema for PostgreSQL database
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Admin users
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   @default("admin")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Contact form leads from website visitors
+model Lead {
+  id           String   @id @default(cuid())
+  ownerName    String
+  businessName String
+  whatsapp     String
+  serviceChoice String
+  notes        String   @default("") @db.Text
+  status       String   @default("new") // "new", "contacted", "converted", "closed"
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+// Website content sections - editable from admin
+model SiteContent {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String   @db.Text
+  label     String
+  section   String   @default("general")
+  type      String   @default("text") // "text", "textarea"
+  updatedAt DateTime @updatedAt
+}
+
+// Services offered
+model Service {
+  id          String   @id @default(cuid())
+  order       Int      @default(0)
+  slug        String?  @unique
+  icon        String   @default("PenTool")
+  title       String
+  subtitle    String   @default("")
+  description String   @db.Text
+  features    String[]
+  color       String   @default("#0D5C46")
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Team members
+model TeamMember {
+  id          String   @id @default(cuid())
+  order       Int      @default(0)
+  name        String
+  role        String
+  description String   @db.Text
+  skills      String[]
+  initials    String   @default("")
+  color       String   @default("#0D5C46")
+  photo       String?  @default("")
+  instagram   String?  @default("#")
+  linkedin    String?  @default("#")
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Pricing packages
+model Package {
+  id          String   @id @default(cuid())
+  order       Int      @default(0)
+  name        String
+  modelType   String   @default("retainer") // "retainer", "project_fee", "ad_fee", "custom"
+  subtitle    String   @default("")
+  description String   @db.Text
+  price       String   // e.g. "Rp 2.500.000"
+  period      String   @default("") // e.g. "/ bulan"
+  badge       String?  @default("")
+  features    String[]
+  isHighlight Boolean  @default(false)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// Social Media Showcase (Instagram & TikTok) with Content Analysis
+model SocialShowcase {
+  id              String   @id @default(cuid())
+  order           Int      @default(0)
+  platform        String   // "instagram" | "tiktok"
+  title           String
+  caption         String   @default("") @db.Text
+  mediaUrl        String   // image / thumbnail / video URL
+  postUrl         String?  @default("")
+  format          String   @default("Reels / Short Video") // "Reels", "Carousel", "Single Post", "TikTok Video"
+  
+  // Performance Metrics
+  views           Int      @default(0)
+  likes           Int      @default(0)
+  comments        Int      @default(0)
+  shares          Int      @default(0)
+  saves           Int      @default(0)
+  engagementRate  String   @default("0%")
+  reachMultiplier String   @default("1.0x")
+
+  // Content Analysis & Strategy
+  hookStrategy    String   @default("") @db.Text
+  contentPillar   String   @default("Edukasi / Promosi")
+  targetAudience  String   @default("Lokal & Gen-Z")
+  keyTakeaway     String   @default("") @db.Text
+  sentimentScore  String   @default("98% Positif")
+  
+  isActive        Boolean  @default(true)
+  isFeatured      Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
