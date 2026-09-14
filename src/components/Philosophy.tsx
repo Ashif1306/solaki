@@ -721,10 +721,6 @@ function MobileTeamMarquee({ team }: { team: TeamMember[] }) {
 
   return (
     <div className="block md:hidden relative -mx-4 sm:-mx-6 overflow-hidden py-2 select-none">
-      {/* Ambient edge shadow fades */}
-      <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-solaki-surface to-transparent z-20 pointer-events-none" />
-      <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-solaki-surface to-transparent z-20 pointer-events-none" />
-
       <div
         ref={containerRef}
         onTouchStart={handleTouchStart}
