@@ -72,15 +72,22 @@ export default function BentoServices() {
   const isInView = useInView(sectionRef, { once: true, margin: "-60px" });
 
   const scrollToContact = () => {
-    document.getElementById("kontak")?.scrollIntoView({ behavior: "smooth" });
+    const el = document.getElementById("contact") || document.getElementById("kontak");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    } else {
+      window.location.hash = "#contact";
+    }
   };
 
   return (
     <section
       id="services"
       ref={sectionRef}
-      className="py-28 relative overflow-hidden bg-solaki-bg"
+      className="py-28 relative overflow-hidden bg-solaki-bg scroll-mt-12"
     >
+      {/* Anchor alias for #layanan */}
+      <span id="layanan" className="sr-only absolute -top-12 left-0" />
       <div className="absolute inset-0 grid-bg opacity-30" />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">

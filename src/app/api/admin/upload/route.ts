@@ -17,10 +17,12 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Tidak ada file yang diunggah" }, { status: 400 });
     }
 
-    // Validate mime type (flexible image formats)
-    if (!file.type.startsWith("image/") && !file.name.match(/\.(jpg|jpeg|png|webp|svg|avif|gif)$/i)) {
+    const video = /^(video\/mp4|video\/webm)$/.test(file.type) && /\.(mp4|webm)$/i.test(file.name);
+    if (file.size > (video ? 50 : 10) * 1024 * 1024) return NextResponse.json({ error: video ? "Ukuran video maksimal 50 MB." : "Ukuran gambar maksimal 10 MB." }, { status: 400 });
+    // Validate image or supported video formats.
+    if (!video && !file.type.startsWith("image/") && !file.name.match(/\.(jpg|jpeg|png|webp|svg|avif|gif)$/i)) {
       return NextResponse.json(
-        { error: "Format file tidak didukung. Harap gunakan gambar (PNG, JPG, WEBP, SVG, dsb)." },
+        { error: "Format file tidak didukung. Gunakan gambar atau video MP4/WebM." },
         { status: 400 }
       );
     }

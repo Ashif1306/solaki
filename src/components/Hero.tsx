@@ -82,11 +82,21 @@ export default function Hero() {
   };
 
   const scrollToContact = () => {
-    document.getElementById("kontak")?.scrollIntoView({ behavior: "smooth" });
+    const el = document.getElementById("contact") || document.getElementById("kontak");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    } else {
+      window.location.hash = "#contact";
+    }
   };
 
   const scrollToServices = () => {
-    document.getElementById("layanan")?.scrollIntoView({ behavior: "smooth" });
+    const el = document.getElementById("services") || document.getElementById("layanan");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    } else {
+      window.location.hash = "#services";
+    }
   };
 
   return (
@@ -184,25 +194,33 @@ export default function Hero() {
               <ArrowRight className="w-4 h-4" />
             </motion.a>
           ) : (
-            <motion.button
-              onClick={scrollToContact}
-              className="btn-primary text-sm"
+            <motion.a
+              href="#contact"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToContact();
+              }}
+              className="btn-primary text-sm flex items-center gap-2 cursor-pointer"
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.97 }}
             >
               Konsultasi Gratis
               <ArrowRight className="w-4 h-4" />
-            </motion.button>
+            </motion.a>
           )}
 
-          <motion.button
-            onClick={scrollToServices}
-            className="btn-secondary text-sm"
+          <motion.a
+            href="#services"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToServices();
+            }}
+            className="btn-secondary text-sm flex items-center justify-center cursor-pointer"
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.97 }}
           >
             Lihat Layanan Kami
-          </motion.button>
+          </motion.a>
         </motion.div>
 
         {/* Service Pills */}

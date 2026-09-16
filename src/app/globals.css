@@ -390,6 +390,57 @@ html.light footer {
 }
 
 /* ═══════════════════════════════════════════════════════════════
+   SHOWCASE SECTION — force dark regardless of theme
+   ═══════════════════════════════════════════════════════════════ */
+#showcase {
+  background-color: #111111 !important;
+  color: #FFFFFF !important;
+}
+
+/* Force showcase text colors in light mode */
+html.light #showcase .text-white { color: #FFFFFF !important; }
+html.light #showcase .text-solaki-muted { color: #888888 !important; }
+html.light #showcase .text-solaki-subtle { color: #555555 !important; }
+html.light #showcase .text-solaki-teal { color: #10B981 !important; }
+html.light #showcase .text-solaki-glow { color: #10B981 !important; }
+html.light #showcase .text-slate-200 { color: #e2e8f0 !important; }
+
+/* Force showcase backgrounds */
+html.light #showcase .bg-solaki-surface { background-color: #111111 !important; }
+html.light #showcase .bg-solaki-surface\/90 { background-color: rgba(17,17,17,0.9) !important; }
+html.light #showcase .bento-card {
+  background: rgba(255,255,255,0.03) !important;
+  border-color: rgba(255,255,255,0.1) !important;
+  box-shadow: none !important;
+}
+html.light #showcase .bento-card:hover {
+  border-color: rgba(13,92,70,0.5) !important;
+}
+html.light #showcase .border-solaki-border { border-color: #2A2A2A !important; }
+html.light #showcase .section-badge {
+  background: rgba(13,92,70,0.15) !important;
+  border-color: rgba(13,92,70,0.35) !important;
+  color: #10B981 !important;
+}
+html.light #showcase .section-badge span { color: #10B981 !important; }
+html.light #showcase .grid-bg {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px) !important;
+}
+
+/* Fix flip card back face in light mode */
+html.light #showcase [style*="rotateY(180deg)"] {
+  background-color: #111111 !important;
+}
+
+/* Fix inline bg-white/[0.04] utility in showcase */
+html.light #showcase .bg-white\/\[0\.04\] { background-color: rgba(255,255,255,0.04) !important; }
+html.light #showcase .bg-white\/\[0\.03\] { background-color: rgba(255,255,255,0.03) !important; }
+html.light #showcase .bg-white\/\[0\.02\] { background-color: rgba(255,255,255,0.02) !important; }
+html.light #showcase .border-white\/5 { border-color: rgba(255,255,255,0.05) !important; }
+
+/* ═══════════════════════════════════════════════════════════════
    ANIMATIONS
    ═══════════════════════════════════════════════════════════════ */
 

@@ -125,7 +125,9 @@ export default function ContactForm() {
   };
 
   return (
-    <section id="contact" ref={sectionRef} className="py-32 relative overflow-hidden bg-solaki-dark">
+    <section id="contact" ref={sectionRef} className="py-32 relative overflow-hidden bg-solaki-dark scroll-mt-12">
+      {/* Anchor alias for #kontak */}
+      <span id="kontak" className="sr-only absolute -top-12 left-0" />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(13,92,70,0.1)_0%,transparent_70%)]" />
       <div className="absolute inset-0 grid-bg opacity-25" />
 

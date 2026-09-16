@@ -1,3 +1,4 @@
+import { safeMediaUrl, socialEmbedUrl } from "@/lib/showcase-media";
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { getAdminSession } from "@/lib/auth";
@@ -23,8 +24,8 @@ export async function POST(req: Request) {
   try {
     const data = await req.json();
 
-    if (!data.title || !data.mediaUrl) {
-      return NextResponse.json({ error: "Judul dan Gambar/Media wajib diisi." }, { status: 400 });
+    if (!String(data.title || "").trim() || (!safeMediaUrl(String(data.mediaUrl || "").trim()) && !socialEmbedUrl(String(data.postUrl || "").trim()))) {
+      return NextResponse.json({ error: "Isi judul dan media atau tautan postingan Instagram/TikTok yang valid." }, { status: 400 });
     }
 
     const created = await prisma.socialShowcase.create({
@@ -33,7 +34,7 @@ export async function POST(req: Request) {
         platform: data.platform === "tiktok" ? "tiktok" : "instagram",
         title: String(data.title).trim(),
         caption: String(data.caption || "").trim(),
-        mediaUrl: String(data.mediaUrl).trim(),
+        mediaUrl: String(data.mediaUrl || "").trim(),
         postUrl: data.postUrl ? String(data.postUrl).trim() : "",
         format: String(data.format || "Reels / Short Video"),
         
@@ -78,6 +79,12 @@ export async function PUT(req: Request) {
       return NextResponse.json({ error: "ID showcase wajib disertakan." }, { status: 400 });
     }
 
+    const existing = await prisma.socialShowcase.findUnique({ where: { id: String(data.id) } });
+    if (!existing) return NextResponse.json({ error: "Konten tidak ditemukan." }, { status: 404 });
+    const media = String(data.mediaUrl ?? existing.mediaUrl).trim();
+    const post = String(data.postUrl ?? existing.postUrl ?? "").trim();
+    if (!safeMediaUrl(media) && !socialEmbedUrl(post)) return NextResponse.json({ error: "Isi media atau tautan postingan yang valid." }, { status: 400 });
+
     const updated = await prisma.socialShowcase.update({
       where: { id: String(data.id) },
       data: {
@@ -85,7 +92,7 @@ export async function PUT(req: Request) {
         ...(data.platform && { platform: data.platform === "tiktok" ? "tiktok" : "instagram" }),
         ...(data.title && { title: String(data.title).trim() }),
         ...(data.caption !== undefined && { caption: String(data.caption).trim() }),
-        ...(data.mediaUrl && { mediaUrl: String(data.mediaUrl).trim() }),
+        ...(data.mediaUrl !== undefined && { mediaUrl: String(data.mediaUrl || "").trim() }),
         ...(data.postUrl !== undefined && { postUrl: String(data.postUrl).trim() }),
         ...(data.format && { format: String(data.format) }),
 
