@@ -207,9 +207,10 @@ export default function Navbar() {
               const isHovered = hoveredLink === link.href;
 
               return (
-                <button
+                <a
                   key={link.href}
-                  onClick={() => scrollToSection(link.href)}
+                  href={link.href}
+                  onClick={(event) => { event.preventDefault(); scrollToSection(link.href); }}
                   onMouseEnter={() => setHoveredLink(link.href)}
                   onMouseLeave={() => setHoveredLink(null)}
                   className={`relative px-3.5 py-1.5 text-xs rounded-xl cursor-pointer transition-colors duration-200 group select-none ${
@@ -263,7 +264,7 @@ export default function Navbar() {
                       />
                     )}
                   </span>
-                </button>
+                </a>
               );
             })}
           </nav>
@@ -487,12 +488,13 @@ export default function Navbar() {
                 {navLinks.map((link, i) => {
                   const isActive = activeSection === link.href.replace("#", "");
                   return (
-                    <motion.button
+                    <motion.a
                       key={link.href}
+                      href={link.href}
                       initial={{ opacity: 0, x: -10 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: i * 0.04, duration: 0.2 }}
-                      onClick={() => scrollToSection(link.href)}
+                      onClick={(event) => { event.preventDefault(); scrollToSection(link.href); }}
                       className={`w-full text-left px-4 py-2.5 rounded-xl transition-all duration-200 text-sm font-semibold flex items-center justify-between cursor-pointer group ${
                         isActive
                           ? isDark
@@ -511,7 +513,7 @@ export default function Navbar() {
                           border: isActive ? "none" : isDark ? "1px solid #243040" : "1px solid #CBD5E1",
                         }}
                       />
-                    </motion.button>
+                    </motion.a>
                   );
                 })}
               </div>

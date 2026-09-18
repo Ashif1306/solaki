@@ -42,11 +42,6 @@ const footerLinks = {
 export default function Footer() {
   const { brand } = useSiteBrand();
 
-  const scrollTo = (href: string) => {
-    const id = href.replace("#", "");
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
     <footer className="relative bg-solaki-black border-t border-solaki-border/40 overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_30%_100%,rgba(13,92,70,0.06)_0%,transparent_70%)]" />
@@ -181,12 +176,12 @@ export default function Footer() {
             <ul className="space-y-2.5">
               {footerLinks.layanan.map((link) => (
                 <li key={link.label}>
-                  <button
-                    onClick={() => scrollTo(link.href)}
+                  <a
+                    href={link.href}
                     className="text-xs text-solaki-muted hover:text-white transition-colors font-inter text-left"
                   >
                     {link.label}
-                  </button>
+                  </a>
                 </li>
               ))}
             </ul>
@@ -200,12 +195,12 @@ export default function Footer() {
             <ul className="space-y-2.5 mb-6">
               {footerLinks.navigasi.map((link) => (
                 <li key={link.label}>
-                  <button
-                    onClick={() => scrollTo(link.href)}
+                  <a
+                    href={link.href}
                     className="text-xs text-solaki-muted hover:text-white transition-colors font-inter text-left"
                   >
                     {link.label}
-                  </button>
+                  </a>
                 </li>
               ))}
             </ul>

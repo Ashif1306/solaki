@@ -1,6 +1,25 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+## SEO configuration
+
+The production domain defaults to `https://solaki.id`. Set `SITE_URL` to the
+canonical production origin before building if using a different domain. This
+value controls canonical URLs, social metadata, JSON-LD, and the sitemap.
+Optionally set `GOOGLE_SITE_VERIFICATION` to the Search Console verification
+token (the meta tag content value), then rebuild and deploy.
+
+The public homepage is listed in `/sitemap.xml`, referenced by `/robots.txt`.
+Admin routes under `/solaki` and API responses use `X-Robots-Tag: noindex,
+nofollow`; admin pages also have a robots meta tag. They remain crawlable so
+search engines can read these directives. Authentication remains separate.
+`/opengraph-image` generates the social sharing image locally at build time.
+
+After deployment, submit `/sitemap.xml` in Google Search Console and inspect
+the homepage URL. Use Google's Rich Results Test or Schema Markup Validator
+to check the Organization, WebSite, and WebPage JSON-LD. Add future public
+pages to the sitemap and give each its own canonical URL and metadata.
+
+## Local development
 
 First, run the development server:
 

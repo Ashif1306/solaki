@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { siteUrl, siteName, siteTitle, siteDescription } from "@/lib/seo";
 import { Poppins, Inter, Montserrat } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
@@ -25,49 +26,52 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "SOLAKI Creative Agency — Solusi Pemasaran Digital Terintegrasi",
-  description:
-    "SOLAKI adalah agensi pemasaran digital yang berakar pada filosofi lokal Enrekang 'Sola ki' — Bersama Kita. Kami hadir sebagai mitra internal yang mendampingi pertumbuhan bisnis melalui konten kreatif, media sosial strategis, dan iklan berbasis data.",
-  keywords: [
-    "agensi digital",
-    "SOLAKI",
-    "pemasaran digital",
-    "UMKM",
-    "social media management",
-    "content creation",
-    "digital advertising",
-    "Meta Ads",
-    "TikTok Ads",
-    "Enrekang",
-    "Indonesia",
-  ],
-  authors: [{ name: "SOLAKI Creative Agency", url: "https://solaki.id" }],
-  creator: "SOLAKI Creative Agency",
+  metadataBase: new URL(siteUrl),
+  title: { default: siteTitle, template: "%s | SOLAKI" },
+  description: siteDescription,
+  authors: [{ name: siteName, url: siteUrl }],
+  creator: siteName,
   openGraph: {
     type: "website",
     locale: "id_ID",
-    url: "https://solaki.id",
-    title: "SOLAKI Creative Agency — Solusi Pemasaran Digital Terintegrasi",
-    description:
-      "Mitra internal bisnis & UMKM Anda. Tumbuh bersama lewat strategi konten, media sosial, dan iklan berbasis data.",
-    siteName: "SOLAKI Creative Agency",
+    url: "/",
+    title: siteTitle,
+    description: siteDescription,
+    siteName,
+    images: [
+      {
+        url: "/logo_solaki/Logo_Solaki.png",
+        width: 1200,
+        height: 1200,
+        alt: "SOLAKI Creative Agency",
+        type: "image/png",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "SOLAKI Creative Agency",
-    description: "Mitra Digital Internal untuk Pertumbuhan Bisnis & UMKM",
+    title: siteTitle,
+    description: siteDescription,
+    images: [
+      {
+        url: "/logo_solaki/Logo_Solaki.png",
+        width: 1200,
+        height: 1200,
+        alt: "SOLAKI Creative Agency",
+      },
+    ],
   },
-  robots: {
-    index: true,
-    follow: true,
+  robots: { index: true, follow: true },
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION || undefined,
   },
   icons: {
     icon: [
-      { url: "/logo_solaki/Logo_Solaki_transparent.png", sizes: "any" },
-      { url: "/logo_solaki/Logo Solaki_clean.svg", type: "image/svg+xml" },
+      { url: "/logo_solaki/Logo_Solaki.png", sizes: "any" },
+      { url: "/logo_solaki/Logo Solaki.svg", type: "image/svg+xml" },
     ],
-    shortcut: "/logo_solaki/Logo_Solaki_transparent.png",
-    apple: "/logo_solaki/Logo_Solaki_transparent.png",
+    shortcut: "/logo_solaki/Logo_Solaki.png",
+    apple: "/logo_solaki/Logo_Solaki.png",
   },
 };
 
