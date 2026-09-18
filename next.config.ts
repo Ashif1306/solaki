@@ -47,6 +47,8 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // Ensure Prisma is treated as an external package in Node runtime
+  serverExternalPackages: ["@prisma/client", "prisma"],
   // Enable gzip/brotli compression for faster page loads
   compress: true,
   // Generate ETags for caching

@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { siteUrl, siteName, siteTitle, siteDescription, siteKeywords } from "@/lib/seo";
 import { Poppins, Inter, Montserrat } from "next/font/google";
+import { Suspense } from "react";
 import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
+import AnalyticsTracker from "@/components/AnalyticsTracker";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -130,7 +132,12 @@ export default function RootLayout({
       <body
         className={`${poppins.variable} ${inter.variable} ${montserrat.variable} font-montserrat antialiased transition-colors duration-300 bg-solaki-black text-white`}
       >
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <Suspense fallback={null}>
+            <AnalyticsTracker />
+          </Suspense>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

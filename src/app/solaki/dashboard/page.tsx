@@ -11,6 +11,8 @@ import {
   ExternalLink,
   MessageCircle,
   Sparkles,
+  Activity,
+  Globe,
 } from "lucide-react";
 
 interface DashboardStats {
@@ -31,15 +33,33 @@ interface DashboardStats {
   }>;
 }
 
+interface AnalyticsSnapshot {
+  totalViews: number;
+  uniqueVisitors: number;
+  topPage: string;
+  growth: number;
+}
+
 export default function AdminDashboardPage() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [analytics, setAnalytics] = useState<AnalyticsSnapshot | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/admin/stats")
-      .then((res) => res.json())
-      .then((data) => {
-        setStats(data);
+    Promise.all([
+      fetch("/api/admin/stats").then((res) => res.json()).catch(() => null),
+      fetch("/api/admin/analytics?range=7d").then((res) => res.json()).catch(() => null),
+    ])
+      .then(([statsData, analyticsData]) => {
+        if (statsData) setStats(statsData);
+        if (analyticsData && !analyticsData.error) {
+          setAnalytics({
+            totalViews: analyticsData.totalViews ?? 0,
+            uniqueVisitors: analyticsData.uniqueVisitors ?? 0,
+            topPage: analyticsData.topPages?.[0]?.path ?? "/",
+            growth: analyticsData.growth ?? 0,
+          });
+        }
         setLoading(false);
       })
       .catch(() => setLoading(false));
@@ -141,9 +161,62 @@ export default function AdminDashboardPage() {
         </div>
       </div>
 
+      {/* Web Traffic Snapshot Widget */}
+      <div className="bento-card p-6 border-solaki-teal/30 bg-gradient-to-r from-solaki-teal/10 via-transparent to-purple-500/10">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex items-start sm:items-center gap-4">
+            <div className="w-12 h-12 rounded-xl bg-solaki-teal/20 border border-solaki-teal/30 flex items-center justify-center text-solaki-teal shrink-0">
+              <Activity className="w-6 h-6" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h2 className="text-lg font-bold text-white tracking-tight">Web Traffic & Pengunjung</h2>
+                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-solaki-teal/15 text-solaki-teal border border-solaki-teal/30">
+                  <span className="w-1.5 h-1.5 rounded-full bg-solaki-teal animate-pulse" />
+                  Live Tracker
+                </span>
+              </div>
+              <p className="text-xs text-solaki-muted font-inter mt-0.5">
+                Statistik aktivitas kunjungan website SOLAKI dalam 7 hari terakhir
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center flex-wrap gap-4 sm:gap-6">
+            <div className="text-left sm:text-right">
+              <div className="text-xs text-solaki-muted font-inter">Total Dilihat</div>
+              <div className="text-2xl font-black text-white">
+                {loading ? "..." : (analytics?.totalViews ?? 0).toLocaleString()}
+              </div>
+            </div>
+            <div className="h-8 w-px bg-solaki-border hidden sm:block" />
+            <div className="text-left sm:text-right">
+              <div className="text-xs text-solaki-muted font-inter">Pengunjung Unik</div>
+              <div className="text-2xl font-black text-solaki-teal">
+                {loading ? "..." : (analytics?.uniqueVisitors ?? 0).toLocaleString()}
+              </div>
+            </div>
+            <Link
+              href="/solaki/dashboard/analytics"
+              className="btn-primary py-2.5 px-4 text-xs font-semibold flex items-center gap-2 whitespace-nowrap"
+            >
+              Lihat Analitik Lengkap
+              <ArrowUpRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </div>
+
       {/* Quick Access Links */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
         {[
+          {
+            title: "Web Analytics",
+            desc: "Pantau pengunjung unik, halaman terpopuler, dan sumber traffic",
+            href: "/solaki/dashboard/analytics",
+            icon: Activity,
+            color: "text-emerald-400",
+          },
           {
             title: "Edit Konten",
             desc: "Ubah tagline, headline hero, dan filosofi",

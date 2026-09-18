@@ -127,3 +127,22 @@ model SocialShowcase {
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }
+
+// Website Traffic and Conversion Analytics Event
+model AnalyticsEvent {
+  id         String   @id @default(cuid())
+  type       String   @default("pageview") // "pageview" | "whatsapp_click" | "chatbot_open"
+  path       String   // e.g. "/", "/#services", "/#pricing"
+  referrer   String?  @default("") // "Instagram", "TikTok", "Google", "Direct", etc.
+  device     String   @default("desktop") // "mobile" | "desktop" | "tablet"
+  browser    String?  @default("") // "Chrome", "Safari", "Edge", etc.
+  visitorId  String   // Anonymous unique visitor hash
+  metadata   String?  @default("") // Optional extra details
+  createdAt  DateTime @default(now())
+
+  @@index([type])
+  @@index([createdAt])
+  @@index([path])
+  @@index([visitorId])
+}
+
