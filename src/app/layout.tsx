@@ -102,7 +102,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className="scroll-smooth dark" suppressHydrationWarning>
+    <html lang="id" className="scroll-smooth" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -110,13 +110,18 @@ export default function RootLayout({
               (function() {
                 try {
                   var stored = localStorage.getItem('solaki_theme');
+                  var theme;
                   if (stored === 'light' || stored === 'dark') {
-                    document.documentElement.classList.remove('light', 'dark');
-                    document.documentElement.classList.add(stored);
+                    theme = stored;
                   } else {
-                    document.documentElement.classList.add('dark');
+                    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    theme = prefersDark ? 'dark' : 'light';
                   }
-                } catch (e) {}
+                  document.documentElement.classList.remove('light', 'dark');
+                  document.documentElement.classList.add(theme);
+                } catch (e) {
+                  document.documentElement.classList.add('dark');
+                }
               })();
             `,
           }}

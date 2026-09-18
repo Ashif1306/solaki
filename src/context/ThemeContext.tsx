@@ -18,20 +18,38 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     try {
+      const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
       const stored = localStorage.getItem("solaki_theme") as Theme | null;
+
+      const applyTheme = (targetTheme: Theme) => {
+        setThemeState(targetTheme);
+        document.documentElement.classList.remove("light", "dark");
+        document.documentElement.classList.add(targetTheme);
+      };
+
       if (stored === "light" || stored === "dark") {
-        setThemeState(stored);
-        document.documentElement.classList.remove("light", "dark");
-        document.documentElement.classList.add(stored);
+        applyTheme(stored);
       } else {
-        // Default to dark mode
-        document.documentElement.classList.remove("light", "dark");
-        document.documentElement.classList.add("dark");
+        // Menyesuaikan perangkat pengguna sebagai default
+        const systemTheme: Theme = mediaQuery.matches ? "dark" : "light";
+        applyTheme(systemTheme);
       }
+
+      // Dengarkan perubahan mode pada perangkat jika belum ada preferensi manual yang disimpan
+      const handleSystemChange = (e: MediaQueryListEvent) => {
+        const currentStored = localStorage.getItem("solaki_theme");
+        if (!currentStored) {
+          applyTheme(e.matches ? "dark" : "light");
+        }
+      };
+
+      mediaQuery.addEventListener("change", handleSystemChange);
+      return () => mediaQuery.removeEventListener("change", handleSystemChange);
     } catch (e) {
       // fallback
+    } finally {
+      setMounted(true);
     }
-    setMounted(true);
   }, []);
 
   const setTheme = (newTheme: Theme) => {
