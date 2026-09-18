@@ -1,5 +1,10 @@
 // Set SITE_URL at build time when the production domain changes.
-const rawUrl = process.env.SITE_URL || process.env.NEXT_PUBLIC_APP_URL || "https://www.solaki.web.id";
+const defaultSiteUrl = "https://www.solaki.web.id";
+const rawUrl =
+  process.env.SITE_URL ||
+  (process.env.NEXT_PUBLIC_APP_URL && !process.env.NEXT_PUBLIC_APP_URL.includes("localhost")
+    ? process.env.NEXT_PUBLIC_APP_URL
+    : defaultSiteUrl);
 const configuredUrl = new URL(rawUrl.startsWith("http") ? rawUrl : `https://${rawUrl}`);
 if (!["http:", "https:"].includes(configuredUrl.protocol)) {
   throw new Error("SITE_URL must use http or https");
