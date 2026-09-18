@@ -238,7 +238,7 @@ export default function Hero() {
 
         {/* Badge */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="inline-flex items-center gap-2 mb-8 mt-0"
@@ -266,7 +266,7 @@ export default function Hero() {
 
         {/* Main Headline */}
         <motion.h1
-          initial={{ opacity: 0, y: 30 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1, ease: [0.23, 1, 0.32, 1] }}
           className="text-5xl sm:text-6xl lg:text-7xl font-black text-white leading-[1.05] tracking-tight mb-6"
@@ -280,7 +280,7 @@ export default function Hero() {
 
         {/* Subtitle */}
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.2 }}
           className="text-lg text-solaki-muted font-inter leading-relaxed max-w-2xl mx-auto mb-10"
@@ -290,7 +290,7 @@ export default function Hero() {
 
         {/* CTA Buttons */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16"
@@ -340,7 +340,7 @@ export default function Hero() {
 
         {/* Service Pills */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.4 }}
           className="flex flex-wrap items-center justify-center gap-4 mb-8"
@@ -348,7 +348,7 @@ export default function Hero() {
           {services.map((svc, i) => (
             <motion.div
               key={svc.label}
-              initial={{ opacity: 0, scale: 0.8 }}
+              initial={false}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.4 + svc.delay, duration: 0.5 }}
               className="flex items-center gap-2.5 px-4 py-2.5 rounded-2xl border"
@@ -371,7 +371,7 @@ export default function Hero() {
 
       {/* Marquee strip */}
       <motion.div
-        initial={{ opacity: 0 }}
+        initial={false}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.6 }}
         className="w-full mt-12 mb-2"

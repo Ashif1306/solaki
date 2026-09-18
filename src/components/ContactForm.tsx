@@ -64,7 +64,7 @@ function Field({ id, label, icon: Icon, error, children }: FieldProps) {
       {children}
       {error && (
         <motion.p
-          initial={{ opacity: 0, y: -4 }}
+          initial={false}
           animate={{ opacity: 1, y: 0 }}
           className="mt-1.5 text-xs text-red-400 flex items-center gap-1.5"
         >
@@ -135,7 +135,7 @@ export default function ContactForm() {
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-start">
           {/* Left: Info */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
+            initial={false}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7 }}
           >
@@ -209,7 +209,7 @@ export default function ContactForm() {
 
           {/* Right: Form */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
+            initial={false}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.2 }}
           >
@@ -218,7 +218,7 @@ export default function ContactForm() {
                 {result?.success ? (
                   <motion.div
                     key="success"
-                    initial={{ opacity: 0, scale: 0.9 }}
+                    initial={false}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.9 }}
                     className="text-center py-12"
@@ -325,7 +325,7 @@ export default function ContactForm() {
 
                     {result && !result.success && (
                       <motion.div
-                        initial={{ opacity: 0, y: -8 }}
+                        initial={false}
                         animate={{ opacity: 1, y: 0 }}
                         className="flex items-start gap-3 p-4 rounded-xl bg-red-500/10 border border-red-500/25"
                       >

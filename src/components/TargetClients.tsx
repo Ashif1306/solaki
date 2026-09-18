@@ -77,7 +77,7 @@ export default function TargetClients() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={false}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7 }}
           className="text-center mb-16"
@@ -97,7 +97,7 @@ export default function TargetClients() {
 
         {/* Problem callout */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.2, duration: 0.6 }}
           className="mb-14"
@@ -110,7 +110,7 @@ export default function TargetClients() {
               {clientProblems.map((problem, i) => (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 0, x: -10 }}
+                  initial={false}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ delay: 0.3 + i * 0.08 }}
                   className="flex items-start gap-3"
@@ -128,7 +128,7 @@ export default function TargetClients() {
           {targetClients.map((client, i) => (
             <motion.div
               key={client.label}
-              initial={{ opacity: 0, y: 30 }}
+              initial={false}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.3 + i * 0.08, duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
             >
@@ -153,7 +153,7 @@ export default function TargetClients() {
 
         {/* Value proposition */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.7, duration: 0.6 }}
           className="grid sm:grid-cols-3 gap-4 max-w-3xl mx-auto"
@@ -165,7 +165,7 @@ export default function TargetClients() {
           ].map((val, i) => (
             <motion.div
               key={val.word}
-              initial={{ opacity: 0, scale: 0.95 }}
+              initial={false}
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ delay: 0.7 + i * 0.08 }}
               className="bento-card p-5 text-center"
@@ -177,7 +177,7 @@ export default function TargetClients() {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0 }}
+          initial={false}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ delay: 0.9 }}
           className="text-center mt-10"

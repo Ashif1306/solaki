@@ -93,7 +93,7 @@ export default function BentoServices() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={false}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7 }}
           className="text-center mb-16"
@@ -116,7 +116,7 @@ export default function BentoServices() {
           {services.map((svc, i) => (
             <motion.div
               key={svc.id}
-              initial={{ opacity: 0, y: 40 }}
+              initial={false}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: i * 0.12, duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
               className="group"
@@ -190,7 +190,7 @@ export default function BentoServices() {
 
         {/* Bottom note */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={false}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.5, duration: 0.6 }}
           className="text-center bento-card p-6 max-w-2xl mx-auto"

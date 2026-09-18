@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { siteUrl, siteName, siteTitle, siteDescription } from "@/lib/seo";
+import { siteUrl, siteName, siteTitle, siteDescription, siteKeywords } from "@/lib/seo";
 import { Poppins, Inter, Montserrat } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
@@ -29,8 +29,16 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: { default: siteTitle, template: "%s | SOLAKI" },
   description: siteDescription,
+  keywords: siteKeywords,
   authors: [{ name: siteName, url: siteUrl }],
   creator: siteName,
+  publisher: siteName,
+  category: "Digital Marketing",
+  formatDetection: {
+    telephone: true,
+    email: true,
+    address: true,
+  },
   openGraph: {
     type: "website",
     locale: "id_ID",
@@ -61,9 +69,22 @@ export const metadata: Metadata = {
       },
     ],
   },
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   verification: {
     google: process.env.GOOGLE_SITE_VERIFICATION || undefined,
+  },
+  alternates: {
+    canonical: siteUrl,
   },
   icons: {
     icon: [

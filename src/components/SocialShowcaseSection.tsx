@@ -19,30 +19,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 
-interface ShowcaseItem {
-  id: string;
-  order: number;
-  platform: "instagram" | "tiktok";
-  title: string;
-  caption: string;
-  mediaUrl: string;
-  postUrl?: string;
-  format: string;
-  views: number;
-  likes: number;
-  comments: number;
-  shares: number;
-  saves: number;
-  engagementRate: string;
-  reachMultiplier: string;
-  hookStrategy: string;
-  contentPillar: string;
-  targetAudience: string;
-  keyTakeaway: string;
-  sentimentScore: string;
-  isActive: boolean;
-  isFeatured: boolean;
-}
+import type { ShowcaseItem } from "@/lib/public-content-types";
 
 function AnimatedCounter({ value, suffix = "" }: { value: number; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -60,7 +37,7 @@ function AnimatedCounter({ value, suffix = "" }: { value: number; suffix?: strin
     });
   }, [spring, suffix]);
 
-  return <span ref={ref}>0{suffix}</span>;
+  return <span ref={ref}>{value.toLocaleString("id-ID")}{suffix}</span>;
 }
 
 function PlatformBadge({ platform, size = "sm" }: { platform: "instagram" | "tiktok"; size?: "sm" | "md" }) {
@@ -93,7 +70,7 @@ function PortfolioCard({
   return (
     <motion.article
       layout
-      initial={{ opacity: 0, y: 24 }}
+      initial={false}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.35, delay: Math.min(idx * 0.05, 0.3) }}
@@ -135,6 +112,11 @@ function PortfolioCard({
               {item.title}
             </h3>
           </button>
+          {item.caption && (
+            <p className="mt-2 line-clamp-3 text-xs leading-relaxed text-[var(--showcase-ink)]/65">
+              {item.caption}
+            </p>
+          )}
         </div>
         <div className="mt-2 sm:mt-3 flex items-center justify-between gap-1 border-t border-[var(--showcase-ink)]/10 pt-2 sm:pt-3 text-[9px] sm:text-xs text-[var(--showcase-ink)]/65">
           <div className="flex items-center gap-1.5 sm:gap-2">
@@ -178,14 +160,14 @@ function DetailModal({
 
   return (
     <motion.dialog ref={dialogRef} onCancel={(event) => { event.preventDefault(); onClose(); }} aria-label={item.title}
-      initial={{ opacity: 0 }}
+      initial={false}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       className="m-0 h-dvh max-h-none w-screen max-w-none border-0 fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-lg overflow-y-auto"
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
       <motion.div
-        initial={{ opacity: 0, scale: 0.94, y: 24 }}
+        initial={false}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.94, y: 24 }}
         transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
@@ -310,7 +292,7 @@ function AggregateStatsBar({ items }: { items: ShowcaseItem[] }) {
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 20 }}
+      initial={false}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.6, delay: 0.2 }}
       className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-12"
@@ -318,7 +300,7 @@ function AggregateStatsBar({ items }: { items: ShowcaseItem[] }) {
       {stats.map(({ icon: Icon, label, value, valueStr, color, bg }, i) => (
         <motion.div
           key={label}
-          initial={{ opacity: 0, y: 16 }}
+          initial={false}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.1 + i * 0.08, duration: 0.5 }}
           className={`flex items-center gap-3 px-4 py-4 rounded-2xl border ${bg}`}
@@ -342,25 +324,14 @@ function AggregateStatsBar({ items }: { items: ShowcaseItem[] }) {
   );
 }
 
-export default function SocialShowcaseSection() {
+export default function SocialShowcaseSection({ items, loadError = false }: { items: ShowcaseItem[]; loadError?: boolean }) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-60px" });
 
-  const [items, setItems] = useState<ShowcaseItem[]>([]);
   const [activePlatform, setActivePlatform] = useState<"all" | "instagram" | "tiktok">("all");
   const [activeFormat, setActiveFormat] = useState("all");
-  const [loading, setLoading] = useState(true);
-  const [loadError, setLoadError] = useState(false);
   const [selectedItem, setSelectedItem] = useState<ShowcaseItem | null>(null);
 
-  useEffect(() => {
-    fetch("/api/showcase")
-      .then((r) => { if (!r.ok) throw new Error("Gagal memuat"); return r.json(); })
-      .then((data) => {
-        if (data.items && data.items.length > 0) setItems(data.items);
-      })
-      .catch(() => setLoadError(true)).finally(() => setLoading(false));
-  }, []);
 
   const filteredItems = items.filter((item) =>
     (activePlatform === "all" || item.platform === activePlatform) && (activeFormat === "all" || showcaseKind(item) === activeFormat)
@@ -386,7 +357,7 @@ export default function SocialShowcaseSection() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
           <motion.div
-            initial={{ opacity: 0, y: 32 }}
+            initial={false}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7 }}
             className="text-center mb-10"
@@ -404,7 +375,7 @@ export default function SocialShowcaseSection() {
             </p>
 
             <motion.div
-              initial={{ opacity: 0, y: 12 }}
+              initial={false}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.25, duration: 0.5 }}
               className="flex items-center justify-center gap-2 mt-8 flex-wrap"
@@ -463,13 +434,7 @@ export default function SocialShowcaseSection() {
             </div>
           </div>
 
-          {loading ? (
-            <div aria-label="Memuat portofolio" className="showcase-portfolio-grid">
-              {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="aspect-[3/5] animate-pulse rounded-3xl bg-[var(--showcase-ink)]/5" />
-              ))}
-            </div>
-          ) : filteredItems.length > 0 ? (
+          {filteredItems.length > 0 ? (
             <div className="showcase-portfolio-grid">
               <AnimatePresence mode="popLayout">
                 {filteredItems.map((item, idx) => (
@@ -486,7 +451,7 @@ export default function SocialShowcaseSection() {
             </div>
           ) : (
             <motion.div
-              initial={{ opacity: 0 }}
+              initial={false}
               animate={isInView ? { opacity: 1 } : {}}
               className="text-center py-24"
             >

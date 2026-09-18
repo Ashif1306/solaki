@@ -53,56 +53,12 @@ const values = [
   },
 ];
 
-const defaultTeam = [
-  {
-    id: "1",
-    name: "Muhammad Nur Zikri",
-    role: "Founder & Brand Strategist",
-    initials: "MNZ",
-    color: "#0D5C46",
-    description: "Bertanggung jawab atas arah strategis agensi, positioning brand, dan membina hubungan kolaboratif erat dengan klien.",
-    skills: ["Brand Strategy", "Market Positioning", "Business Development"],
-    photo: "",
-    instagram: "#",
-    linkedin: "#",
-    isActive: true,
-    order: 1,
-  },
-  {
-    id: "2",
-    name: "Ifan Tri Yandies",
-    role: "Social Media & Design Specialist",
-    initials: "ITY",
-    color: "#D95338",
-    description: "Mengelola ekosistem konten media sosial dan produksi desain grafis yang menjaga konsistensi identitas visual brand.",
-    skills: ["Content Creation", "Graphic Design", "Visual Consistency"],
-    photo: "",
-    instagram: "#",
-    linkedin: "#",
-    isActive: true,
-    order: 2,
-  },
-  {
-    id: "3",
-    name: "Kasman Muh. Ashif",
-    role: "Digital Advertising & Client Relation",
-    initials: "KMA",
-    color: "#4F46E5",
-    description: "Menangani eksekusi digital advertising (Meta & TikTok Ads) dengan optimasi budget efisien dan koordinasi aktif bersama mitra.",
-    skills: ["Digital Advertising", "Meta & TikTok Ads", "Campaign Optimization"],
-    photo: "",
-    instagram: "#",
-    linkedin: "#",
-    isActive: true,
-    order: 3,
-  },
-];
 
 const iconForIndex = (i: number) => (i === 0 ? Crown : i === 1 ? Palette : Target);
 const colorForIndex = (i: number) =>
   i === 0 ? "#0D5C46" : i === 1 ? "#D95338" : "#4F46E5";
 
-type TeamMember = typeof defaultTeam[number];
+import type { PublicTeamMember as TeamMember } from "@/lib/public-content-types";
 
 function InstagramIcon({ className = "w-3.5 h-3.5" }: { className?: string }) {
   return (
@@ -155,7 +111,7 @@ function TeamCard({
       {/* ── TOP TEXT (for Center card) ── */}
       {isCenter && (
         <motion.div
-          initial={{ opacity: 0, y: -25 }}
+          initial={false}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{
             delay: 0.15,
@@ -246,11 +202,7 @@ function TeamCard({
 
       {/* ── SLANTED CARD CONTAINER WITH ANIMATION ── */}
       <motion.div
-        initial={{
-          opacity: 0,
-          y: isCenter ? -60 : 60, // Center slides DOWN from TOP, side cards slide UP from BOTTOM
-          scale: 0.94,
-        }}
+        initial={false}
         animate={
           isInView
             ? {
@@ -401,7 +353,7 @@ function TeamCard({
       {/* ── BOTTOM TEXT (for Left, Right, & default cards) ── */}
       {!isCenter && (
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
+          initial={false}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{
             delay: 0.15 + index * 0.1,
@@ -756,26 +708,12 @@ const stagger = (i: number) => ({
   ease: [0.23, 1, 0.32, 1] as [number, number, number, number],
 });
 
-export default function Philosophy() {
+export default function Philosophy({ team }: { team: TeamMember[] }) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const teamRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-60px" });
   const isTeamInView = useInView(teamRef, { once: true, margin: "-80px" });
-  const [team, setTeam] = useState<TeamMember[]>(defaultTeam);
 
-  useEffect(() => {
-    fetch("/api/admin/team")
-      .then((r) => r.json())
-      .then((data) => {
-        if (data.team && data.team.length > 0) {
-          const active = data.team
-            .filter((m: TeamMember & { isActive: boolean }) => m.isActive)
-            .sort((a: TeamMember, b: TeamMember) => a.order - b.order);
-          if (active.length > 0) setTeam(active);
-        }
-      })
-      .catch(() => {});
-  }, []);
 
   return (
     <section
@@ -793,7 +731,7 @@ export default function Philosophy() {
         {/* ── SECTION 1: Intro ── */}
         <div>
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={false}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7 }}
             className="text-center mb-14"
@@ -818,7 +756,7 @@ export default function Philosophy() {
 
           {/* Name Origin Card */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
+            initial={false}
             animate={isInView ? { opacity: 1, scale: 1 } : {}}
             transition={{ delay: 0.25, duration: 0.65 }}
             className="max-w-2xl mx-auto"
@@ -856,7 +794,7 @@ export default function Philosophy() {
         {/* ── SECTION 2: Vision & Mission ── */}
         <div>
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={false}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.15, duration: 0.6 }}
             className="text-center mb-8 sm:mb-12"
@@ -875,7 +813,7 @@ export default function Philosophy() {
 
           <div className="grid lg:grid-cols-2 gap-6 sm:gap-8">
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
+            initial={false}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={stagger(0)}
           >
@@ -897,7 +835,7 @@ export default function Philosophy() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
+            initial={false}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={stagger(1)}
           >
@@ -928,7 +866,7 @@ export default function Philosophy() {
         {/* ── SECTION 3: Values ── */}
         <div>
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={false}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.3, duration: 0.6 }}
             className="text-center mb-12"
@@ -945,7 +883,7 @@ export default function Philosophy() {
             {values.map((v, i) => (
               <motion.div
                 key={v.keyword}
-                initial={{ opacity: 0, y: 30 }}
+                initial={false}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={stagger(i)}
               >
@@ -969,9 +907,9 @@ export default function Philosophy() {
         </div>
 
         {/* ── SECTION 4: Team (slanted diagonal photo cards with interactive mobile horizontal marquee) ── */}
-        <div ref={teamRef} className="pt-6">
+        {team.length > 0 && <div ref={teamRef} className="pt-6">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={false}
             animate={isTeamInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.15, duration: 0.6 }}
             className="text-center mb-10 md:mb-16"
@@ -1006,7 +944,7 @@ export default function Philosophy() {
 
           {/* ── MOBILE VIEW (Horizontal Draggable & Auto-scrolling Track) ── */}
           <MobileTeamMarquee team={team} />
-        </div>
+        </div>}
 
       </div>
     </section>
