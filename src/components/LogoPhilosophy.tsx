@@ -151,31 +151,31 @@ export default function LogoPhilosophy() {
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className="text-center relative z-10 mb-3 sm:mb-8 md:mb-10"
+        className="text-center relative z-10 mb-4 sm:mb-8 md:mb-10"
       >
-        <div className="section-badge mb-1.5 sm:mb-3 inline-flex items-center gap-1 sm:gap-2 text-[9px] sm:text-xs py-0.5 px-2.5">
-          <Sparkles className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5 text-solaki-teal animate-pulse" />
+        <div className="section-badge mb-2 sm:mb-3 inline-flex items-center gap-1.5 sm:gap-2 text-xs py-1 px-3 sm:py-0.5 sm:px-2.5">
+          <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-solaki-teal animate-pulse" />
           <span>Filosofi & Makna Visual</span>
         </div>
 
-        <h3 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
+        <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight px-2">
           Makna di Balik <span className="gradient-text-teal">Bentuk SOLAKI</span>
         </h3>
-        <p className="hidden sm:block text-solaki-muted text-xs sm:text-sm md:text-base font-inter max-w-xl mx-auto mt-1 sm:mt-2 leading-relaxed px-2">
+        <p className="text-solaki-muted text-xs sm:text-sm md:text-base font-inter max-w-xl mx-auto mt-2 leading-relaxed px-4">
           Evolusi dan filosofi anatomi simbol huruf S, O, dan L yang menyatu membentuk visi digital kami.
         </p>
 
         {/* ── Auto-Play Controls & Switcher Pills ── */}
-        <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-3 mt-2.5 sm:mt-5 md:mt-6">
+        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mt-4 sm:mt-5 md:mt-6 px-2">
           {/* Pills Container */}
-          <div className="inline-flex p-0.5 sm:p-1.5 rounded-full bg-white/[0.04] border border-solaki-border backdrop-blur-md gap-0.5 sm:gap-1.5 shadow-xl">
+          <div className="inline-flex p-1 sm:p-1.5 rounded-full bg-white/[0.04] border border-solaki-border backdrop-blur-md gap-1 sm:gap-1.5 shadow-xl">
             {SEQUENCE.map((part, idx) => {
               const isActive = idx === stepIndex;
               return (
                 <button
                   key={part}
                   onClick={() => handleSelect(idx)}
-                  className={`relative px-2 py-0.5 sm:px-4 sm:py-2 rounded-full text-[10px] sm:text-sm font-bold transition-colors duration-300 flex items-center gap-1 sm:gap-2 z-10 ${
+                  className={`relative px-3.5 py-2 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-bold transition-colors duration-300 flex items-center justify-center gap-1.5 sm:gap-2 z-10 min-h-[38px] sm:min-h-0 ${
                     isActive
                       ? "force-text-white font-extrabold"
                       : "text-solaki-muted hover:text-white"
@@ -192,15 +192,15 @@ export default function LogoPhilosophy() {
 
                   {part === "all" ? (
                     <>
-                      <Layers className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5" />
+                      <Layers className="w-3.5 h-3.5" />
                       <span>SOLAKI</span>
                     </>
                   ) : part === "s" ? (
-                    <span className="px-0.5 sm:px-1.5">S</span>
+                    <span className="px-1 sm:px-1.5">S</span>
                   ) : part === "o" ? (
-                    <span className="px-0.5 sm:px-1.5">O</span>
+                    <span className="px-1 sm:px-1.5">O</span>
                   ) : (
-                    <span className="px-0.5 sm:px-1.5">L</span>
+                    <span className="px-1 sm:px-1.5">L</span>
                   )}
                 </button>
               );
@@ -208,55 +208,55 @@ export default function LogoPhilosophy() {
           </div>
 
           {/* Player controls */}
-          <div className="flex items-center gap-0.5 bg-white/[0.04] p-0.5 sm:p-1.5 rounded-full border border-solaki-border text-solaki-muted backdrop-blur-md shadow-xl">
+          <div className="flex items-center gap-1 bg-white/[0.04] p-1 sm:p-1.5 rounded-full border border-solaki-border text-solaki-muted backdrop-blur-md shadow-xl">
             <button
               onClick={handlePrev}
               title="Elemen Sebelumnya"
-              className="p-1 sm:p-1.5 rounded-full hover:text-white hover:bg-white/10 transition-colors"
+              className="p-2 sm:p-1.5 rounded-full hover:text-white hover:bg-white/10 transition-colors flex items-center justify-center min-w-[36px] min-h-[36px] sm:min-w-0 sm:min-h-0"
             >
-              <ChevronLeft className="w-3 h-3 sm:w-4 sm:h-4" />
+              <ChevronLeft className="w-4 h-4" />
             </button>
             <button
               onClick={() => setIsPlaying(!isPlaying)}
               title={isPlaying ? "Jeda Otomatis" : "Putar Otomatis"}
-              className="p-1 sm:p-1.5 rounded-full hover:text-white hover:bg-white/10 transition-colors"
+              className="p-2 sm:p-1.5 rounded-full hover:text-white hover:bg-white/10 transition-colors flex items-center justify-center min-w-[36px] min-h-[36px] sm:min-w-0 sm:min-h-0"
             >
               {isPlaying ? (
-                <Pause className="w-3 h-3 sm:w-4 sm:h-4 text-solaki-teal" />
+                <Pause className="w-4 h-4 text-solaki-teal" />
               ) : (
-                <Play className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
+                <Play className="w-4 h-4 text-white" />
               )}
             </button>
             <button
               onClick={handleNext}
               title="Elemen Berikutnya"
-              className="p-1 sm:p-1.5 rounded-full hover:text-white hover:bg-white/10 transition-colors"
+              className="p-2 sm:p-1.5 rounded-full hover:text-white hover:bg-white/10 transition-colors flex items-center justify-center min-w-[36px] min-h-[36px] sm:min-w-0 sm:min-h-0"
             >
-              <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4" />
+              <ChevronRight className="w-4 h-4" />
             </button>
           </div>
         </div>
       </motion.div>
 
       {/* ── Main Showcase Canvas (Cardless & Seamless) ── */}
-      <div className="relative z-10 max-w-5xl mx-auto px-2 sm:px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-6 lg:gap-14 items-center">
+      <div className="relative z-10 max-w-5xl mx-auto px-3 sm:px-4">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-6 lg:gap-14 items-center">
           
           {/* ── Left: Interactive Framer-Motion Anatomy Stage ── */}
-          <div className="lg:col-span-5 flex flex-col items-center justify-center">
-            <div className="relative w-40 h-40 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 flex items-center justify-center select-none">
+          <div className="lg:col-span-5 flex flex-col items-center justify-center py-2 sm:py-0">
+            <div className="relative w-64 h-64 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 flex items-center justify-center select-none">
               
               {/* Studio Pedestal Disc with Deep Vignette (Consistent Dark Stage for #FFFFFF Logo Visibility) */}
-              <div className="absolute inset-1 sm:inset-3 lg:inset-4 rounded-full bg-gradient-to-b from-[#161f2e] via-[#0d1420] to-[#060a12] border border-white/15 shadow-[0_15px_40px_rgba(0,0,0,0.85)] backdrop-blur-xl" />
+              <div className="absolute inset-2 sm:inset-3 lg:inset-4 rounded-full bg-gradient-to-b from-[#161f2e] via-[#0d1420] to-[#060a12] border border-white/15 shadow-[0_15px_40px_rgba(0,0,0,0.85)] backdrop-blur-xl" />
 
               {/* Luminous Orbital Cosmic Rings */}
               <div className="absolute inset-0 rounded-full border border-white/[0.08] animate-[spin_60s_linear_infinite]" />
-              <div className="absolute inset-2 sm:inset-6 rounded-full border border-dashed border-white/15 animate-[spin_90s_linear_infinite_reverse]" />
-              <div className="absolute inset-5 sm:inset-12 rounded-full border border-white/[0.06]" />
+              <div className="absolute inset-3 sm:inset-6 rounded-full border border-dashed border-white/15 animate-[spin_90s_linear_infinite_reverse]" />
+              <div className="absolute inset-6 sm:inset-12 rounded-full border border-white/[0.06]" />
 
               {/* ── ANIMATED LOGO CONTAINER (Smooth Unified Framer Motion) ── */}
               <div
-                className="relative w-28 h-28 sm:w-44 sm:h-44 md:w-60 md:h-60 lg:w-72 lg:h-72 flex items-center justify-center z-20 cursor-pointer group"
+                className="relative w-36 h-36 sm:w-44 sm:h-44 md:w-60 md:h-60 lg:w-72 lg:h-72 flex items-center justify-center z-20 cursor-pointer group"
                 onClick={handleNext}
                 title="Klik untuk beralih ke elemen berikutnya"
               >
@@ -297,7 +297,7 @@ export default function LogoPhilosophy() {
                   border: activePart === "s" ? "1px solid #FFFFFF" : "1px solid rgba(255, 255, 255, 0.25)",
                   boxShadow: activePart === "s" ? "0 0 12px rgba(255,255,255,0.75)" : undefined,
                 }}
-                className={`absolute top-0.5 left-0.5 sm:top-3 sm:left-3 lg:top-4 lg:left-4 z-20 px-1.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-[8.5px] sm:text-[11px] font-bold tracking-wide backdrop-blur-md transition-all duration-300 ${
+                className={`absolute top-1 left-1 sm:top-3 sm:left-3 lg:top-4 lg:left-4 z-20 px-3 py-1.5 sm:px-3 sm:py-1 rounded-full text-xs sm:text-[11px] font-bold tracking-wide backdrop-blur-md transition-all duration-300 shadow-md min-h-[32px] sm:min-h-0 flex items-center ${
                   activePart === "s" ? "force-text-dark scale-105 sm:scale-110" : "force-text-light hover:force-text-white hover:border-white/60"
                 }`}
               >
@@ -311,7 +311,7 @@ export default function LogoPhilosophy() {
                   border: activePart === "o" ? "1px solid #FFFFFF" : "1px solid rgba(255, 255, 255, 0.25)",
                   boxShadow: activePart === "o" ? "0 0 12px rgba(255,255,255,0.75)" : undefined,
                 }}
-                className={`absolute top-0.5 right-0.5 sm:top-3 sm:right-3 lg:top-4 lg:right-4 z-20 px-1.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-[8.5px] sm:text-[11px] font-bold tracking-wide backdrop-blur-md transition-all duration-300 ${
+                className={`absolute top-1 right-1 sm:top-3 sm:right-3 lg:top-4 lg:right-4 z-20 px-3 py-1.5 sm:px-3 sm:py-1 rounded-full text-xs sm:text-[11px] font-bold tracking-wide backdrop-blur-md transition-all duration-300 shadow-md min-h-[32px] sm:min-h-0 flex items-center ${
                   activePart === "o" ? "force-text-dark scale-105 sm:scale-110" : "force-text-light hover:force-text-white hover:border-white/60"
                 }`}
               >
@@ -325,7 +325,7 @@ export default function LogoPhilosophy() {
                   border: activePart === "l" ? "1px solid #FFFFFF" : "1px solid rgba(255, 255, 255, 0.25)",
                   boxShadow: activePart === "l" ? "0 0 12px rgba(255,255,255,0.75)" : undefined,
                 }}
-                className={`absolute bottom-0.5 left-1 sm:bottom-3 sm:left-4 lg:bottom-4 lg:left-6 z-20 px-1.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-[8.5px] sm:text-[11px] font-bold tracking-wide backdrop-blur-md transition-all duration-300 ${
+                className={`absolute bottom-1 left-1 sm:bottom-3 sm:left-4 lg:bottom-4 lg:left-6 z-20 px-3 py-1.5 sm:px-3 sm:py-1 rounded-full text-xs sm:text-[11px] font-bold tracking-wide backdrop-blur-md transition-all duration-300 shadow-md min-h-[32px] sm:min-h-0 flex items-center ${
                   activePart === "l" ? "force-text-dark scale-105 sm:scale-110" : "force-text-light hover:force-text-white hover:border-white/60"
                 }`}
               >
@@ -335,18 +335,18 @@ export default function LogoPhilosophy() {
               {activePart !== "all" ? (
                 <button
                   onClick={() => handleSelect(0)}
-                  className="force-text-white absolute bottom-0.5 right-1 sm:bottom-3 sm:right-4 lg:bottom-4 lg:right-6 z-20 px-1.5 py-0.5 sm:px-3 sm:py-1 rounded-full text-[8.5px] sm:text-[11px] font-bold tracking-wide backdrop-blur-md transition-all duration-300 bg-solaki-teal hover:bg-[#094837] border border-solaki-teal flex items-center gap-0.5 sm:gap-1 shadow-lg shadow-solaki-teal/40 hover:scale-105"
+                  className="force-text-white absolute bottom-1 right-1 sm:bottom-3 sm:right-4 lg:bottom-4 lg:right-6 z-20 px-3 py-1.5 sm:px-3 sm:py-1 rounded-full text-xs sm:text-[11px] font-bold tracking-wide backdrop-blur-md transition-all duration-300 bg-solaki-teal hover:bg-[#094837] border border-solaki-teal flex items-center gap-1 sm:gap-1 shadow-lg shadow-solaki-teal/40 hover:scale-105 min-h-[32px] sm:min-h-0"
                 >
-                  <RotateCcw className="w-2 h-2 sm:w-3 sm:h-3 text-white" />
+                  <RotateCcw className="w-3 h-3 text-white" />
                   <span>Logo Utuh</span>
                 </button>
               ) : (
                 <button
                   onClick={() => handleSelect(0)}
                   style={{ backgroundColor: "rgba(255, 255, 255, 0.12)", border: "1px solid rgba(255, 255, 255, 0.25)" }}
-                  className="force-text-white absolute bottom-0.5 right-1 sm:bottom-3 sm:right-4 lg:bottom-4 lg:right-6 z-20 px-1.5 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[8.5px] sm:text-[11px] font-bold tracking-wide backdrop-blur-md transition-all duration-300 flex items-center gap-0.5 sm:gap-1 shadow-sm hover:border-white/50"
+                  className="force-text-white absolute bottom-1 right-1 sm:bottom-3 sm:right-4 lg:bottom-4 lg:right-6 z-20 px-3 py-1.5 sm:px-2.5 sm:py-1 rounded-full text-xs sm:text-[11px] font-bold tracking-wide backdrop-blur-md transition-all duration-300 flex items-center gap-1 sm:gap-1 shadow-sm hover:border-white/50 min-h-[32px] sm:min-h-0"
                 >
-                  <Layers className="w-2 h-2 sm:w-3 sm:h-3 text-solaki-glow" />
+                  <Layers className="w-3 h-3 text-solaki-glow" />
                   <span>Logo Lengkap</span>
                 </button>
               )}
@@ -354,7 +354,7 @@ export default function LogoPhilosophy() {
           </div>
 
           {/* ── Right: Seamless Philosophy Storytelling (Universal Contrast) ── */}
-          <div className="lg:col-span-7 flex flex-col justify-center">
+          <div className="lg:col-span-7 flex flex-col justify-center mt-2 sm:mt-0">
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={activePart}
@@ -362,78 +362,56 @@ export default function LogoPhilosophy() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -6 }}
                 transition={{ duration: 0.25, ease: "easeOut" }}
-                className="space-y-2 sm:space-y-3.5"
+                className="space-y-3 sm:space-y-3.5"
               >
-                {/* Badge & Step Indicator */}
-                <div className="flex items-center gap-1.5 sm:gap-2.5">
-                  <span
-                    className="text-[9px] sm:text-xs font-black uppercase tracking-wider px-2 py-0.5 sm:px-3 sm:py-1 rounded-md border backdrop-blur-md shadow-sm"
-                    style={{
-                      color: activeTextColor,
-                      backgroundColor: isDark ? `${current.color}25` : `${current.color}15`,
-                      borderColor: isDark ? `${current.color}60` : `${current.color}35`,
-                    }}
-                  >
-                    {current.badge}
-                  </span>
-                  <span className="text-[10px] sm:text-xs text-solaki-subtle font-inter font-medium">
-                    Tahap {stepIndex + 1} dari 4: {current.title}
-                  </span>
-                </div>
-
                 {/* Headline & Subtitle */}
                 <div>
-                  <h4 className="text-base sm:text-2xl md:text-3xl lg:text-4xl font-black text-white tracking-tight leading-snug">
+                  <h4 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black text-white tracking-tight leading-snug">
                     &ldquo;{current.headline}&rdquo;
                   </h4>
                   <p
-                    className="font-bold text-[11px] sm:text-sm mt-0.5 sm:mt-1 font-inter"
+                    className="font-bold text-xs sm:text-sm mt-1 font-inter"
                     style={{ color: activeTextColor }}
                   >
                     {current.subtitle}
                   </p>
                 </div>
 
-                {/* Description */}
-                <p className="text-solaki-muted text-xs sm:text-sm md:text-base font-inter leading-relaxed max-w-xl">
-                  {current.description}
-                </p>
-
-                {/* Synthesis Quote Highlight (Branding Anchor) */}
-                <div className="pt-0.5 sm:pt-1.5">
-                  <div className="bento-card p-2 sm:p-4 md:p-5 rounded-lg sm:rounded-2xl border-l-4 border-solaki-teal">
-                    <p className="text-white text-[11px] sm:text-sm md:text-base font-extrabold leading-tight tracking-tight">
-                      Ketiga bentuk S, L, dan O menyatu membentuk filosofi utuh SOLAKI:
-                    </p>
-                    <p
-                      className="mt-0.5 sm:mt-1 text-[11px] sm:text-sm md:text-base lg:text-lg font-black tracking-wide"
-                      style={{ color: isDark ? "#10B981" : "#0D5C46" }}
-                    >
-                      Solusi Agensi Kreatif dan Inovasi Digital.
-                    </p>
-                  </div>
+                {/* Description Card Box */}
+                <div
+                  className="bento-card p-4 sm:p-5 rounded-xl sm:rounded-2xl border transition-all duration-300 relative overflow-hidden"
+                  style={{
+                    backgroundColor: isDark ? "rgba(255, 255, 255, 0.03)" : "rgba(13, 92, 70, 0.04)",
+                    borderColor: isDark ? "rgba(255, 255, 255, 0.08)" : "rgba(13, 92, 70, 0.12)",
+                    borderLeftWidth: "4px",
+                    borderLeftColor: activeTextColor,
+                  }}
+                >
+                  <p className="text-solaki-muted text-xs sm:text-sm md:text-base font-inter leading-relaxed max-w-xl">
+                    {current.description}
+                  </p>
                 </div>
 
                 {/* Brand Color Specification */}
-                <div className="pt-1.5 sm:pt-3 border-t border-solaki-border flex flex-wrap items-center gap-2.5 sm:gap-4 text-[9px] sm:text-xs font-inter text-solaki-muted">
-                  <div className="flex items-center gap-1 sm:gap-2">
-                    <span className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-[#FFFFFF] border border-solaki-border shadow-sm" />
+                <div className="pt-2 sm:pt-3 border-t border-solaki-border flex flex-wrap items-center gap-3 sm:gap-4 text-xs font-inter text-solaki-muted">
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#FFFFFF] border border-solaki-border shadow-sm" />
                     <span className="font-mono text-white font-semibold">#FFFFFF</span>
-                    <span className="text-[9px] sm:text-[11px] text-solaki-subtle">(Bentuk Luar)</span>
+                    <span className="text-[10px] sm:text-[11px] text-solaki-subtle">(Bentuk Luar)</span>
                   </div>
 
-                  <div className="flex items-center gap-1 sm:gap-2">
-                    <span className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-[#2B2B2B] border border-solaki-border shadow-sm" />
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#2B2B2B] border border-solaki-border shadow-sm" />
                     <span className="font-mono text-white font-semibold">#2B2B2B</span>
-                    <span className="text-[9px] sm:text-[11px] text-solaki-subtle">(Simpul Tengah)</span>
+                    <span className="text-[10px] sm:text-[11px] text-solaki-subtle">(Simpul Tengah)</span>
                   </div>
 
-                  <div className="flex items-center gap-1 sm:gap-2">
-                    <span className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-[#0D5C46] border border-solaki-border shadow-sm" />
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <span className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-[#0D5C46] border border-solaki-border shadow-sm" />
                     <span className="font-mono font-semibold" style={{ color: isDark ? "#2DD4BF" : "#0D5C46" }}>
                       #0D5C46
                     </span>
-                    <span className="text-[9px] sm:text-[11px] text-solaki-subtle">(Aksen Brand)</span>
+                    <span className="text-[10px] sm:text-[11px] text-solaki-subtle">(Aksen Brand)</span>
                   </div>
                 </div>
 

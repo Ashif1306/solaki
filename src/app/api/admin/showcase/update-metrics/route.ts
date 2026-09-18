@@ -154,7 +154,7 @@ export async function PUT(req: Request) {
       success: true,
       message: `Metrik berhasil diperbarui dari Instagram API.`,
       item: updated,
-      synced: { likes, comments, saves, shares, reach, videoViews, er },
+      synced: { likes, comments, saves, shares, reach, views, er },
     });
   } catch (error) {
     console.error("Update metrics error:", error);

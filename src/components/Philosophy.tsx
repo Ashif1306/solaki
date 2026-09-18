@@ -15,6 +15,7 @@ import {
   TrendingUp,
   ExternalLink,
   Link2,
+  Compass,
 } from "lucide-react";
 import LogoPhilosophy from "./LogoPhilosophy";
 
@@ -853,7 +854,26 @@ export default function Philosophy() {
         <LogoPhilosophy />
 
         {/* ── SECTION 2: Vision & Mission ── */}
-        <div className="grid lg:grid-cols-2 gap-8">
+        <div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.15, duration: 0.6 }}
+            className="text-center mb-8 sm:mb-12"
+          >
+            <div className="section-badge mb-3 inline-flex items-center gap-1.5 text-xs py-1 px-3">
+              <Compass className="w-3.5 h-3.5 text-solaki-teal" />
+              <span>Arah &amp; Komitmen</span>
+            </div>
+            <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white tracking-tight">
+              Visi &amp; <span className="gradient-text-teal">Misi SOLAKI</span>
+            </h3>
+            <p className="text-solaki-muted text-xs sm:text-sm md:text-base font-inter max-w-lg mx-auto mt-2 leading-relaxed px-4">
+              Komitmen dan panduan arah kami dalam mendampingi pertumbuhan dan transformasi digital bisnis Anda.
+            </p>
+          </motion.div>
+
+          <div className="grid lg:grid-cols-2 gap-6 sm:gap-8">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -902,6 +922,7 @@ export default function Philosophy() {
               </ul>
             </div>
           </motion.div>
+          </div>
         </div>
 
         {/* ── SECTION 3: Values ── */}

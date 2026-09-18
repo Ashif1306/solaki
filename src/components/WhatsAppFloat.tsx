@@ -39,7 +39,7 @@ export default function WhatsAppFloat() {
   if (!visible) return null;
 
   return (
-    <div className="fixed bottom-6 right-6 z-[9999] flex flex-col items-end gap-3">
+    <div className="fixed bottom-[86px] right-6 z-[9990] flex flex-col items-end gap-3">
       {/* Tooltip bubble */}
       <AnimatePresence>
         {tooltip && (

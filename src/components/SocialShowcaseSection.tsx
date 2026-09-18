@@ -91,17 +91,60 @@ function PortfolioCard({
 }) {
   const video = showcaseKind(item) === "video";
   return (
-    <motion.article layout initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.35, delay: Math.min(idx * 0.05, 0.3) }} className="showcase-portfolio-card group h-full rounded-3xl border border-[var(--showcase-ink)]/10 bg-[var(--showcase-card)] p-2 transition-colors hover:border-emerald-300/40">
-      <button type="button" onClick={() => onDetailClick(item)} aria-label={`Lihat ${item.title}`} className="relative block aspect-[3/4] w-full overflow-hidden rounded-2xl bg-black text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300">
+    <motion.article
+      layout
+      initial={{ opacity: 0, y: 24 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.35, delay: Math.min(idx * 0.05, 0.3) }}
+      className="showcase-portfolio-card group h-full rounded-2xl sm:rounded-3xl border border-[var(--showcase-ink)]/10 bg-[var(--showcase-card)] p-1.5 sm:p-2 transition-colors hover:border-emerald-300/40 flex flex-col justify-between"
+    >
+      <button
+        type="button"
+        onClick={() => onDetailClick(item)}
+        aria-label={`Lihat ${item.title}`}
+        className="relative block aspect-[3/4] w-full overflow-hidden rounded-xl sm:rounded-2xl bg-black text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300"
+      >
         <ShowcaseMedia mediaUrl={item.mediaUrl} postUrl={item.postUrl} title={item.title} />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30" />
-        <div className="absolute inset-x-3 top-3 flex items-center justify-between gap-2"><PlatformBadge platform={item.platform} />{item.isFeatured && <span className="rounded-full bg-emerald-200 px-2 py-1 text-[10px] font-bold text-emerald-950">Pilihan SOLAKI</span>}</div>
-        <div className="absolute inset-x-4 bottom-4 flex items-center justify-between force-text-white"><span className="rounded-full border border-[var(--showcase-ink)]/20 bg-black/40 px-3 py-1.5 text-xs backdrop-blur-md">{video ? "Reels / Video" : /carousel/i.test(item.format) ? "Carousel" : "Foto / Feed"}</span><span className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-black">{video ? <Play className="h-4 w-4" /> : <ArrowRight className="h-4 w-4" />}</span></div>
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/35" />
+        <div className="absolute inset-x-2 top-2 sm:inset-x-3 sm:top-3 flex items-center justify-between gap-1 sm:gap-2">
+          <PlatformBadge platform={item.platform} />
+          {item.isFeatured && (
+            <span className="rounded-full bg-emerald-200 px-1.5 py-0.5 sm:px-2 sm:py-1 text-[9px] sm:text-[10px] font-bold text-emerald-950">
+              Pilihan
+            </span>
+          )}
+        </div>
+        <div className="absolute inset-x-2 bottom-2 sm:inset-x-4 sm:bottom-4 flex items-center justify-between force-text-white">
+          <span className="rounded-full border border-[var(--showcase-ink)]/20 bg-black/50 px-2 py-1 sm:px-3 sm:py-1.5 text-[9px] sm:text-xs backdrop-blur-md">
+            {video ? "Reels" : /carousel/i.test(item.format) ? "Carousel" : "Feed"}
+          </span>
+          <span className="flex h-7 w-7 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-white text-black shadow-md">
+            {video ? <Play className="h-3 w-3 sm:h-4 sm:w-4" /> : <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4" />}
+          </span>
+        </div>
       </button>
-      <div className="p-3">
-        <p className="mb-2 truncate text-[10px] font-semibold uppercase tracking-[0.16em] text-emerald-300/80">{item.contentPillar || "Creative work"}</p>
-        <button onClick={() => onDetailClick(item)} className="text-left focus-visible:outline-emerald-300"><h3 className="line-clamp-2 min-h-10 text-sm font-bold leading-5 text-[var(--showcase-ink)]">{item.title}</h3></button>
-        <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-[var(--showcase-ink)]/10 pt-3 text-xs text-[var(--showcase-ink)]/65"><span className="flex items-center gap-1.5"><Eye className="h-3.5 w-3.5" />{formatNumber(item.views)}</span><span className="flex items-center gap-1.5"><Heart className="h-3.5 w-3.5" />{formatNumber(item.likes)}</span>{item.engagementRate && <span className="ml-auto font-semibold text-emerald-300">{item.engagementRate} ER</span>}</div>
+
+      <div className="p-2 sm:p-3 flex flex-col flex-1 justify-between">
+        <div>
+          <p className="mb-1 truncate text-[9px] sm:text-[10px] font-semibold uppercase tracking-[0.14em] text-emerald-300/80">
+            {item.contentPillar || "Creative work"}
+          </p>
+          <button onClick={() => onDetailClick(item)} className="text-left focus-visible:outline-emerald-300 w-full">
+            <h3 className="line-clamp-2 text-xs sm:text-sm font-bold leading-tight sm:leading-5 text-[var(--showcase-ink)] min-h-[32px] sm:min-h-10">
+              {item.title}
+            </h3>
+          </button>
+        </div>
+        <div className="mt-2 sm:mt-3 flex items-center justify-between gap-1 border-t border-[var(--showcase-ink)]/10 pt-2 sm:pt-3 text-[9px] sm:text-xs text-[var(--showcase-ink)]/65">
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <span className="flex items-center gap-0.5 sm:gap-1"><Eye className="h-3 w-3 sm:h-3.5 sm:w-3.5" />{formatNumber(item.views)}</span>
+            <span className="flex items-center gap-0.5 sm:gap-1"><Heart className="h-3 w-3 sm:h-3.5 sm:w-3.5" />{formatNumber(item.likes)}</span>
+          </div>
+          {item.engagementRate && (
+            <span className="font-semibold text-emerald-300 text-[9px] sm:text-xs truncate">{item.engagementRate}</span>
+          )}
+        </div>
       </div>
     </motion.article>
   );

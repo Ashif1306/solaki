@@ -8,7 +8,7 @@ import SocialShowcaseSection from "@/components/SocialShowcaseSection";
 import TargetClients from "@/components/TargetClients";
 import ContactForm from "@/components/ContactForm";
 import Footer from "@/components/Footer";
-import WhatsAppFloat from "@/components/WhatsAppFloat";
+import ChatBot from "@/components/ChatBot";
 
 export default function Home() {
   return (
@@ -23,7 +23,7 @@ export default function Home() {
       <TargetClients />
       <ContactForm />
       <Footer />
-      <WhatsAppFloat />
+      <ChatBot />
     </main>
   );
 }
