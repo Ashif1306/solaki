@@ -2,34 +2,33 @@
 
 @layer base {
   :root {
-    --font-jakarta: "Plus Jakarta Sans", sans-serif;
-    --font-inter: "Inter", sans-serif;
+    --font-poppins:    "Poppins", sans-serif;
+    --font-inter:      "Inter", sans-serif;
+    --font-montserrat: "Montserrat", sans-serif;
 
     /* ─── SOLAKI Brand Tokens — Dark Mode (default) ─────────────────── */
-    /* Black/Charcoal backgrounds */
-    --color-bg-primary:   #0A0A0A;    /* deepest bg */
-    --color-bg-secondary: #111111;    /* card bg */
-    --color-bg-elevated:  #1A1A1A;    /* elevated cards */
+    /* Background */
+    --color-bg-primary:   #0d1a17;    /* deepest bg — dark green-black */
+    --color-bg-secondary: #111d18;    /* card bg */
+    --color-bg-elevated:  #172620;    /* elevated cards */
 
     /* Borders & separators */
-    --color-border:       #2A2A2A;
-    --color-border-light: #333333;
+    --color-border:       #1e3329;
+    --color-border-light: #234438;
 
     /* Text */
     --color-text-primary: #FFFFFF;
-    --color-text-muted:   #888888;
-    --color-text-subtle:  #555555;
+    --color-text-muted:   #8aada0;
+    --color-text-subtle:  #4d7a6a;
 
-    /* Brand accents */
-    --color-teal:         #0D5C46;    /* primary accent */
-    --color-teal-light:   #12795C;
-    --color-teal-glow:    #10B981;    /* glow / highlight */
-    --color-coral:        #D95338;    /* secondary accent (energy) */
-    --color-indigo:       #4F46E5;    /* tertiary (ads) */
-
-    /* Utilities */
+    /* Brand accents — sesuai gambar */
+    --color-green:        #013e37;    /* primary brand green */
+    --color-green-light:  #025048;    /* lighter green */
+    --color-green-glow:   #0a7a5e;    /* glow / highlight */
+    --color-gold:         #dec83a;    /* yellow-gold accent */
+    --color-gold-dark:    #c4af2a;    /* gold darker */
+    --color-dark:         #212121;    /* near-black */
     --color-white:        #FFFFFF;
-    --color-black:        #0A0A0A;
   }
 
   * {
@@ -45,41 +44,67 @@
   body {
     background-color: var(--color-bg-primary);
     color: var(--color-text-primary);
-    font-family: var(--font-jakarta);
+    font-family: var(--font-montserrat);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
     transition: background-color 0.4s ease, color 0.4s ease;
   }
 
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-poppins);
+  }
+
   ::selection {
-    background-color: rgba(13, 92, 70, 0.35);
+    background-color: rgba(222,200,58,0.35);
     color: #FFFFFF;
   }
 
   ::-webkit-scrollbar { width: 5px; }
   ::-webkit-scrollbar-track { background: var(--color-bg-primary); }
   ::-webkit-scrollbar-thumb { background: var(--color-border-light); border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--color-teal); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--color-green-glow); }
 }
 
 /* ═══════════════════════════════════════════════════════════════
    TAILWIND THEME EXTENSION — Solaki custom colors
    ═══════════════════════════════════════════════════════════════ */
 @theme {
-  --color-solaki-bg:          #0A0A0A;
-  --color-solaki-surface:     #111111;
-  --color-solaki-elevated:    #1A1A1A;
-  --color-solaki-border:      #2A2A2A;
-  --color-solaki-border-l:    #333333;
+  /* Backgrounds */
+  --color-solaki-bg:          #0d1a17;
+  --color-solaki-surface:     #111d18;
+  --color-solaki-elevated:    #172620;
+  --color-solaki-black:       #212121;
+
+  /* Borders */
+  --color-solaki-border:      #1e3329;
+  --color-solaki-border-l:    #234438;
+
+  /* Text */
   --color-solaki-text:        #FFFFFF;
-  --color-solaki-muted:       #888888;
-  --color-solaki-subtle:      #555555;
-  --color-solaki-teal:        #0D5C46;
-  --color-solaki-teal-l:      #12795C;
-  --color-solaki-glow:        #10B981;
-  --color-solaki-coral:       #D95338;
-  --color-solaki-indigo:      #4F46E5;
+  --color-solaki-muted:       #8aada0;
+  --color-solaki-subtle:      #4d7a6a;
+
+  /* Brand palette — sesuai gambar */
+  --color-solaki-green:       #013e37;
+  --color-solaki-green-l:     #025048;
+  --color-solaki-glow:        #0a7a5e;
+  --color-solaki-gold:        #dec83a;
+  --color-solaki-gold-d:      #c4af2a;
+  --color-solaki-dark:        #212121;
+
+  /* Legacy aliases (agar komponen lama tidak error) */
+  --color-solaki-teal:        #013e37;
+  --color-solaki-teal-l:      #025048;
+  --color-solaki-coral:       #dec83a;
+  --color-solaki-indigo:      #0a7a5e;
+
+  /* Fonts */
+  --font-poppins:             "Poppins", sans-serif;
+  --font-inter:               "Inter", sans-serif;
+  --font-montserrat:          "Montserrat", sans-serif;
+  /* Legacy alias */
+  --font-jakarta:             "Poppins", sans-serif;
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -127,7 +152,7 @@
 
   /* ── Bento card (used across sections) ── */
   .bento-card {
-    background: linear-gradient(135deg, rgba(26,26,26,0.95) 0%, rgba(17,17,17,0.98) 100%);
+    background: linear-gradient(135deg, rgba(23,38,32,0.95) 0%, rgba(17,29,24,0.98) 100%);
     border: 1px solid var(--color-border);
     border-radius: 20px;
     position: relative;
@@ -136,8 +161,8 @@
   }
 
   .bento-card:hover {
-    border-color: rgba(13,92,70,0.45);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(13,92,70,0.12);
+    border-color: rgba(222,200,58,0.35);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(222,200,58,0.08);
     transform: translateY(-3px);
   }
 
@@ -148,18 +173,19 @@
     gap: 7px;
     padding: 5px 14px;
     border-radius: 100px;
-    background: rgba(13,92,70,0.12);
-    border: 1px solid rgba(13,92,70,0.28);
+    background: rgba(1,62,55,0.20);
+    border: 1px solid rgba(222,200,58,0.30);
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: #10B981;
+    color: #dec83a;
+    font-family: var(--font-inter);
   }
 
   /* ── Gradient texts ── */
   .gradient-text-teal {
-    background: linear-gradient(135deg, #0D5C46, #10B981, #34D399);
+    background: linear-gradient(135deg, #025048, #0a7a5e, #dec83a);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -172,18 +198,19 @@
     background-clip: text;
   }
 
-  /* ── CTA button (primary — teal) ── */
+  /* ── CTA button (primary — brand green) ── */
   .btn-primary {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     padding: 14px 28px;
     border-radius: 14px;
-    background: linear-gradient(135deg, #0D5C46, #12795C);
+    background: linear-gradient(135deg, #013e37, #025048);
     color: white;
     font-weight: 700;
     font-size: 14px;
-    border: 1px solid rgba(13,92,70,0.5);
+    font-family: var(--font-poppins);
+    border: 1px solid rgba(222,200,58,0.25);
     cursor: pointer;
     transition: all 0.3s ease;
     text-decoration: none;
@@ -192,15 +219,16 @@
   }
 
   .btn-primary:hover {
-    box-shadow: 0 0 30px rgba(13,92,70,0.5), 0 8px 24px rgba(13,92,70,0.35);
+    box-shadow: 0 0 30px rgba(222,200,58,0.25), 0 8px 24px rgba(1,62,55,0.4);
     transform: translateY(-2px);
+    border-color: rgba(222,200,58,0.5);
   }
 
   .btn-primary::before {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+    background: linear-gradient(135deg, rgba(222,200,58,0.08), transparent);
     opacity: 0;
     transition: opacity 0.3s ease;
   }
@@ -214,19 +242,20 @@
     padding: 13px 26px;
     border-radius: 14px;
     background: transparent;
-    color: #AAAAAA;
+    color: #8aada0;
     font-weight: 600;
     font-size: 14px;
-    border: 1px solid #333333;
+    font-family: var(--font-inter);
+    border: 1px solid #234438;
     cursor: pointer;
     transition: all 0.3s ease;
     text-decoration: none;
   }
 
   .btn-secondary:hover {
-    border-color: #555555;
-    color: white;
-    background: rgba(255,255,255,0.04);
+    border-color: rgba(222,200,58,0.4);
+    color: #dec83a;
+    background: rgba(222,200,58,0.05);
   }
 
   /* ── Admin sidebar ── */
@@ -251,9 +280,9 @@
   }
 
   .admin-nav-item.active {
-    background: rgba(13,92,70,0.18);
-    color: #10B981;
-    border: 1px solid rgba(13,92,70,0.3);
+    background: rgba(1,62,55,0.25);
+    color: #dec83a;
+    border: 1px solid rgba(222,200,58,0.25);
     font-weight: 600;
   }
 
@@ -274,6 +303,16 @@
   .team-card:hover img {
     filter: grayscale(0%);
   }
+
+  /* ── Hero base gradient (light-mode safe) ── */
+  .hero-base-gradient {
+    background:
+      radial-gradient(ellipse 140% 90% at 50% -5%,  rgba(10,122,94,0.55) 0%, rgba(1,62,55,0.28) 40%, transparent 65%),
+      radial-gradient(ellipse 80%  60% at 80% 100%, rgba(222,200,58,0.10) 0%, transparent 55%),
+      radial-gradient(ellipse 70%  50% at 10% 80%,  rgba(1,62,55,0.30) 0%, transparent 55%);
+  }
+
+
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -286,8 +325,8 @@ html.light body {
 }
 
 html.light ::selection {
-  background-color: rgba(13,92,70,0.2);
-  color: #0D5C46;
+  background-color: rgba(222,200,58,0.25);
+  color: #013e37;
 }
 
 /* BGs */
@@ -320,8 +359,8 @@ html.light .bento-card {
 }
 
 html.light .bento-card:hover {
-  border-color: rgba(13,92,70,0.35) !important;
-  box-shadow: 0 16px 40px rgba(0,0,0,0.08), 0 0 0 1px rgba(13,92,70,0.1) !important;
+  border-color: rgba(222,200,58,0.30) !important;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.08), 0 0 0 1px rgba(222,200,58,0.08) !important;
 }
 
 html.light .card {
@@ -340,9 +379,18 @@ html.light .dot-bg {
   background-image: radial-gradient(circle, rgba(0,0,0,0.08) 1px, transparent 1px) !important;
 }
 
+html.light .hero-base-gradient {
+  background:
+    radial-gradient(ellipse 140% 90% at 50% -5%, rgba(1,62,55,0.07) 0%, rgba(1,62,55,0.03) 40%, transparent 65%),
+    radial-gradient(ellipse 80% 60% at 80% 100%, rgba(222,200,58,0.04) 0%, transparent 55%),
+    radial-gradient(ellipse 70% 50% at 10% 80%,  rgba(1,62,55,0.04) 0%, transparent 55%) !important;
+}
+
+
 html.light .section-badge {
-  background: rgba(13,92,70,0.08) !important;
-  border-color: rgba(13,92,70,0.2) !important;
+  background: rgba(1,62,55,0.08) !important;
+  border-color: rgba(222,200,58,0.25) !important;
+  color: #013e37 !important;
 }
 
 /* Inputs */
@@ -357,8 +405,8 @@ html.light textarea {
 html.light input:focus,
 html.light select:focus,
 html.light textarea:focus {
-  border-color: #0D5C46 !important;
-  box-shadow: 0 0 0 3px rgba(13,92,70,0.1) !important;
+  border-color: #013e37 !important;
+  box-shadow: 0 0 0 3px rgba(1,62,55,0.12) !important;
 }
 
 html.light input::placeholder,
@@ -384,61 +432,145 @@ html.light .metric-card {
   border-color: #E5E5E5 !important;
 }
 
-/* Footer light mode */
+/* Footer & Contact section light mode */
 html.light footer {
-  background-color: #111111 !important;  /* keep dark for contrast */
+  background-color: #f0f4f2 !important;
+  border-top-color: #d0e0d8 !important;
+  color: #111111 !important;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   SHOWCASE SECTION — force dark regardless of theme
-   ═══════════════════════════════════════════════════════════════ */
+html.light footer .text-white {
+  color: #111111 !important;
+}
+
+html.light footer .text-solaki-muted {
+  color: #555555 !important;
+}
+
+html.light footer .text-solaki-subtle {
+  color: #777777 !important;
+}
+
+html.light footer .border-solaki-border\/30,
+html.light footer .border-solaki-border\/40 {
+  border-color: #c8ddd6 !important;
+}
+
+html.light footer a.hover\:text-white:hover {
+  color: #013e37 !important;
+}
+
+html.light footer .bg-white\/5,
+html.light footer .bg-white\/10 {
+  background-color: rgba(1,62,55,0.06) !important;
+}
+
+html.light footer .border-white\/10,
+html.light footer .border-white\/20 {
+  border-color: rgba(1,62,55,0.15) !important;
+}
+
+/* Contact section light mode */
+html.light .bg-solaki-dark {
+  background-color: #f0f4f2 !important;
+}
+
+html.light .bg-solaki-black {
+  background-color: #f0f4f2 !important;
+}
+
+html.light #contact .text-white {
+  color: #111111 !important;
+}
+
+html.light #contact .text-solaki-muted {
+  color: #555555 !important;
+}
+
+html.light #contact .bg-solaki-card\/50 {
+  background-color: rgba(255,255,255,0.9) !important;
+  border-color: #c8ddd6 !important;
+}
+
+html.light #contact .border-solaki-border\/40 {
+  border-color: #c8ddd6 !important;
+}
+
+html.light #contact input,
+html.light #contact select,
+html.light #contact textarea {
+  background-color: #ffffff !important;
+  border-color: #c8ddd6 !important;
+  color: #111111 !important;
+}
+
+/* Showcase surfaces follow the selected site theme. */
+.showcase-portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 270px));
+  justify-content: center;
+  gap: 16px;
+}
+
+.showcase-portfolio-card {
+  transition: translate 250ms ease, box-shadow 250ms ease, border-color 250ms ease;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .showcase-portfolio-card:hover {
+    translate: 0 -5px;
+    box-shadow: 0 14px 32px rgba(13, 92, 70, 0.16);
+  }
+}
+
+.showcase-portfolio-card:focus-within {
+  border-color: #10b981;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .showcase-portfolio-card,
+  .showcase-portfolio-card img {
+    transition: none;
+  }
+
+  .showcase-portfolio-card img {
+    transform: none;
+  }
+}
+
 #showcase {
-  background-color: #111111 !important;
-  color: #FFFFFF !important;
+  --showcase-ink: #ffffff;
+  --showcase-bg: #111111;
+  --showcase-card: #111816;
+  --showcase-dialog: #0e0e0e;
+  --showcase-process: rgba(255,255,255,0.025);
+  background-color: var(--showcase-bg);
+  color: var(--showcase-ink);
 }
 
-/* Force showcase text colors in light mode */
-html.light #showcase .text-white { color: #FFFFFF !important; }
-html.light #showcase .text-solaki-muted { color: #888888 !important; }
-html.light #showcase .text-solaki-subtle { color: #555555 !important; }
-html.light #showcase .text-solaki-teal { color: #10B981 !important; }
-html.light #showcase .text-solaki-glow { color: #10B981 !important; }
-html.light #showcase .text-slate-200 { color: #e2e8f0 !important; }
-
-/* Force showcase backgrounds */
-html.light #showcase .bg-solaki-surface { background-color: #111111 !important; }
-html.light #showcase .bg-solaki-surface\/90 { background-color: rgba(17,17,17,0.9) !important; }
-html.light #showcase .bento-card {
-  background: rgba(255,255,255,0.03) !important;
-  border-color: rgba(255,255,255,0.1) !important;
-  box-shadow: none !important;
-}
-html.light #showcase .bento-card:hover {
-  border-color: rgba(13,92,70,0.5) !important;
-}
-html.light #showcase .border-solaki-border { border-color: #2A2A2A !important; }
-html.light #showcase .section-badge {
-  background: rgba(13,92,70,0.15) !important;
-  border-color: rgba(13,92,70,0.35) !important;
-  color: #10B981 !important;
-}
-html.light #showcase .section-badge span { color: #10B981 !important; }
-html.light #showcase .grid-bg {
-  background-image:
-    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px) !important;
+html.light #showcase {
+  --showcase-ink: #111111;
+  --showcase-bg: #f5f5f5;
+  --showcase-card: #ffffff;
+  --showcase-dialog: #ffffff;
+  --showcase-process: #ffffff;
 }
 
-/* Fix flip card back face in light mode */
-html.light #showcase [style*="rotateY(180deg)"] {
-  background-color: #111111 !important;
+html.light #showcase .gradient-text-teal {
+  background-image: linear-gradient(135deg, #0d5c46, #12795c, #047857);
 }
 
-/* Fix inline bg-white/[0.04] utility in showcase */
-html.light #showcase .bg-white\/\[0\.04\] { background-color: rgba(255,255,255,0.04) !important; }
-html.light #showcase .bg-white\/\[0\.03\] { background-color: rgba(255,255,255,0.03) !important; }
-html.light #showcase .bg-white\/\[0\.02\] { background-color: rgba(255,255,255,0.02) !important; }
-html.light #showcase .border-white\/5 { border-color: rgba(255,255,255,0.05) !important; }
+html.light #showcase :is(.text-solaki-glow, .section-badge) {
+  color: #0d5c46;
+}
+
+html.light #showcase :is(.text-emerald-300, .text-emerald-300\/80, .text-emerald-400) { color: #047857; }
+html.light #showcase .text-blue-400 { color: #1d4ed8; }
+html.light #showcase .text-rose-400 { color: #be123c; }
+html.light #showcase .text-cyan-400 { color: #0e7490; }
+html.light #showcase .text-violet-400 { color: #6d28d9; }
+html.light #showcase .text-amber-400 { color: #b45309; }
 
 /* ═══════════════════════════════════════════════════════════════
    ANIMATIONS
@@ -466,6 +598,19 @@ html.light #showcase .border-white\/5 { border-color: rgba(255,255,255,0.05) !im
 }
 
 .animate-float { animation: float 4s ease-in-out infinite; }
+
+@keyframes ping-slow {
+  0%   { transform: scale(1); opacity: 0.5; }
+  75%, 100% { transform: scale(1.8); opacity: 0; }
+}
+
+@keyframes ping-slower {
+  0%   { transform: scale(1); opacity: 0.4; }
+  75%, 100% { transform: scale(2.4); opacity: 0; }
+}
+
+.animate-ping-slow   { animation: ping-slow 2s cubic-bezier(0, 0, 0.2, 1) infinite; }
+.animate-ping-slower { animation: ping-slower 2.8s cubic-bezier(0, 0, 0.2, 1) infinite 0.4s; }
 
 /* ═══════════════════════════════════════════════════════════════
    RESPONSIVE UTILITIES

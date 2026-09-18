@@ -1,18 +1,25 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Inter } from "next/font/google";
+import { Poppins, Inter, Montserrat } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
 
-const plusJakarta = Plus_Jakarta_Sans({
+const poppins = Poppins({
   subsets: ["latin"],
-  variable: "--font-jakarta",
-  weight: ["300", "400", "500", "600", "700", "800"],
+  variable: "--font-poppins",
+  weight: ["400", "500", "600", "700", "800", "900"],
   display: "swap",
 });
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+});
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  variable: "--font-montserrat",
   weight: ["300", "400", "500", "600", "700"],
   display: "swap",
 });
@@ -91,7 +98,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${plusJakarta.variable} ${inter.variable} font-jakarta antialiased transition-colors duration-300 bg-solaki-black text-white`}
+        className={`${poppins.variable} ${inter.variable} ${montserrat.variable} font-montserrat antialiased transition-colors duration-300 bg-solaki-black text-white`}
       >
         <ThemeProvider>{children}</ThemeProvider>
       </body>

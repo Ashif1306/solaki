@@ -48,8 +48,11 @@ export async function PUT(req: Request) {
       return NextResponse.json({ error: "INSTAGRAM_USER_ID belum dikonfigurasi." }, { status: 400 });
     }
 
+    const isFacebookToken = accessToken.startsWith("EAA");
+    const graphBase = isFacebookToken ? "https://graph.facebook.com/v22.0" : "https://graph.instagram.com";
+
     // Search through user media to find the matching post
-    const searchUrl = `https://graph.instagram.com/${igUserId}/media?fields=id,permalink&limit=50&access_token=${accessToken}`;
+    const searchUrl = `${graphBase}/${igUserId}/media?fields=id,permalink&limit=50&access_token=${accessToken}`;
     const searchRes = await fetch(searchUrl, { cache: "no-store" });
 
     if (!searchRes.ok) {
@@ -67,9 +70,14 @@ export async function PUT(req: Request) {
 
     // Fetch insights for this media
     const insightFields = "like_count,comments_count,media_type,timestamp";
-    const insightMetrics = "reach,saved,shares,impressions,video_views";
-    const mediaUrl = `https://graph.instagram.com/${foundMedia.id}?fields=${insightFields}&access_token=${accessToken}`;
-    const insightsUrl = `https://graph.instagram.com/${foundMedia.id}/insights?metric=${insightMetrics}&access_token=${accessToken}`;
+    const mediaUrl = `${graphBase}/${foundMedia.id}?fields=${insightFields}&access_token=${accessToken}`;
+    
+    // Check media type from user's media or item
+    const isVideo = item.format.toLowerCase().includes("reel") || item.format.toLowerCase().includes("video");
+    const insightMetrics = isVideo
+      ? "reach,saved,shares,views,total_interactions"
+      : "reach,saved,shares,views,total_interactions,profile_visits";
+    const insightsUrl = `${graphBase}/${foundMedia.id}/insights?metric=${insightMetrics}&access_token=${accessToken}`;
 
     const [mediaRes, insightsRes] = await Promise.allSettled([
       fetch(mediaUrl, { cache: "no-store" }),
@@ -81,7 +89,9 @@ export async function PUT(req: Request) {
     let reach = 0;
     let saves = item.saves;
     let shares = item.shares;
-    let videoViews = item.views;
+    let views = item.views;
+    let profileVisits = 0;
+    let totalInteractions = 0;
 
     if (mediaRes.status === "fulfilled" && mediaRes.value.ok) {
       const mData = await mediaRes.value.json();
@@ -97,15 +107,35 @@ export async function PUT(req: Request) {
           case "reach": reach = Number(val); break;
           case "saved": saves = Number(val); break;
           case "shares": shares = Number(val); break;
-          case "video_views": videoViews = Number(val); break;
+          case "views": views = Number(val); break;
+          case "profile_visits": profileVisits = Number(val); break;
+          case "total_interactions": totalInteractions = Number(val); break;
         }
       }
     }
 
-    // Calculate engagement rate
-    const interactions = likes + comments + saves + shares;
-    const base = Math.max(reach || videoViews || likes, 1);
-    const er = ((interactions / base) * 100).toFixed(1) + "%";
+    // Fetch followers count for ER calculation
+    let followersCount = 0;
+    try {
+      const pUrl = isFacebookToken
+        ? `https://graph.facebook.com/v22.0/${igUserId}?fields=followers_count&access_token=${accessToken}`
+        : `https://graph.instagram.com/me?fields=followers_count&access_token=${accessToken}`;
+      const pRes = await fetch(pUrl, { cache: "no-store" });
+      if (pRes.ok) {
+        const pData = await pRes.json();
+        followersCount = Number(pData.followers_count) || 0;
+      }
+    } catch {}
+
+    // Calculate engagement rate by followers
+    const interactions = totalInteractions > 0 ? totalInteractions : (likes + comments + saves + shares);
+    const erDenominator = followersCount > 0 ? followersCount : Math.max(reach || views || likes, 1);
+    const er = ((interactions / erDenominator) * 100).toFixed(2) + "%";
+
+    // Calculate CTR (Click-Through / Conversion Action Rate)
+    const conversionActions = saves + shares + profileVisits;
+    const ctrDenominator = Math.max(views || reach || (likes * 10), 1);
+    const ctr = `${((conversionActions / ctrDenominator) * 100).toFixed(2)}% CTR`;
 
     const updated = await prisma.socialShowcase.update({
       where: { id },
@@ -114,9 +144,9 @@ export async function PUT(req: Request) {
         comments,
         saves,
         shares,
-        views: videoViews || reach || item.views,
+        views: views || reach || item.views,
         engagementRate: er,
-        reachMultiplier: reach > 0 ? `${(reach / Math.max(likes, 1)).toFixed(1)}x Reach` : item.reachMultiplier,
+        reachMultiplier: ctr,
       },
     });
 

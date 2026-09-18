@@ -13,6 +13,7 @@ import {
   LogOut,
   Sliders,
   Sparkles,
+  BarChart3,
 } from "lucide-react";
 import type { SessionUser } from "@/lib/auth";
 import { useSiteBrand } from "@/hooks/useSiteBrand";
@@ -37,6 +38,7 @@ export default function AdminSidebar({ session }: { session?: SessionUser | null
     { href: "/solaki/dashboard", label: "Dashboard", icon: LayoutDashboard },
     { href: "/solaki/dashboard/settings", label: "Brand & Logo", icon: Sliders },
     { href: "/solaki/dashboard/showcase", label: "Showcase & Media", icon: Sparkles },
+    { href: "/solaki/dashboard/insights", label: "Instagram Insights", icon: BarChart3 },
     { href: "/solaki/dashboard/content", label: "Konten Website", icon: FileText },
     { href: "/solaki/dashboard/services", label: "Layanan", icon: Briefcase },
     { href: "/solaki/dashboard/team", label: "Tim & Kolektif", icon: Users },

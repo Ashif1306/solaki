@@ -106,16 +106,131 @@ export default function Hero() {
       onMouseMove={handleMouseMove}
       className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-solaki-bg dot-bg pt-28 sm:pt-32 md:pt-36 pb-16"
     >
-      {/* Subtle background glow */}
-      <div className="absolute inset-0 pointer-events-none">
+      {/* ===== BACKGROUND PREMIUM ===== */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+
+        {/* Base aurora gradient */}
+        <div className="absolute inset-0 hero-base-gradient" />
+
+        {/* Aurora layer 1 — teal center pulse (mouse-follow) */}
         <motion.div
-          className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full"
+          className="absolute w-[900px] h-[900px] rounded-full"
           style={{
-            background: "radial-gradient(circle, rgba(13,92,70,0.12) 0%, transparent 65%)",
-            x: glowX,
-            y: glowY,
+            top: "40%", left: "50%",
+            transform: "translate(-50%, -50%)",
+            background: "radial-gradient(circle, rgba(10,122,94,0.45) 0%, rgba(1,62,55,0.22) 38%, transparent 65%)",
+            x: glowX, y: glowY,
+            filter: "blur(60px)",
+          }}
+          animate={{ scale: [1, 1.15, 1] }}
+          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+        />
+
+        {/* Aurora layer 2 — gold top-right */}
+        <motion.div
+          className="absolute -top-40 -right-20 w-[700px] h-[700px] rounded-full"
+          style={{
+            background: "radial-gradient(circle, rgba(222,200,58,0.28) 0%, rgba(222,200,58,0.08) 45%, transparent 70%)",
+            filter: "blur(70px)",
+          }}
+          animate={{ x: [0, -40, 0], y: [0, 50, 0], scale: [1, 1.12, 1] }}
+          transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}
+        />
+
+        {/* Aurora layer 3 — deep green bottom-left */}
+        <motion.div
+          className="absolute -bottom-32 -left-32 w-[650px] h-[650px] rounded-full"
+          style={{
+            background: "radial-gradient(circle, rgba(1,62,55,0.55) 0%, rgba(1,62,55,0.18) 45%, transparent 70%)",
+            filter: "blur(80px)",
+          }}
+          animate={{ x: [0, 50, 0], y: [0, -40, 0], scale: [1.1, 1, 1.1] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+        />
+
+        {/* Aurora layer 4 — amber bottom-right */}
+        <motion.div
+          className="absolute bottom-10 right-10 w-[380px] h-[380px] rounded-full"
+          style={{
+            background: "radial-gradient(circle, rgba(217,119,6,0.22) 0%, rgba(217,119,6,0.06) 50%, transparent 70%)",
+            filter: "blur(50px)",
+          }}
+          animate={{ scale: [1, 1.35, 1], opacity: [0.6, 1, 0.6] }}
+          transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        />
+
+        {/* Aurora layer 5 — cyan left-mid */}
+        <motion.div
+          className="absolute top-1/3 -left-20 w-[350px] h-[350px] rounded-full"
+          style={{
+            background: "radial-gradient(circle, rgba(8,145,178,0.18) 0%, transparent 65%)",
+            filter: "blur(55px)",
+          }}
+          animate={{ x: [0, 30, 0], y: [0, -20, 0], opacity: [0.5, 1, 0.5] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
+        />
+
+        {/* Horizontal aurora band */}
+        <motion.div
+          className="absolute left-0 right-0"
+          style={{
+            top: "30%",
+            height: "180px",
+            background: "linear-gradient(180deg, transparent, rgba(10,122,94,0.08) 50%, transparent)",
+            filter: "blur(30px)",
+          }}
+          animate={{ y: [-20, 20, -20], opacity: [0.4, 0.9, 0.4] }}
+          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+        />
+
+        {/* Floating particles */}
+        {[
+          { x: "15%", y: "20%", size: 3, color: "rgba(222,200,58,0.7)", dur: 6, delay: 0 },
+          { x: "80%", y: "15%", size: 2, color: "rgba(10,122,94,0.8)", dur: 7, delay: 1 },
+          { x: "25%", y: "70%", size: 4, color: "rgba(222,200,58,0.5)", dur: 5, delay: 2 },
+          { x: "70%", y: "60%", size: 2, color: "rgba(10,122,94,0.6)", dur: 8, delay: 0.5 },
+          { x: "90%", y: "40%", size: 3, color: "rgba(217,119,6,0.7)", dur: 6.5, delay: 1.5 },
+          { x: "5%",  y: "50%", size: 2, color: "rgba(8,145,178,0.6)", dur: 7.5, delay: 3 },
+          { x: "50%", y: "85%", size: 3, color: "rgba(222,200,58,0.6)", dur: 5.5, delay: 2.5 },
+          { x: "60%", y: "10%", size: 2, color: "rgba(10,122,94,0.7)", dur: 9,   delay: 0.3 },
+          { x: "35%", y: "40%", size: 1.5, color: "rgba(222,200,58,0.4)", dur: 4, delay: 4 },
+          { x: "85%", y: "80%", size: 2.5, color: "rgba(1,62,55,0.8)", dur: 7, delay: 1.8 },
+          { x: "45%", y: "55%", size: 2, color: "rgba(217,119,6,0.5)", dur: 6, delay: 3.5 },
+          { x: "10%", y: "90%", size: 3, color: "rgba(8,145,178,0.5)", dur: 8, delay: 0.7 },
+        ].map((p, i) => (
+          <motion.div
+            key={i}
+            className="absolute rounded-full"
+            style={{
+              left: p.x, top: p.y,
+              width: p.size * 4,
+              height: p.size * 4,
+              background: p.color,
+              boxShadow: `0 0 ${p.size * 6}px ${p.color}`,
+            }}
+            animate={{
+              y: [-12, 12, -12],
+              x: [-6, 6, -6],
+              opacity: [0.3, 1, 0.3],
+              scale: [0.8, 1.2, 0.8],
+            }}
+            transition={{ duration: p.dur, repeat: Infinity, ease: "easeInOut", delay: p.delay }}
+          />
+        ))}
+
+        {/* Mesh grid overlay */}
+        <div className="absolute inset-0 grid-bg opacity-20" />
+
+        {/* Subtle noise texture */}
+        <div
+          className="absolute inset-0 opacity-[0.025]"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,
+            backgroundSize: "200px 200px",
           }}
         />
+
+
       </div>
 
       {/* Content */}

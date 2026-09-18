@@ -19,8 +19,11 @@ export async function POST() {
   }
 
   try {
+    const isFacebookToken = accessToken.startsWith("EAA");
+    const graphBase = isFacebookToken ? "https://graph.facebook.com/v22.0" : "https://graph.instagram.com";
+
     const fields = "id,caption,media_type,media_url,thumbnail_url,permalink,timestamp,like_count,comments_count";
-    const apiUrl = `https://graph.instagram.com/${igUserId}/media?fields=${fields}&limit=20&access_token=${accessToken}`;
+    const apiUrl = `${graphBase}/${igUserId}/media?fields=${fields}&limit=20&access_token=${accessToken}`;
     const mediaListRes = await fetch(apiUrl, { cache: "no-store" });
 
     if (!mediaListRes.ok) {
@@ -33,6 +36,21 @@ export async function POST() {
     const posts = (mediaList.data || []) as Record<string, unknown>[];
     if (posts.length === 0) {
       return NextResponse.json({ success: true, synced: 0, message: "Tidak ada postingan terbaru ditemukan." });
+    }
+
+    // ── Fetch Account Profile for Followers Count ───────────────
+    let followersCount = 0;
+    try {
+      const profileUrl = isFacebookToken
+        ? `https://graph.facebook.com/v22.0/${igUserId}?fields=id,name,username,followers_count,follows_count,media_count&access_token=${accessToken}`
+        : `https://graph.instagram.com/me?fields=id,username,followers_count,media_count&access_token=${accessToken}`;
+      const profileRes = await fetch(profileUrl, { cache: "no-store" });
+      if (profileRes.ok) {
+        const profileData = await profileRes.json();
+        followersCount = Number(profileData.followers_count) || 0;
+      }
+    } catch (err) {
+      console.warn("Could not fetch Instagram account profile:", err);
     }
 
     let synced = 0;
@@ -53,19 +71,20 @@ export async function POST() {
         : mediaType === "CAROUSEL_ALBUM" ? "Instagram Carousel"
         : "Instagram Feed";
 
-      // ── Fetch insights per media ──────────────────────────────
+      // ── Fetch insights per media (Graph API v22.0) ───────────
       let reach = 0;
       let saves = 0;
       let shares = 0;
-      let videoViews = 0;
+      let views = 0;
+      let profileVisits = 0;
+      let totalInteractions = 0;
 
       try {
-        // VIDEO/REELS use video_views; IMAGES/CAROUSEL use impressions
         const insightMetrics = mediaType === "VIDEO"
-          ? "reach,saved,shares,video_views"
-          : "reach,saved,shares,impressions";
+          ? "reach,saved,shares,views,total_interactions"
+          : "reach,saved,shares,views,total_interactions,profile_visits";
 
-        const insightsUrl = `https://graph.instagram.com/${mediaId}/insights?metric=${insightMetrics}&access_token=${accessToken}`;
+        const insightsUrl = `${graphBase}/${mediaId}/insights?metric=${insightMetrics}&access_token=${accessToken}`;
         const insightsRes = await fetch(insightsUrl, { cache: "no-store" });
 
         if (insightsRes.ok) {
@@ -76,19 +95,31 @@ export async function POST() {
               case "reach": reach = Number(val); break;
               case "saved": saves = Number(val); break;
               case "shares": shares = Number(val); break;
-              case "video_views": videoViews = Number(val); break;
+              case "views": views = Number(val); break;
+              case "profile_visits": profileVisits = Number(val); break;
+              case "total_interactions": totalInteractions = Number(val); break;
             }
           }
         }
-      } catch {
-        // Insights may fail for older posts — use basic metrics
+      } catch (err) {
+        console.warn("Media insights fetch error:", err);
       }
 
-      // Calculate engagement rate accurately
-      const interactions = likeCount + commentsCount + saves + shares;
-      const base = Math.max(reach || videoViews || likeCount, 1);
-      const er = `${((interactions / base) * 100).toFixed(1)}%`;
-      const reachMultiplierStr = reach > 0 ? `${(reach / Math.max(likeCount, 1)).toFixed(1)}x Reach` : "Auto-sync";
+      // ── Calculate ER (Engagement Rate by Followers) ─────────────
+      // Rumus Standar Industri: ER = (Total Interaksi / Total Followers) × 100%
+      const interactions = totalInteractions > 0 ? totalInteractions : (likeCount + commentsCount + saves + shares);
+      const erDenominator = followersCount > 0
+        ? followersCount
+        : (reach > 0 ? reach : (views > 0 ? views : Math.max(likeCount * 10, 1)));
+      const erValue = (interactions / erDenominator) * 100;
+      const er = `${erValue.toFixed(2)}%`;
+
+      // ── Calculate CTR (Click-Through / Action Rate) ─────────────
+      // CTR pada konten organik = Tindakan klik/konversi (Kunjungan Profil + Simpan + Bagikan) / Views × 100%
+      const conversionActions = saves + shares + profileVisits;
+      const ctrDenominator = Math.max(views || reach || (likeCount * 10), 1);
+      const ctrValue = (conversionActions / ctrDenominator) * 100;
+      const ctr = `${ctrValue.toFixed(2)}% CTR`;
 
       const existing = await prisma.socialShowcase.findFirst({ where: { postUrl: permalink } });
 
@@ -100,9 +131,9 @@ export async function POST() {
             comments: commentsCount,
             saves,
             shares,
-            views: videoViews || reach || existing.views,
+            views: views || reach || existing.views,
             engagementRate: er,
-            reachMultiplier: reachMultiplierStr,
+            reachMultiplier: ctr,
             mediaUrl: thumbnailUrl || existing.mediaUrl,
           },
         });
@@ -124,11 +155,11 @@ export async function POST() {
           format,
           likes: likeCount,
           comments: commentsCount,
-          views: videoViews || reach,
+          views: views || reach,
           shares,
           saves,
           engagementRate: er,
-          reachMultiplier: reachMultiplierStr,
+          reachMultiplier: ctr,
           hookStrategy: "",
           contentPillar: "Promosi & Branding",
           targetAudience: "Audiens Lokal",
@@ -167,7 +198,10 @@ export async function GET() {
   }
 
   try {
-    const meUrl = `https://graph.instagram.com/me?fields=id,name,username,account_type,media_count&access_token=${accessToken}`;
+    const isFacebookToken = accessToken.startsWith("EAA");
+    const meUrl = isFacebookToken
+      ? `https://graph.facebook.com/v22.0/${igUserId}?fields=id,name,username,followers_count,follows_count,media_count,profile_picture_url&access_token=${accessToken}`
+      : `https://graph.instagram.com/me?fields=id,name,username,account_type,media_count&access_token=${accessToken}`;
     const res = await fetch(meUrl, { cache: "no-store" });
 
     if (!res.ok) {
@@ -185,10 +219,13 @@ export async function GET() {
       valid: true,
       account: {
         id: data.id,
-        name: data.name,
-        username: data.username,
-        accountType: data.account_type,
+        name: data.name || data.username,
+        username: data.username || data.name,
+        accountType: data.account_type || "BUSINESS",
         mediaCount: data.media_count,
+        followersCount: data.followers_count || 0,
+        followsCount: data.follows_count || 0,
+        profilePictureUrl: data.profile_picture_url || "",
       },
     });
   } catch (error) {
