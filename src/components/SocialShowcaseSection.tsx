@@ -1,7 +1,7 @@
 "use client";
 
 import ShowcaseMedia from "@/components/ShowcaseMedia";
-import { showcaseKind, safeMediaUrl } from "@/lib/showcase-media";
+import { showcaseKind, safeMediaUrl, socialEmbedUrl } from "@/lib/showcase-media";
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, useInView, useMotionValue, useSpring } from "framer-motion";
 import {
@@ -163,7 +163,7 @@ function DetailModal({
       initial={false}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="m-0 h-dvh max-h-none w-screen max-w-none border-0 fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-lg overflow-y-auto"
+      className="m-0 h-dvh max-h-none w-screen max-w-none border-0 fixed inset-0 z-50 flex items-start justify-center p-0 md:py-10 md:px-4 bg-black/85 backdrop-blur-lg overflow-y-auto"
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
       <motion.div
@@ -171,95 +171,152 @@ function DetailModal({
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.94, y: 24 }}
         transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-        className="relative w-full max-w-4xl my-8 bg-[var(--showcase-dialog)] border border-[var(--showcase-ink)]/[0.09] rounded-3xl shadow-[0_40px_80px_rgba(0,0,0,0.9)] overflow-hidden flex flex-col md:flex-row"
+        className="relative w-full max-w-4xl bg-[var(--showcase-dialog)] border-0 md:border border-[var(--showcase-ink)]/[0.09] rounded-none md:rounded-3xl shadow-[0_40px_80px_rgba(0,0,0,0.9)] md:overflow-hidden flex flex-col md:flex-row flex-shrink-0 min-h-dvh md:min-h-0"
       >
+        {/* Desktop close button */}
         <button
           onClick={onClose}
           aria-label="Tutup detail"
-          className="absolute top-4 right-4 z-30 w-9 h-9 rounded-full bg-black/60 hover:bg-black/80 border border-white/15 flex items-center justify-center force-text-white transition-all"
+          className="hidden md:flex absolute top-4 right-4 z-30 w-9 h-9 rounded-full bg-black/60 hover:bg-black/80 border border-white/15 items-center justify-center force-text-white transition-all"
         >
           <X className="w-4 h-4" />
         </button>
 
-        {/* Left visual */}
-        <div className="md:w-5/12 relative min-h-[280px] md:min-h-[560px] bg-black flex-shrink-0">
-          <ShowcaseMedia mediaUrl={item.mediaUrl} postUrl={item.postUrl} title={item.title} controls />
-          <div className="pointer-events-none relative z-10 p-5">
-            <PlatformBadge platform={item.platform} size="md" />
+        {/* Mobile Sticky Header Bar with Title & Close Button */}
+        <div className="sticky top-0 z-40 flex md:hidden items-center justify-between gap-3 px-4 py-3.5 bg-[var(--showcase-dialog)]/95 backdrop-blur-md border-b border-[var(--showcase-ink)]/[0.09] shadow-md">
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-1">
+              <PlatformBadge platform={item.platform} size="sm" />
+              <span className="text-[10px] font-black text-solaki-glow uppercase tracking-widest truncate">{item.format}</span>
+            </div>
+            <h2 className="text-sm font-bold text-[var(--showcase-ink)] leading-snug line-clamp-1" title={item.title}>
+              {item.title}
+            </h2>
           </div>
-          <div className="absolute bottom-12 left-0 right-0 p-5 z-10">
-            {item.postUrl && (
+          <button
+            onClick={onClose}
+            aria-label="Tutup detail"
+            className="flex-shrink-0 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 border border-white/15 flex items-center justify-center force-text-white transition-all"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+
+        {/* Left visual column */}
+        <div className="md:w-5/12 flex flex-col bg-black flex-shrink-0 border-b md:border-b-0 md:border-r border-[var(--showcase-ink)]/[0.08]">
+          <div className="relative w-full h-[520px] sm:h-[560px] md:h-auto md:flex-1 md:min-h-[580px] bg-black overflow-hidden">
+            <ShowcaseMedia mediaUrl={item.mediaUrl} postUrl={item.postUrl} title={item.title} controls />
+            {!socialEmbedUrl(item.postUrl || item.mediaUrl) && (
+              <div className="pointer-events-none absolute top-4 left-4 z-10 hidden md:block">
+                <PlatformBadge platform={item.platform} size="md" />
+              </div>
+            )}
+          </div>
+
+          {/* Dedicated action bar below media (NEVER overlapping) */}
+          {item.postUrl && (
+            <div className="p-3 sm:p-4 bg-zinc-950/90 border-t border-white/10 flex-shrink-0">
               <a
                 href={safeMediaUrl(item.postUrl)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-xl bg-white text-black text-sm font-bold hover:bg-white/90 transition-colors shadow-lg"
+                className="flex items-center justify-center gap-2 w-full py-2.5 sm:py-3 px-4 rounded-xl bg-white text-black text-xs sm:text-sm font-bold hover:bg-white/90 transition-all shadow-md active:scale-[0.99]"
               >
                 <ExternalLink className="w-4 h-4" />
                 Buka Postingan Asli
               </a>
-            )}
-          </div>
+            </div>
+          )}
         </div>
 
         {/* Right analysis */}
-        <div className="md:w-7/12 p-7 md:p-8 overflow-y-auto space-y-6 max-h-[80vh] md:max-h-none">
-          <div>
-            <div className="flex items-center gap-2 mb-2">
+        <div className="md:w-7/12 flex flex-col min-h-0 max-h-none md:max-h-[85vh] bg-[var(--showcase-dialog)]">
+          {/* Desktop Pinned Header: Title & tags stay fixed while scrolling */}
+          <div className="hidden md:block p-6 sm:p-7 pb-4 sm:pb-5 border-b border-[var(--showcase-ink)]/[0.08] flex-shrink-0 bg-[var(--showcase-dialog)]">
+            <div className="flex items-center gap-2 mb-2 pr-12">
+              <PlatformBadge platform={item.platform} size="sm" />
               <span className="text-[10px] font-black text-solaki-glow uppercase tracking-widest">{item.format}</span>
               <span className="text-[var(--showcase-ink)]/20">•</span>
-              <span className="text-[10px] text-[var(--showcase-ink)]/40 uppercase tracking-widest">{item.contentPillar}</span>
+              <span className="text-[10px] text-[var(--showcase-ink)]/40 uppercase tracking-widest truncate">{item.contentPillar}</span>
             </div>
-            <h3 className="text-xl sm:text-2xl font-black text-[var(--showcase-ink)] leading-tight">{item.title}</h3>
+            <h3 className="text-lg sm:text-xl md:text-2xl font-black text-[var(--showcase-ink)] leading-tight pr-12">
+              {item.title}
+            </h3>
+          </div>
+
+          {/* Scrollable details: Caption, Metrics, Hooks, Strategy, Impact */}
+          <div className="p-5 sm:p-7 md:p-8 overflow-y-auto space-y-5 sm:space-y-6 flex-1 min-h-0">
+            {/* On mobile: content pillar */}
+            <div className="md:hidden">
+              <span className="text-[10px] text-[var(--showcase-ink)]/40 uppercase tracking-widest block">{item.contentPillar}</span>
+            </div>
+
             {item.caption && (
-              <p className="text-sm text-[var(--showcase-ink)]/45 font-inter mt-2 leading-relaxed">{item.caption}</p>
-            )}
-          </div>
-
-          <div>
-            <p className="text-[10px] font-bold text-[var(--showcase-ink)]/25 uppercase tracking-widest mb-3">Metrik Performa</p>
-            <div className="grid grid-cols-3 gap-2">
-              {metrics.map(({ icon: Icon, label, value, color, bg }) => (
-                <div key={label} className={`p-3 rounded-xl border ${bg} text-center`}>
-                  <Icon className={`w-3.5 h-3.5 ${color} mx-auto mb-1`} />
-                  <div className={`text-sm font-black ${color}`}>{value}</div>
-                  <div className="text-[10px] text-[var(--showcase-ink)]/30">{label}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="space-y-3">
-            {item.hookStrategy && (
-              <div className="p-4 rounded-xl bg-amber-500/[0.07] border border-amber-500/20">
-                <div className="flex items-center gap-1.5 mb-2">
-                  <Flame className="w-3.5 h-3.5 text-amber-400" />
-                  <span className="text-[10px] font-black text-amber-400 uppercase tracking-wider">Hook 3 Detik Pertama</span>
-                </div>
-                <p className="text-sm text-[var(--showcase-ink)]/80 leading-relaxed">{item.hookStrategy}</p>
+              <div>
+                <p className="text-sm text-[var(--showcase-ink)]/65 font-inter leading-relaxed whitespace-pre-line">{item.caption}</p>
               </div>
             )}
 
-            {item.keyTakeaway && (
-              <div className="p-4 rounded-xl bg-emerald-500/[0.07] border border-emerald-500/20">
-                <div className="flex items-center gap-1.5 mb-2">
-                  <TrendingUp className="w-3.5 h-3.5 text-emerald-400" />
-                  <span className="text-[10px] font-black text-emerald-400 uppercase tracking-wider">Dampak Bisnis Nyata</span>
-                </div>
-                <p className="text-sm text-[var(--showcase-ink)]/90 font-medium leading-relaxed">{item.keyTakeaway}</p>
-              </div>
-            )}
-
-            <div className="grid grid-cols-2 gap-2">
-              <div className="p-3 rounded-xl bg-[var(--showcase-ink)]/[0.03] border border-[var(--showcase-ink)]/[0.06]">
-                <p className="text-[10px] text-[var(--showcase-ink)]/30 mb-1">Target Audiens</p>
-                <p className="text-xs text-[var(--showcase-ink)] font-semibold">{item.targetAudience || "—"}</p>
-              </div>
-              <div className="p-3 rounded-xl bg-[var(--showcase-ink)]/[0.03] border border-[var(--showcase-ink)]/[0.06]">
-                <p className="text-[10px] text-[var(--showcase-ink)]/30 mb-1">Sentimen Audiens</p>
-                <p className="text-xs text-emerald-400 font-semibold">{item.sentimentScore || "Belum tersedia"}</p>
+            <div>
+              <p className="text-[10px] font-bold text-[var(--showcase-ink)]/25 uppercase tracking-widest mb-3">Metrik Performa</p>
+              <div className="grid grid-cols-3 gap-2">
+                {metrics.map(({ icon: Icon, label, value, color, bg }) => (
+                  <div key={label} className={`p-2.5 sm:p-3 rounded-xl border ${bg} text-center`}>
+                    <Icon className={`w-3.5 h-3.5 ${color} mx-auto mb-1`} />
+                    <div className={`text-sm font-black ${color}`}>{value}</div>
+                    <div className="text-[10px] text-[var(--showcase-ink)]/30">{label}</div>
+                  </div>
+                ))}
               </div>
             </div>
+
+            <div className="space-y-3">
+              {item.hookStrategy && (
+                <div className="p-3.5 sm:p-4 rounded-xl bg-amber-500/[0.07] border border-amber-500/20">
+                  <div className="flex items-center gap-1.5 mb-2">
+                    <Flame className="w-3.5 h-3.5 text-amber-400" />
+                    <span className="text-[10px] font-black text-amber-400 uppercase tracking-wider">Hook 3 Detik Pertama</span>
+                  </div>
+                  <p className="text-sm text-[var(--showcase-ink)]/80 leading-relaxed">{item.hookStrategy}</p>
+                </div>
+              )}
+
+              {item.keyTakeaway && (
+                <div className="p-3.5 sm:p-4 rounded-xl bg-emerald-500/[0.07] border border-emerald-500/20">
+                  <div className="flex items-center gap-1.5 mb-2">
+                    <TrendingUp className="w-3.5 h-3.5 text-emerald-400" />
+                    <span className="text-[10px] font-black text-emerald-400 uppercase tracking-wider">Dampak Bisnis Nyata</span>
+                  </div>
+                  <p className="text-sm text-[var(--showcase-ink)]/90 font-medium leading-relaxed">{item.keyTakeaway}</p>
+                </div>
+              )}
+
+              <div className="grid grid-cols-2 gap-2">
+                <div className="p-3 rounded-xl bg-[var(--showcase-ink)]/[0.03] border border-[var(--showcase-ink)]/[0.06]">
+                  <p className="text-[10px] text-[var(--showcase-ink)]/30 mb-1">Target Audiens</p>
+                  <p className="text-xs text-[var(--showcase-ink)] font-semibold">{item.targetAudience || "—"}</p>
+                </div>
+                <div className="p-3 rounded-xl bg-[var(--showcase-ink)]/[0.03] border border-[var(--showcase-ink)]/[0.06]">
+                  <p className="text-[10px] text-[var(--showcase-ink)]/30 mb-1">Sentimen Audiens</p>
+                  <p className="text-xs text-emerald-400 font-semibold">{item.sentimentScore || "Belum tersedia"}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Quick link on mobile at the end of analysis */}
+            {item.postUrl && (
+              <div className="pt-1 md:hidden">
+                <a
+                  href={safeMediaUrl(item.postUrl)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl border border-[var(--showcase-ink)]/15 text-[var(--showcase-ink)]/80 hover:text-[var(--showcase-ink)] hover:bg-[var(--showcase-ink)]/5 text-xs font-semibold transition-all"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  Buka Postingan Asli
+                </a>
+              </div>
+            )}
           </div>
         </div>
       </motion.div>
