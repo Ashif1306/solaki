@@ -70,10 +70,12 @@ export default function AdminGuard({
   }
 
   return (
-    <div className="min-h-screen bg-solaki-black text-white flex flex-col md:flex-row">
+    <div className="min-h-screen md:h-screen md:overflow-hidden bg-solaki-black text-white flex flex-col md:flex-row">
       <AdminSidebar session={session} />
-      <main className="flex-1 p-6 md:p-10 max-w-7xl mx-auto w-full overflow-y-auto">
-        {children}
+      <main className="flex-1 p-6 md:p-10 w-full overflow-y-auto">
+        <div className="max-w-7xl mx-auto w-full">
+          {children}
+        </div>
       </main>
     </div>
   );

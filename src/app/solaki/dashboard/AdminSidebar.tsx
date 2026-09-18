@@ -47,9 +47,9 @@ export default function AdminSidebar({ session }: { session?: SessionUser | null
   ];
 
   return (
-    <aside className="w-full md:w-64 bg-solaki-card border-b md:border-b-0 md:border-r border-solaki-border flex-shrink-0 flex flex-col">
+    <aside className="w-full md:w-64 bg-solaki-card border-b md:border-b-0 md:border-r border-solaki-border flex-shrink-0 flex flex-col md:h-screen md:sticky md:top-0 z-30">
       {/* Brand Header */}
-      <div className="p-6 border-b border-solaki-border flex items-center justify-between">
+      <div className="p-6 border-b border-solaki-border flex items-center justify-between flex-shrink-0">
         <div className="flex items-center gap-3">
           {brand.logoType === "image" && brand.logoImageUrl ? (
             <div
@@ -95,7 +95,7 @@ export default function AdminSidebar({ session }: { session?: SessionUser | null
       </div>
 
       {/* Nav links */}
-      <nav className="p-4 space-y-1.5 flex-1">
+      <nav className="p-4 space-y-1.5 flex-1 overflow-y-auto [scrollbar-width:thin]">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
           const Icon = item.icon;
@@ -117,7 +117,7 @@ export default function AdminSidebar({ session }: { session?: SessionUser | null
       </nav>
 
       {/* User info & Footer actions */}
-      <div className="p-4 border-t border-solaki-border space-y-2">
+      <div className="p-4 border-t border-solaki-border space-y-2 flex-shrink-0">
         <Link
           href="/"
           target="_blank"
