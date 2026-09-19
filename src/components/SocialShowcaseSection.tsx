@@ -410,7 +410,7 @@ export default function SocialShowcaseSection({ items, loadError = false }: { it
       <div className="absolute bottom-0 right-0 w-[500px] h-[400px] bg-[radial-gradient(ellipse,rgba(139,92,246,0.06)_0%,transparent_70%)] pointer-events-none blur-3xl" />
 
       {/* -- Portfolio -- */}
-      <div className="py-24 sm:py-32">
+      <div className="pt-20 sm:pt-28 pb-6 sm:pb-8">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
           <motion.div

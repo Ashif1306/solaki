@@ -70,7 +70,7 @@ export default function TargetClients() {
     <section
       id="target-clients"
       ref={sectionRef}
-      className="py-28 relative overflow-hidden bg-solaki-bg"
+      className="pt-6 sm:pt-10 pb-20 sm:pb-28 relative overflow-hidden bg-solaki-bg"
     >
       <div className="absolute inset-0 dot-bg opacity-40" />
 
