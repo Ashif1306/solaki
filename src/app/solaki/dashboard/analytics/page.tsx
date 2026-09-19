@@ -113,7 +113,7 @@ export default function AnalyticsDashboardPage() {
                 onClick={() => setRange(r)}
                 className={`px-3 py-1.5 rounded-lg transition-all ${
                   range === r
-                    ? "bg-solaki-teal text-white shadow-sm"
+                    ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 shadow-sm"
                     : "text-solaki-muted hover:text-white"
                 }`}
               >
@@ -128,14 +128,14 @@ export default function AnalyticsDashboardPage() {
             aria-label="Segarkan data"
             className="p-2.5 rounded-xl bg-solaki-surface hover:bg-white/5 border border-solaki-border text-solaki-muted hover:text-white transition-colors"
           >
-            <RefreshCw className={`w-4 h-4 ${refreshing ? "animate-spin text-solaki-teal" : ""}`} />
+            <RefreshCw className={`w-4 h-4 ${refreshing ? "animate-spin text-emerald-400" : ""}`} />
           </button>
         </div>
       </div>
 
       {loading && !data ? (
         <div className="h-64 flex flex-col items-center justify-center gap-3">
-          <RefreshCw className="w-8 h-8 animate-spin text-solaki-teal" />
+          <RefreshCw className="w-8 h-8 animate-spin text-emerald-400" />
           <p className="text-sm font-inter text-solaki-muted">Memuat data analitik website...</p>
         </div>
       ) : data ? (
@@ -166,7 +166,7 @@ export default function AnalyticsDashboardPage() {
                       <TrendingDown className="w-3.5 h-3.5" /> {data.viewsGrowth}%
                     </span>
                   )}
-                  <span className="text-solaki-subtle">vs periode sebelumnya</span>
+                  <span className="text-solaki-muted">vs periode sebelumnya</span>
                 </div>
               </div>
             </div>
@@ -195,7 +195,7 @@ export default function AnalyticsDashboardPage() {
                       <TrendingDown className="w-3.5 h-3.5" /> {data.visitorsGrowth}%
                     </span>
                   )}
-                  <span className="text-solaki-subtle">individu unik</span>
+                  <span className="text-solaki-muted">individu unik</span>
                 </div>
               </div>
             </div>
@@ -214,7 +214,7 @@ export default function AnalyticsDashboardPage() {
                 <div className="text-2xl sm:text-3xl font-black text-white">
                   {formatNumber(data.whatsappClicks)}
                 </div>
-                <p className="mt-2 text-xs text-solaki-subtle">
+                <p className="mt-2 text-xs text-solaki-muted">
                   Pengunjung menghubungi via WhatsApp
                 </p>
               </div>
@@ -234,7 +234,7 @@ export default function AnalyticsDashboardPage() {
                 <div className="text-2xl sm:text-3xl font-black text-white">
                   {data.deviceBreakdown.find((d) => d.name === "Mobile")?.percentage || 0}%
                 </div>
-                <div className="mt-2 text-xs text-solaki-subtle flex items-center gap-2">
+                <div className="mt-2 text-xs text-solaki-muted flex items-center gap-2">
                   <span>📱 HP: {data.deviceBreakdown.find((d) => d.name === "Mobile")?.percentage || 0}%</span>
                   <span>•</span>
                   <span>💻 Desktop: {data.deviceBreakdown.find((d) => d.name === "Desktop")?.percentage || 0}%</span>
@@ -344,7 +344,7 @@ export default function AnalyticsDashboardPage() {
                   <Compass className="w-4 h-4 text-solaki-teal" />
                   Halaman Terpopuler
                 </h3>
-                <span className="text-xs text-solaki-subtle font-inter">Kunjungan</span>
+                <span className="text-xs text-solaki-muted font-inter">Kunjungan</span>
               </div>
 
               {data.topPages.length > 0 ? (
@@ -357,7 +357,7 @@ export default function AnalyticsDashboardPage() {
                         </span>
                         <span className="font-semibold text-white/80">
                           {formatNumber(item.count)}{" "}
-                          <span className="text-[10px] text-solaki-subtle font-normal">
+                          <span className="text-[10px] text-solaki-muted font-normal">
                             ({item.percentage}%)
                           </span>
                         </span>
@@ -385,7 +385,7 @@ export default function AnalyticsDashboardPage() {
                   <Globe className="w-4 h-4 text-solaki-glow" />
                   Sumber Traffic (Referrers)
                 </h3>
-                <span className="text-xs text-solaki-subtle font-inter">Asal Pengunjung</span>
+                <span className="text-xs text-solaki-muted font-inter">Asal Pengunjung</span>
               </div>
 
               {data.topReferrers.length > 0 ? (
@@ -399,7 +399,7 @@ export default function AnalyticsDashboardPage() {
                         </span>
                         <span className="font-semibold text-white/80">
                           {formatNumber(ref.count)}{" "}
-                          <span className="text-[10px] text-solaki-subtle font-normal">
+                          <span className="text-[10px] text-solaki-muted font-normal">
                             ({ref.percentage}%)
                           </span>
                         </span>
@@ -447,7 +447,7 @@ export default function AnalyticsDashboardPage() {
                         </div>
                         <span className="font-bold text-white">
                           {dev.percentage}%{" "}
-                          <span className="font-normal text-solaki-subtle">
+                          <span className="font-normal text-solaki-muted">
                             ({formatNumber(dev.count)})
                           </span>
                         </span>
@@ -498,7 +498,7 @@ export default function AnalyticsDashboardPage() {
                           <p className="font-semibold text-white truncate font-mono">
                             {event.path === "/" ? "/ (Beranda)" : event.path}
                           </p>
-                          <p className="text-[11px] text-solaki-subtle truncate">
+                          <p className="text-[11px] text-solaki-muted truncate">
                             Via {event.referrer || "Direct"} • {event.device} • {event.browser}
                           </p>
                         </div>

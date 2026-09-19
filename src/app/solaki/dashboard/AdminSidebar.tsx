@@ -105,13 +105,13 @@ export default function AdminSidebar({ session }: { session?: SessionUser | null
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-colors font-inter ${
+              className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm transition-all font-inter ${
                 isActive
-                  ? "bg-solaki-teal text-white shadow-lg shadow-solaki-teal/20 font-semibold"
-                  : "text-solaki-muted hover:text-white hover:bg-white/5"
+                  ? "bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 shadow-md font-semibold"
+                  : "text-solaki-muted hover:text-white hover:bg-white/5 border border-transparent"
               }`}
             >
-              <Icon className="w-4 h-4" />
+              <Icon className={`w-4 h-4 ${isActive ? "text-emerald-400" : ""}`} />
               <span>{item.label}</span>
             </Link>
           );
@@ -132,7 +132,7 @@ export default function AdminSidebar({ session }: { session?: SessionUser | null
         {session && (
           <div className="px-3.5 py-2">
             <p className="text-xs font-semibold text-white truncate">{session.name}</p>
-            <p className="text-[11px] text-solaki-subtle truncate">{session.email}</p>
+            <p className="text-[11px] text-solaki-muted truncate">{session.email}</p>
           </div>
         )}
 

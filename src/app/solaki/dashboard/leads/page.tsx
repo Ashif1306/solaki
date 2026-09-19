@@ -104,7 +104,7 @@ export default function AdminLeadsPage() {
               onClick={() => setFilterStatus(tab.id)}
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors font-inter ${
                 filterStatus === tab.id
-                  ? "bg-solaki-teal text-white shadow-sm"
+                  ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 shadow-sm"
                   : "text-solaki-muted hover:text-white"
               }`}
             >
@@ -121,7 +121,7 @@ export default function AdminLeadsPage() {
         </div>
       ) : leads.length === 0 ? (
         <div className="bento-card p-16 text-center border-solaki-border">
-          <Inbox className="w-12 h-12 text-solaki-subtle mx-auto mb-3 opacity-40" />
+          <Inbox className="w-12 h-12 text-solaki-muted mx-auto mb-3 opacity-60" />
           <h3 className="text-lg font-bold text-white mb-1">Tidak Ada Pesan</h3>
           <p className="text-xs text-solaki-muted font-inter">
             {filterStatus === "all"
@@ -157,8 +157,8 @@ export default function AdminLeadsPage() {
                       </span>
                     </div>
                     <div className="flex flex-wrap items-center gap-4 text-xs text-solaki-muted font-inter mt-1">
-                      <span className="text-solaki-subtle">Layanan: <strong className="text-white">{lead.serviceChoice}</strong></span>
-                      <span className="flex items-center gap-1 text-solaki-subtle">
+                      <span className="text-solaki-muted">Layanan: <strong className="text-white">{lead.serviceChoice}</strong></span>
+                      <span className="flex items-center gap-1 text-solaki-muted">
                         <Calendar className="w-3.5 h-3.5" />
                         {createdDate}
                       </span>
@@ -177,13 +177,13 @@ export default function AdminLeadsPage() {
                           ? "bg-blue-500/10 text-blue-400 border-blue-500/20"
                           : lead.status === "converted"
                           ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
-                          : "bg-white/5 text-solaki-subtle border-white/10"
+                          : "bg-white/5 text-solaki-muted border-white/10"
                       }`}
                     >
-                      <option value="new" className="bg-solaki-card text-white">Status: Baru</option>
-                      <option value="contacted" className="bg-solaki-card text-white">Status: Dihubungi</option>
-                      <option value="converted" className="bg-solaki-card text-white">Status: Jadi Klien (Deal)</option>
-                      <option value="closed" className="bg-solaki-card text-white">Status: Ditutup</option>
+                      <option value="new" className="bg-[#14231d] text-white">Status: Baru</option>
+                      <option value="contacted" className="bg-[#14231d] text-white">Status: Dihubungi</option>
+                      <option value="converted" className="bg-[#14231d] text-white">Status: Jadi Klien (Deal)</option>
+                      <option value="closed" className="bg-[#14231d] text-white">Status: Ditutup</option>
                     </select>
 
                     <a
@@ -202,7 +202,7 @@ export default function AdminLeadsPage() {
 
                     <button
                       onClick={() => handleDelete(leadId)}
-                      className="p-1.5 rounded-lg text-solaki-subtle hover:text-red-400 hover:bg-red-500/10 transition-colors"
+                      className="p-1.5 rounded-lg text-solaki-muted hover:text-red-400 hover:bg-red-500/10 transition-colors"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -210,7 +210,7 @@ export default function AdminLeadsPage() {
                 </div>
 
                 {lead.notes && (
-                  <div className="p-3.5 rounded-xl bg-solaki-surface/80 border border-solaki-border text-xs text-solaki-muted font-inter leading-relaxed mt-2">
+                  <div className="p-3.5 rounded-xl bg-solaki-surface/80 border border-solaki-border text-xs text-slate-300 font-inter leading-relaxed mt-2">
                     <strong className="text-white">Pesan Klien:</strong> {lead.notes}
                   </div>
                 )}

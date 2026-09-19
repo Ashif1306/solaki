@@ -254,7 +254,7 @@ export default function AdminDashboardPage() {
             <div>
               <div className="flex items-center justify-between mb-3">
                 <item.icon className={`w-5 h-5 ${item.color}`} />
-                <ArrowUpRight className="w-4 h-4 text-solaki-subtle group-hover:text-white transition-colors" />
+                <ArrowUpRight className="w-4 h-4 text-solaki-muted group-hover:text-white transition-colors" />
               </div>
               <h2 className="text-base font-bold text-white mb-1 font-inter">{item.title}</h2>
               <p className="text-xs text-solaki-muted font-inter leading-relaxed">{item.desc}</p>
@@ -284,7 +284,7 @@ export default function AdminDashboardPage() {
           <p className="text-xs text-solaki-muted py-8 text-center font-inter">Memuat data...</p>
         ) : !stats?.recentLeads || stats.recentLeads.length === 0 ? (
           <div className="py-12 text-center">
-            <Inbox className="w-10 h-10 text-solaki-subtle mx-auto mb-3 opacity-40" />
+            <Inbox className="w-10 h-10 text-solaki-muted mx-auto mb-3 opacity-60" />
             <p className="text-sm font-semibold text-white font-inter">Belum ada pesan masuk</p>
             <p className="text-xs text-solaki-muted mt-1 font-inter">
               Pesan dari form kontak di halaman utama akan tampil di sini.
@@ -311,7 +311,7 @@ export default function AdminDashboardPage() {
                   return (
                     <tr key={leadId} className="hover:bg-white/[0.02]">
                       <td className="py-3.5 font-medium text-white">{lead.ownerName}</td>
-                      <td className="py-3.5 text-solaki-muted">{lead.businessName}</td>
+                      <td className="py-3.5 text-slate-300">{lead.businessName}</td>
                       <td className="py-3.5 text-xs text-solaki-teal font-semibold">
                         {lead.serviceChoice}
                       </td>

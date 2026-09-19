@@ -18,13 +18,13 @@
 
     /* Text */
     --color-text-primary: #FFFFFF;
-    --color-text-muted:   #8aada0;
-    --color-text-subtle:  #4d7a6a;
+    --color-text-muted:   #9dc2b5;
+    --color-text-subtle:  #7ca899;
 
     /* Brand accents — sesuai gambar */
     --color-green:        #013e37;    /* primary brand green */
     --color-green-light:  #025048;    /* lighter green */
-    --color-green-glow:   #0a7a5e;    /* glow / highlight */
+    --color-green-glow:   #10b981;    /* glow / highlight */
     --color-gold:         #dec83a;    /* yellow-gold accent */
     --color-gold-dark:    #c4af2a;    /* gold darker */
     --color-dark:         #212121;    /* near-black */
@@ -74,28 +74,29 @@
   --color-solaki-bg:          #0d1a17;
   --color-solaki-surface:     #111d18;
   --color-solaki-elevated:    #172620;
+  --color-solaki-card:        #14231d;
   --color-solaki-black:       #212121;
 
   /* Borders */
   --color-solaki-border:      #1e3329;
-  --color-solaki-border-l:    #234438;
+  --color-solaki-border-l:    #2a4a3b;
 
   /* Text */
   --color-solaki-text:        #FFFFFF;
-  --color-solaki-muted:       #8aada0;
-  --color-solaki-subtle:      #4d7a6a;
+  --color-solaki-muted:       #9dc2b5;
+  --color-solaki-subtle:      #7ca899;
 
   /* Brand palette — sesuai gambar */
   --color-solaki-green:       #013e37;
   --color-solaki-green-l:     #025048;
-  --color-solaki-glow:        #0a7a5e;
+  --color-solaki-glow:        #10b981;
   --color-solaki-gold:        #dec83a;
   --color-solaki-gold-d:      #c4af2a;
   --color-solaki-dark:        #212121;
 
   /* Legacy aliases (agar komponen lama tidak error) */
-  --color-solaki-teal:        #013e37;
-  --color-solaki-teal-l:      #025048;
+  --color-solaki-teal:        #10b981;
+  --color-solaki-teal-l:      #34d399;
   --color-solaki-coral:       #dec83a;
   --color-solaki-indigo:      #0a7a5e;
 
@@ -333,11 +334,13 @@ html.light ::selection {
 html.light .bg-solaki-bg    { background-color: #F5F5F5 !important; }
 html.light .bg-solaki-surface { background-color: #FFFFFF !important; }
 html.light .bg-solaki-elevated { background-color: #F0F0F0 !important; }
+html.light .bg-solaki-card   { background-color: #FFFFFF !important; }
 
 /* Text */
 html.light .text-white       { color: #111111 !important; }
 html.light .text-solaki-muted { color: #666666 !important; }
-html.light .text-solaki-subtle { color: #999999 !important; }
+html.light .text-solaki-subtle { color: #888888 !important; }
+html.light .text-solaki-teal  { color: #047857 !important; }
 
 /* Guaranteed text colors regardless of theme */
 .force-text-white { color: #FFFFFF !important; }
