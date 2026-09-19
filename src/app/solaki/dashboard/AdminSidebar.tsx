@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import type { SessionUser } from "@/lib/auth";
 import { useSiteBrand } from "@/hooks/useSiteBrand";
+import AdminLiveClock from "@/components/AdminLiveClock";
 
 export default function AdminSidebar({ session }: { session?: SessionUser | null }) {
   const pathname = usePathname();
@@ -95,6 +96,9 @@ export default function AdminSidebar({ session }: { session?: SessionUser | null
           </div>
         </div>
       </div>
+
+      {/* Live Location Clock */}
+      <AdminLiveClock variant="sidebar" />
 
       {/* Nav links */}
       <nav className="p-4 space-y-1.5 flex-1 overflow-y-auto [scrollbar-width:thin]">

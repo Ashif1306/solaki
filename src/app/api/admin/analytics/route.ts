@@ -12,24 +12,33 @@ export async function GET(request: Request) {
 
   const { searchParams } = new URL(request.url);
   const range = searchParams.get("range") || "7d";
+  const tzParam = searchParams.get("tz") || "Asia/Makassar";
+
+  let targetTimezone = "Asia/Makassar";
+  try {
+    new Intl.DateTimeFormat("en-US", { timeZone: tzParam }).format(new Date());
+    targetTimezone = tzParam;
+  } catch {
+    targetTimezone = "Asia/Makassar";
+  }
 
   const now = new Date();
   let startDate = new Date();
   let prevStartDate = new Date();
 
   if (range === "24h") {
-    startDate.setHours(now.getHours() - 24);
-    prevStartDate.setHours(now.getHours() - 48);
+    startDate = new Date(now.getTime() - 24 * 3600 * 1000);
+    prevStartDate = new Date(now.getTime() - 48 * 3600 * 1000);
   } else if (range === "30d") {
-    startDate.setDate(now.getDate() - 30);
-    prevStartDate.setDate(now.getDate() - 60);
+    startDate = new Date(now.getTime() - 30 * 86400 * 1000);
+    prevStartDate = new Date(now.getTime() - 60 * 86400 * 1000);
   } else if (range === "all") {
     startDate = new Date(2025, 0, 1);
     prevStartDate = new Date(2024, 0, 1);
   } else {
     // Default: 7d
-    startDate.setDate(now.getDate() - 7);
-    prevStartDate.setDate(now.getDate() - 14);
+    startDate = new Date(now.getTime() - 7 * 86400 * 1000);
+    prevStartDate = new Date(now.getTime() - 14 * 86400 * 1000);
   }
 
   try {
@@ -147,21 +156,51 @@ export async function GET(request: Request) {
         percentage: totalPageviews > 0 ? Math.round((count / totalPageviews) * 100) : 0,
       }));
 
+    // Timezone-aware date and hour formatters
+    const getHourKey = (date: Date) => {
+      const hourStr = new Intl.DateTimeFormat("id-ID", {
+        timeZone: targetTimezone,
+        hour: "2-digit",
+        hour12: false,
+      }).format(date);
+      const datePart = new Intl.DateTimeFormat("en-CA", {
+        timeZone: targetTimezone,
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      }).format(date);
+      return { key: `${datePart}-${hourStr}`, label: `${hourStr}:00` };
+    };
+
+    const getDayKey = (date: Date) => {
+      const dateLabel = date.toLocaleDateString("id-ID", {
+        timeZone: targetTimezone,
+        day: "numeric",
+        month: "short",
+      });
+      const datePart = new Intl.DateTimeFormat("en-CA", {
+        timeZone: targetTimezone,
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      }).format(date);
+      return { key: datePart, label: dateLabel };
+    };
+
     // Trend Data for Chart
     const trendMap = new Map<string, { label: string; views: number; visitors: Set<string> }>();
 
     if (range === "24h") {
-      // Group by hour
+      // Group by hour in target timezone
       for (let i = 23; i >= 0; i--) {
         const d = new Date(now.getTime() - i * 3600 * 1000);
-        const hourStr = `${d.getHours().toString().padStart(2, "0")}:00`;
-        const key = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}-${d.getHours()}`;
-        trendMap.set(key, { label: hourStr, views: 0, visitors: new Set() });
+        const { key, label } = getHourKey(d);
+        trendMap.set(key, { label, views: 0, visitors: new Set() });
       }
 
       pageviews.forEach((e) => {
         const d = new Date(e.createdAt);
-        const key = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}-${d.getHours()}`;
+        const { key } = getHourKey(d);
         const item = trendMap.get(key);
         if (item) {
           item.views++;
@@ -169,19 +208,17 @@ export async function GET(request: Request) {
         }
       });
     } else {
-      // Group by date (days)
+      // Group by date (days) in target timezone
       const dayCount = range === "30d" ? 30 : 7;
       for (let i = dayCount - 1; i >= 0; i--) {
-        const d = new Date();
-        d.setDate(d.getDate() - i);
-        const dateStr = d.toLocaleDateString("id-ID", { day: "numeric", month: "short" });
-        const key = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
-        trendMap.set(key, { label: dateStr, views: 0, visitors: new Set() });
+        const d = new Date(now.getTime() - i * 86400 * 1000);
+        const { key, label } = getDayKey(d);
+        trendMap.set(key, { label, views: 0, visitors: new Set() });
       }
 
       pageviews.forEach((e) => {
         const d = new Date(e.createdAt);
-        const key = `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+        const { key } = getDayKey(d);
         const item = trendMap.get(key);
         if (item) {
           item.views++;
@@ -198,6 +235,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json({
       range,
+      timezone: targetTimezone,
       totalPageviews,
       uniqueVisitors,
       viewsGrowth,

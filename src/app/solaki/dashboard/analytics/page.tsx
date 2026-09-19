@@ -27,6 +27,8 @@ import {
   ResponsiveContainer,
   CartesianGrid,
 } from "recharts";
+import AdminLiveClock from "@/components/AdminLiveClock";
+import { useAdminTimezone } from "@/hooks/useAdminTimezone";
 
 interface AnalyticsData {
   range: string;
@@ -52,15 +54,16 @@ interface AnalyticsData {
 }
 
 export default function AnalyticsDashboardPage() {
+  const { resolvedTimezone, tzCode, formatDateTime } = useAdminTimezone();
   const [data, setData] = useState<AnalyticsData | null>(null);
   const [loading, setLoading] = useState(true);
   const [range, setRange] = useState<"24h" | "7d" | "30d">("7d");
   const [refreshing, setRefreshing] = useState(false);
 
-  const fetchAnalytics = useCallback(async (selectedRange: string) => {
+  const fetchAnalytics = useCallback(async (selectedRange: string, tz: string) => {
     try {
       setRefreshing(true);
-      const res = await fetch(`/api/admin/analytics?range=${selectedRange}`);
+      const res = await fetch(`/api/admin/analytics?range=${selectedRange}&tz=${encodeURIComponent(tz)}`);
       if (res.ok) {
         const json = await res.json();
         setData(json);
@@ -74,8 +77,8 @@ export default function AnalyticsDashboardPage() {
   }, []);
 
   useEffect(() => {
-    fetchAnalytics(range);
-  }, [range, fetchAnalytics]);
+    fetchAnalytics(range, resolvedTimezone);
+  }, [range, resolvedTimezone, fetchAnalytics]);
 
   const formatNumber = (num: number) => num.toLocaleString("id-ID");
 
@@ -90,9 +93,9 @@ export default function AnalyticsDashboardPage() {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-solaki-border">
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 pb-6 border-b border-solaki-border">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-solaki-teal/10 border border-solaki-teal/20 text-solaki-teal text-xs font-semibold mb-2">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-xs font-semibold mb-2">
             <Activity className="w-3.5 h-3.5" />
             Website Traffic Analytics
           </div>
@@ -100,13 +103,15 @@ export default function AnalyticsDashboardPage() {
             Analitik Kunjungan Website
           </h1>
           <p className="text-xs sm:text-sm text-solaki-muted font-inter mt-1">
-            Pantau jumlah pengunjung, halaman populer, asal rujukan media sosial, dan konversi secara real-time.
+            Pantau jumlah pengunjung, halaman populer, dan konversi yang otomatis diselaraskan dengan waktu lokal Anda.
           </p>
         </div>
 
-        {/* Range Selector & Refresh */}
-        <div className="flex items-center gap-2.5 self-start sm:self-auto">
-          <div className="flex bg-solaki-surface p-1 rounded-xl border border-solaki-border text-xs font-semibold font-inter">
+        {/* Live Clock & Range Selector */}
+        <div className="flex flex-wrap items-center gap-3">
+          <AdminLiveClock variant="banner" />
+
+          <div className="flex items-center gap-2 bg-solaki-surface p-1 rounded-xl border border-solaki-border text-xs font-semibold font-inter">
             {(["24h", "7d", "30d"] as const).map((r) => (
               <button
                 key={r}
@@ -123,7 +128,7 @@ export default function AnalyticsDashboardPage() {
           </div>
 
           <button
-            onClick={() => fetchAnalytics(range)}
+            onClick={() => fetchAnalytics(range, resolvedTimezone)}
             disabled={refreshing}
             aria-label="Segarkan data"
             className="p-2.5 rounded-xl bg-solaki-surface hover:bg-white/5 border border-solaki-border text-solaki-muted hover:text-white transition-colors"
@@ -248,11 +253,15 @@ export default function AnalyticsDashboardPage() {
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
               <div>
                 <h2 className="text-lg font-bold text-white tracking-tight flex items-center gap-2">
-                  <TrendingUp className="w-4 h-4 text-solaki-teal" />
+                  <TrendingUp className="w-4 h-4 text-emerald-400" />
                   Tren Kunjungan ({range === "24h" ? "24 Jam Terakhir" : range === "7d" ? "7 Hari Terakhir" : "30 Hari Terakhir"})
                 </h2>
-                <p className="text-xs text-solaki-muted font-inter mt-0.5">
-                  Perbandingan Total Pageviews dan Pengunjung Unik harian
+                <p className="text-xs text-solaki-muted font-inter mt-0.5 flex items-center gap-1.5 flex-wrap">
+                  <span>Perbandingan Total Pageviews & Pengunjung Unik</span>
+                  <span>•</span>
+                  <span className="text-emerald-400 font-semibold font-mono">
+                    Zona Waktu: {tzCode} ({resolvedTimezone})
+                  </span>
                 </p>
               </div>
 
@@ -505,7 +514,10 @@ export default function AnalyticsDashboardPage() {
                       </div>
 
                       <div className="flex-shrink-0 text-right">
-                        <span className="text-[11px] text-solaki-muted">
+                        <span className="text-[11px] text-white font-mono font-medium block">
+                          {formatDateTime(event.createdAt).split(", ")[1] || formatDateTime(event.createdAt)}
+                        </span>
+                        <span className="text-[10px] text-solaki-muted block">
                           {timeAgo(event.createdAt)}
                         </span>
                       </div>

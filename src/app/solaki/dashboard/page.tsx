@@ -14,6 +14,8 @@ import {
   Activity,
   Globe,
 } from "lucide-react";
+import AdminLiveClock from "@/components/AdminLiveClock";
+import { useAdminTimezone } from "@/hooks/useAdminTimezone";
 
 interface DashboardStats {
   totalLeads: number;
@@ -41,6 +43,7 @@ interface AnalyticsSnapshot {
 }
 
 export default function AdminDashboardPage() {
+  const { resolvedTimezone } = useAdminTimezone();
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [analytics, setAnalytics] = useState<AnalyticsSnapshot | null>(null);
   const [loading, setLoading] = useState(true);
@@ -48,7 +51,9 @@ export default function AdminDashboardPage() {
   useEffect(() => {
     Promise.all([
       fetch("/api/admin/stats").then((res) => res.json()).catch(() => null),
-      fetch("/api/admin/analytics?range=7d").then((res) => res.json()).catch(() => null),
+      fetch(`/api/admin/analytics?range=7d&tz=${encodeURIComponent(resolvedTimezone)}`)
+        .then((res) => res.json())
+        .catch(() => null),
     ])
       .then(([statsData, analyticsData]) => {
         if (statsData) setStats(statsData);
@@ -63,14 +68,14 @@ export default function AdminDashboardPage() {
         setLoading(false);
       })
       .catch(() => setLoading(false));
-  }, []);
+  }, [resolvedTimezone]);
 
   return (
     <div className="space-y-8">
       {/* Top Welcome Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-6 border-b border-solaki-border">
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 pb-6 border-b border-solaki-border">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-solaki-teal/10 border border-solaki-teal/20 text-solaki-teal text-xs font-semibold mb-2">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-xs font-semibold mb-2">
             <Sparkles className="w-3.5 h-3.5" />
             SOLAKI Control Center
           </div>
@@ -79,22 +84,27 @@ export default function AdminDashboardPage() {
             Kelola konten website, pantau leads masuk, dan perbarui portofolio agensi secara terpusat.
           </p>
         </div>
-        <div className="flex items-center gap-3">
-          <Link
-            href="/"
-            target="_blank"
-            className="btn-secondary py-2.5 px-4 text-xs font-semibold flex items-center gap-2"
-          >
-            Lihat Website
-            <ExternalLink className="w-3.5 h-3.5" />
-          </Link>
-          <Link
-            href="/solaki/dashboard/leads"
-            className="btn-primary py-2.5 px-4 text-xs font-semibold flex items-center gap-2"
-          >
-            <Inbox className="w-3.5 h-3.5" />
-            Lihat Pesan Masuk
-          </Link>
+
+        <div className="flex flex-wrap items-center gap-3">
+          <AdminLiveClock variant="banner" />
+
+          <div className="flex items-center gap-2">
+            <Link
+              href="/"
+              target="_blank"
+              className="btn-secondary py-2.5 px-4 text-xs font-semibold flex items-center gap-2"
+            >
+              Lihat Website
+              <ExternalLink className="w-3.5 h-3.5" />
+            </Link>
+            <Link
+              href="/solaki/dashboard/leads"
+              className="btn-primary py-2.5 px-4 text-xs font-semibold flex items-center gap-2"
+            >
+              <Inbox className="w-3.5 h-3.5" />
+              Lihat Pesan Masuk
+            </Link>
+          </div>
         </div>
       </div>
 
