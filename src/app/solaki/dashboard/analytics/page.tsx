@@ -345,13 +345,13 @@ export default function AnalyticsDashboardPage() {
               </div>
             </div>
 
-            {/* Row 2: Action Analysis (Layer 2 & Layer 4 Sesuai Pertemuan II.pdf) */}
+            {/* Row 2: Action Analysis (Layer 2 & Layer 4) */}
             <div className="admin-action-box-analytics p-6 rounded-2xl border space-y-5 transition-colors duration-300">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-solaki-border/40 pb-4">
                 <div>
                   <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-solaki-teal mb-1">
                     <Target className="w-4 h-4" />
-                    Layer 2 & Layer 4 Action Analysis (Pertemuan II)
+                    Layer 2 & Layer 4 Action Analysis
                   </div>
                   <h3 className="text-lg font-black text-white">
                     Metrik Efektivitas Interaksi & Rasio Konversi
@@ -359,7 +359,7 @@ export default function AnalyticsDashboardPage() {
                 </div>
                 <div className="text-xs text-solaki-muted font-inter flex items-center gap-2">
                   <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                  <span>Formula Standar Dr. Valentino Aris / Gohar F. Khan</span>
+                  <span>Standar Analitik Web Traffic</span>
                 </div>
               </div>
 
@@ -459,14 +459,14 @@ export default function AnalyticsDashboardPage() {
                 </div>
               </div>
 
-              {/* Marketing Interpretation Box (Slide 21 & 22) */}
+              {/* Marketing Interpretation Box */}
               <div className="admin-interpretation-analytics p-4 rounded-xl border flex items-start gap-3.5 transition-colors duration-300">
                 <div className="w-9 h-9 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 flex-shrink-0 mt-0.5">
                   <Sparkles className="w-4.5 h-4.5" />
                 </div>
                 <div>
                   <h4 className="text-xs font-bold uppercase tracking-wider text-emerald-400 font-inter mb-1">
-                    Interpretasi Pemasaran & Rekomendasi Taktis (Slide 21 & 22)
+                    Interpretasi Pemasaran & Rekomendasi Taktis
                   </h4>
                   <p className="text-xs text-white/90 font-inter leading-relaxed">
                     {data.interpretation}
@@ -651,7 +651,7 @@ export default function AnalyticsDashboardPage() {
             <div className="admin-report-footer pt-4 border-t border-solaki-border/40 flex flex-col sm:flex-row items-center justify-between gap-2 text-[10px] text-solaki-muted font-inter">
               <p>© {new Date().getFullYear()} SOLAKI Creative Agency • Performance Intelligence</p>
               <p className="text-solaki-teal font-medium">
-                Framework: 7 Layers of Social Media Analytics (Dr. Valentino Aris, S.Kom., M.M.)
+                Framework: 7 Layers of Social Media Analytics
               </p>
             </div>
           </div>

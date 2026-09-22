@@ -349,7 +349,7 @@ export default function InsightsPage() {
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-semibold mb-2">
             <BarChart3 className="w-3.5 h-3.5" />
-            SOLAKI / INSTAGRAM INSIGHTS • 7 LAYERS FRAMEWORK
+            SOLAKI / INSTAGRAM INSIGHTS
           </div>
           <h1 className="text-3xl font-black text-white tracking-tight">
             Analitik Konten Instagram
@@ -441,13 +441,13 @@ export default function InsightsPage() {
           </div>
         </div>
 
-        {/* ── Action Analysis (Layer 2 & Layer 4 Sesuai Pertemuan II.pdf) ── */}
+        {/* ── Action Analysis (Layer 2 & Layer 4) ── */}
         <div className="admin-action-box-insights p-6 rounded-2xl border space-y-5 transition-colors duration-300">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-solaki-border/40 pb-4">
             <div>
               <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-pink-400 mb-1">
                 <Target className="w-4 h-4" />
-                Layer 2 & Layer 4 Action Analysis (Pertemuan II)
+                Layer 2 & Layer 4 Action Analysis
               </div>
               <h3 className="text-lg font-black text-white">
                 Metrik Efektivitas Konten Sosial (ER, CTR, Amplification & Conversation)
@@ -455,7 +455,7 @@ export default function InsightsPage() {
             </div>
             <div className="text-xs text-solaki-muted font-inter flex items-center gap-2">
               <span className="inline-block w-2 h-2 rounded-full bg-pink-400 animate-ping" />
-              <span>Formula Standar Dr. Valentino Aris / Gohar F. Khan</span>
+              <span>Standar Analisis Media Sosial</span>
             </div>
           </div>
 
@@ -470,9 +470,7 @@ export default function InsightsPage() {
                 {agg.avgER}
               </div>
               <div className="mt-2 text-[11px] text-solaki-muted font-mono leading-tight">
-                {agg.followersCount && agg.followersCount > 0
-                  ? "(Interaksi / (Followers × Post)) × 100%"
-                  : "(Total Interaksi / Views) × 100%"}
+                Rumus: (Total Engagements / Impressions) × 100%
               </div>
               <div className="mt-2.5">
                 <span
@@ -500,7 +498,7 @@ export default function InsightsPage() {
                 {agg.avgCTR}
               </div>
               <div className="mt-2 text-[11px] text-solaki-muted font-mono leading-tight">
-                Rumus: (Simpan + Bagikan / Views) × 100%
+                Rumus: (Clicks / Impressions) × 100%
               </div>
               <div className="mt-2.5">
                 <span
@@ -516,7 +514,7 @@ export default function InsightsPage() {
               </div>
             </div>
 
-            {/* Amplification Rate Card (Slide 18) */}
+            {/* Amplification Rate Card */}
             <div className="admin-action-subcard p-4 rounded-xl border transition-all">
               <div className="flex items-center justify-between text-xs text-solaki-muted mb-1 font-inter">
                 <span className="font-bold text-white uppercase tracking-wider">Amplification Rate</span>
@@ -535,7 +533,7 @@ export default function InsightsPage() {
               </div>
             </div>
 
-            {/* Conversation Rate Card (Slide 18) */}
+            {/* Conversation Rate Card */}
             <div className="admin-action-subcard p-4 rounded-xl border transition-all">
               <div className="flex items-center justify-between text-xs text-solaki-muted mb-1 font-inter">
                 <span className="font-bold text-white uppercase tracking-wider">Conversation Rate</span>
@@ -555,20 +553,20 @@ export default function InsightsPage() {
             </div>
           </div>
 
-          {/* Marketing Interpretation Box (Slide 21 & 22) */}
+          {/* Marketing Interpretation Box */}
           <div className="admin-interpretation-insights p-4 rounded-xl border flex items-start gap-3.5 transition-colors duration-300">
             <div className="w-9 h-9 rounded-lg bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-400 flex-shrink-0 mt-0.5">
               <Sparkles className="w-4.5 h-4.5" />
             </div>
             <div>
               <h4 className="text-xs font-bold uppercase tracking-wider text-purple-400 font-inter mb-1">
-                Interpretasi Pemasaran & Rekomendasi Taktis (Slide 21 & 22)
+                Interpretasi Pemasaran & Rekomendasi Taktis
               </h4>
               <p className="text-xs text-white/90 font-inter leading-relaxed">
                 {agg.interpretation || "Menganalisis keseimbangan ER vs CTR konten..."}
               </p>
               <p className="text-[11px] text-solaki-muted font-inter mt-1.5">
-                *Acuan evaluasi: <em>“Jika CTR tinggi & ER rendah → konten punya CTA bagus, tapi interaksi visual kurang. Keseimbangan ideal jika ER & CTR berada di atas rata-rata industri (Pertemuan II).”</em>
+                *Acuan evaluasi: <em>“Jika CTR tinggi & ER rendah → konten punya CTA bagus, tapi interaksi visual kurang. Keseimbangan ideal jika ER & CTR berada di atas rata-rata industri.”</em>
               </p>
             </div>
           </div>
@@ -854,7 +852,7 @@ export default function InsightsPage() {
       <div className="admin-report-footer pt-4 border-t border-solaki-border/40 flex flex-col sm:flex-row items-center justify-between gap-2 text-[10px] text-solaki-muted font-inter">
         <p>© {new Date().getFullYear()} SOLAKI Creative Agency • Instagram Content Intelligence</p>
         <p className="text-pink-400 font-medium">
-          Framework: 7 Layers of Social Media Analytics (Dr. Valentino Aris, S.Kom., M.M.)
+          Framework: 7 Layers of Social Media Analytics
         </p>
       </div>
     </div>

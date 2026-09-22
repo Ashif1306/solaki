@@ -34,7 +34,7 @@ export async function GET() {
       }
     }
 
-    // ── Aggregate stats ──────────────────────────────────────────
+    // ── Aggregate stats (Sesuai Panduan Slide 18 & 20 Pertemuan II.pdf) ──
     const totalViews = items.reduce((s, i) => s + (i.views || 0), 0);
     const totalLikes = items.reduce((s, i) => s + (i.likes || 0), 0);
     const totalComments = items.reduce((s, i) => s + (i.comments || 0), 0);
@@ -42,31 +42,26 @@ export async function GET() {
     const totalSaves = items.reduce((s, i) => s + (i.saves || 0), 0);
     const totalInteractions = totalLikes + totalComments + totalShares + totalSaves;
 
-    // Average ER across all posts
-    // Formula standard: (Total Interactions / (Followers * Posts)) * 100%
-    let avgER = "0.00";
-    if (followersCount > 0 && items.length > 0) {
-      avgER = ((totalInteractions / (followersCount * items.length)) * 100).toFixed(2);
-    } else {
-      const erValues = items
-        .map((i) => parseFloat((i.engagementRate || "0").replace(/[^0-9.]/g, "")))
-        .filter((v) => v > 0);
-      avgER =
-        erValues.length > 0
-          ? (erValues.reduce((s, v) => s + v, 0) / erValues.length).toFixed(2)
-          : "0.00";
-    }
+    // 1. Engagement Rate (ER) Slide 18 & 20:
+    // ER = (Total Engagements / Total Impressions) * 100%
+    // Di mana Total Engagements = Likes + Comments + Shares + Clicks (Saves)
+    const avgER = totalViews > 0
+      ? ((totalInteractions / totalViews) * 100).toFixed(2)
+      : items.length > 0 && followersCount > 0
+      ? ((totalInteractions / (followersCount * items.length)) * 100).toFixed(2)
+      : "0.00";
 
-    // Average CTR across all posts (stored in reachMultiplier field)
-    const ctrValues = items
-      .map((i) => parseFloat((i.reachMultiplier || "0").replace(/[^0-9.]/g, "")))
-      .filter((v) => v > 0);
-    const avgCTR =
-      ctrValues.length > 0
-        ? (ctrValues.reduce((s, v) => s + v, 0) / ctrValues.length).toFixed(2)
-        : "0.00";
+    // 2. Click-Through Rate (CTR) Slide 18 & 20:
+    // CTR = (Clicks / Total Impressions) * 100%
+    // Di Instagram, aksi intensi konversi (simpan & bagikan / link profile) dihitung sebagai clicks
+    const totalClicks = totalSaves + totalShares;
+    const avgCTR = totalViews > 0
+      ? ((totalClicks / totalViews) * 100).toFixed(2)
+      : "0.00";
 
-    // Amplification Rate & Conversation Rate (Slide 18 & 20 - Pertemuan II.pdf)
+    // 3. Amplification Rate & 4. Conversation Rate (Slide 18 & 20):
+    // Amplification Rate = (Shares per post / Total followers) * 100%
+    // Conversation Rate = (Comments per post / Total followers) * 100%
     const postCount = Math.max(items.length, 1);
     const denom = followersCount > 0 ? followersCount : Math.max(totalViews / postCount, 1);
     const avgSharesPerPost = totalShares / postCount;
@@ -93,25 +88,18 @@ export async function GET() {
         "Perlu optimasi format konten visual (carousel edukasi & reels) serta ajakan aksi terarah untuk mencapai standar benchmark UMKM (ER: 3-6%).";
     }
 
-    // ── Per-post breakdown with computed ER & CTR ────────────────
+    // ── Per-post breakdown with computed ER & CTR (Slide 18 & 20) ─
     const postsBreakdown = items.map((item) => {
       const interactions = (item.likes || 0) + (item.comments || 0) + (item.saves || 0) + (item.shares || 0);
-      const erDenominator = followersCount > 0
-        ? followersCount
-        : Math.max(item.views || item.likes * 10, 1);
+      const impressions = Math.max(item.views || (item.likes * 10), 1);
       
-      // Use stored ER if available and formatted, otherwise recalculate
-      const parsedStoredER = parseFloat((item.engagementRate || "").replace(/[^0-9.]/g, ""));
-      const erNum = !isNaN(parsedStoredER) && parsedStoredER > 0 && followersCount === 0
-        ? parsedStoredER
-        : parseFloat(((interactions / erDenominator) * 100).toFixed(2));
+      // ER = (Total Engagements / Impressions) * 100%
+      const erNum = parseFloat(((interactions / impressions) * 100).toFixed(2));
       const erStr = `${erNum.toFixed(2)}%`;
 
-      const storedCTR = parseFloat((item.reachMultiplier || "").replace(/[^0-9.]/g, ""));
-      const viewBase = Math.max(item.views || (item.likes * 10), 1);
-      const ctrNum = !isNaN(storedCTR) && storedCTR > 0
-        ? storedCTR
-        : parseFloat((((item.saves || 0) + (item.shares || 0)) / viewBase * 100).toFixed(2));
+      // CTR = (Clicks / Impressions) * 100%
+      const postClicks = (item.saves || 0) + (item.shares || 0);
+      const ctrNum = parseFloat(((postClicks / impressions) * 100).toFixed(2));
       const ctrStr = `${ctrNum.toFixed(2)}%`;
 
       return {
