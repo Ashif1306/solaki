@@ -6,6 +6,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -143,6 +144,7 @@ export default function RootLayout({
             <AnalyticsTracker />
           </Suspense>
           <Analytics />
+          <SpeedInsights />
           {children}
         </ThemeProvider>
       </body>
