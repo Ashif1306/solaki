@@ -102,9 +102,30 @@ export async function GET(request: Request) {
       ? Math.round(((uniqueVisitors - prevVisitors) / prevVisitors) * 100)
       : uniqueVisitors > 0 ? 100 : 0;
 
-    // Conversions
+    // Conversions & Action Analysis (Layer 2 & Layer 4 - Pertemuan II.pdf)
     const whatsappClicks = currentEvents.filter((e) => e.type === "whatsapp_click").length;
     const chatbotOpens = currentEvents.filter((e) => e.type === "chatbot_open").length;
+    const totalEngagements = whatsappClicks + chatbotOpens;
+
+    const baseDenom = totalPageviews || 1;
+    const er = Number(((totalEngagements / baseDenom) * 100).toFixed(2));
+    const ctr = Number(((whatsappClicks / baseDenom) * 100).toFixed(2));
+    const conversionRate = Number(((whatsappClicks / (uniqueVisitors || 1)) * 100).toFixed(2));
+
+    let interpretation = "";
+    if (ctr >= 1.5 && er >= 3.0) {
+      interpretation =
+        "Keseimbangan Ideal: Nilai ER dan CTR berada di atas rata-rata benchmark industri UMKM. Konten menarik dan CTA sangat efektif mengarahkan pengunjung ke aksi konversi.";
+    } else if (ctr >= 1.5 && er < 3.0) {
+      interpretation =
+        "Konten memiliki Call-to-Action (CTA) yang sangat kuat dan efektif, namun keterlibatan visual/cerita konten masih dapat ditingkatkan agar pengunjung lebih lama mengeksplorasi web.";
+    } else if (ctr < 1.5 && er >= 3.0) {
+      interpretation =
+        "Pengunjung aktif berinteraksi dengan konten, namun dorongan aksi menuju WhatsApp/CTA perlu diperjelas dengan penawaran atau copywriting yang lebih persuasif.";
+    } else {
+      interpretation =
+        "Konten dan Call-to-Action perlu dioptimalkan agar lebih persuasif dan memicu interaksi sesuai standar UMKM (Target ER: 3-6%, Target CTR: >1.5%).";
+    }
 
     // Device breakdown
     const deviceCounts: Record<string, number> = { mobile: 0, desktop: 0, tablet: 0 };
@@ -242,6 +263,11 @@ export async function GET(request: Request) {
       visitorsGrowth,
       whatsappClicks,
       chatbotOpens,
+      totalEngagements,
+      er,
+      ctr,
+      conversionRate,
+      interpretation,
       deviceBreakdown,
       topPages,
       topReferrers,

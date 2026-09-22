@@ -63,8 +63,35 @@ export async function GET() {
       .filter((v) => v > 0);
     const avgCTR =
       ctrValues.length > 0
-        ? (ctrValues.reduce((s, v) => s + v, 0) / ctrValues.length).toFixed(1)
-        : "0.0";
+        ? (ctrValues.reduce((s, v) => s + v, 0) / ctrValues.length).toFixed(2)
+        : "0.00";
+
+    // Amplification Rate & Conversation Rate (Slide 18 & 20 - Pertemuan II.pdf)
+    const postCount = Math.max(items.length, 1);
+    const denom = followersCount > 0 ? followersCount : Math.max(totalViews / postCount, 1);
+    const avgSharesPerPost = totalShares / postCount;
+    const avgCommentsPerPost = totalComments / postCount;
+
+    const amplificationRate = ((avgSharesPerPost / denom) * 100).toFixed(2);
+    const conversationRate = ((avgCommentsPerPost / denom) * 100).toFixed(2);
+
+    let interpretation = "";
+    const erNum = parseFloat(avgER);
+    const ctrNum = parseFloat(avgCTR);
+
+    if (ctrNum >= 1.5 && erNum >= 3.0) {
+      interpretation =
+        "Keseimbangan Ideal: Nilai ER dan CTR berada di atas rata-rata benchmark industri UMKM. Konten menarik dan CTA sangat efektif.";
+    } else if (ctrNum >= 1.5 && erNum < 3.0) {
+      interpretation =
+        "Konten memiliki CTA/ajakan aksi yang efektif, namun storytelling dan estetika visual perlu ditingkatkan untuk mendongkrak engagement.";
+    } else if (ctrNum < 1.5 && erNum >= 3.0) {
+      interpretation =
+        "Audiens menyukai dan menikmati konten Anda, namun kurang terdorong untuk mengklik link/CTA. Perjelas penawaran di bio & story.";
+    } else {
+      interpretation =
+        "Perlu optimasi format konten visual (carousel edukasi & reels) serta ajakan aksi terarah untuk mencapai standar benchmark UMKM (ER: 3-6%).";
+    }
 
     // ── Per-post breakdown with computed ER & CTR ────────────────
     const postsBreakdown = items.map((item) => {
@@ -147,6 +174,9 @@ export async function GET() {
         followersCount,
         avgER: `${avgER}%`,
         avgCTR: `${avgCTR}%`,
+        amplificationRate: `${amplificationRate}%`,
+        conversationRate: `${conversationRate}%`,
+        interpretation,
       },
       posts: postsBreakdown,
       topPerformers: {

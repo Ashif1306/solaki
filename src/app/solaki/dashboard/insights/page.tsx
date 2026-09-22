@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Eye,
   Heart,
@@ -16,7 +16,15 @@ import {
   ExternalLink,
   ArrowUpRight,
   MousePointerClick,
+  Download,
+  Sparkles,
+  Target,
+  Percent,
+  CheckCircle2,
 } from "lucide-react";
+import { toPng } from "html-to-image";
+import { useAdminTimezone } from "@/hooks/useAdminTimezone";
+import { useSiteBrand } from "@/hooks/useSiteBrand";
 
 /* ── Types ─────────────────────────────────────── */
 interface AggregateStats {
@@ -30,6 +38,9 @@ interface AggregateStats {
   followersCount?: number;
   avgER: string;
   avgCTR: string;
+  amplificationRate?: string;
+  conversationRate?: string;
+  interpretation?: string;
 }
 
 interface PostInsight {
@@ -206,12 +217,16 @@ type SortKey = "er" | "ctr" | "views" | "likes" | "comments";
 
 /* ── Main Page ─────────────────────────────────── */
 export default function InsightsPage() {
+  const { resolvedTimezone, tzCode } = useAdminTimezone();
+  const { brand } = useSiteBrand();
   const [data, setData] = useState<InsightsData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<SortKey>("er");
   const [syncing, setSyncing] = useState(false);
   const [syncMsg, setSyncMsg] = useState<string | null>(null);
+  const [downloadingImage, setDownloadingImage] = useState(false);
+  const reportRef = useRef<HTMLDivElement>(null);
 
   const fetchInsights = async () => {
     setLoading(true);
@@ -249,6 +264,28 @@ export default function InsightsPage() {
     } finally {
       setSyncing(false);
       setTimeout(() => setSyncMsg(null), 5000);
+    }
+  };
+
+  const handleDownloadImage = async () => {
+    if (!reportRef.current) return;
+    try {
+      setDownloadingImage(true);
+      const dataUrl = await toPng(reportRef.current, {
+        cacheBust: true,
+        pixelRatio: 2,
+        backgroundColor: "#0B0F17",
+      });
+      const link = document.createElement("a");
+      const dateTag = new Date().toISOString().slice(0, 10);
+      link.download = `SOLAKI-Instagram-Insights-${dateTag}.png`;
+      link.href = dataUrl;
+      link.click();
+    } catch (err) {
+      console.error("Failed to export image:", err);
+      alert("Gagal mengunduh gambar analitik Instagram. Silakan coba kembali.");
+    } finally {
+      setDownloadingImage(false);
     }
   };
 
@@ -311,7 +348,7 @@ export default function InsightsPage() {
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-xs font-semibold mb-2">
             <BarChart3 className="w-3.5 h-3.5" />
-            SOLAKI / INSTAGRAM INSIGHTS
+            SOLAKI / INSTAGRAM INSIGHTS • 7 LAYERS FRAMEWORK
           </div>
           <h1 className="text-3xl font-black text-white tracking-tight">
             Analitik Konten Instagram
@@ -325,11 +362,26 @@ export default function InsightsPage() {
             )}
           </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
+          {/* Download Image Button */}
+          <button
+            onClick={handleDownloadImage}
+            disabled={downloadingImage || loading || !data}
+            className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 via-pink-600 to-rose-600 hover:from-purple-500 hover:to-rose-500 text-white text-xs font-bold transition-all shadow-md hover:shadow-lg shadow-purple-500/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            title="Download seluruh hasil insight dan metrik dalam bentuk gambar PNG"
+          >
+            {downloadingImage ? (
+              <RefreshCw className="w-4 h-4 animate-spin" />
+            ) : (
+              <Download className="w-4 h-4" />
+            )}
+            <span>{downloadingImage ? "Membuat Gambar..." : "Download Gambar Insight"}</span>
+          </button>
+
           <button
             onClick={handleSync}
             disabled={syncing}
-            className="btn-secondary py-2.5 px-4 text-xs font-semibold flex items-center gap-2 disabled:opacity-50"
+            className="btn-secondary py-2.5 px-4 text-xs font-semibold flex items-center gap-2 disabled:opacity-50 cursor-pointer"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${syncing ? "animate-spin" : ""}`} />
             {syncing ? "Menarik data..." : "Sinkronkan Instagram"}
@@ -350,49 +402,220 @@ export default function InsightsPage() {
         </div>
       )}
 
-      {/* ── Section 1: Hero Stat Cards ──────────────── */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard
-          icon={Eye}
-          label="Total Views"
-          value={fmtNum(agg.totalViews)}
-          subtitle={`${agg.totalPosts} postingan`}
-          color="text-blue-400"
-          bgColor="bg-blue-500/10"
-          borderColor="border-blue-500/20"
-        />
-        <StatCard
-          icon={Heart}
-          label="Total Likes"
-          value={fmtNum(agg.totalLikes)}
-          subtitle={`${((agg.totalLikes / Math.max(agg.totalViews, 1)) * 100).toFixed(1)}% like rate`}
-          color="text-rose-400"
-          bgColor="bg-rose-500/10"
-          borderColor="border-rose-500/20"
-        />
-        <StatCard
-          icon={TrendingUp}
-          label="Avg. Engagement Rate"
-          value={agg.avgER}
-          subtitle={
-            agg.followersCount && agg.followersCount > 0
-              ? `ER = Interaksi / ${fmtNum(agg.followersCount)} Followers`
-              : "ER = (Interaksi / Followers) × 100%"
-          }
-          color="text-emerald-400"
-          bgColor="bg-emerald-500/10"
-          borderColor="border-emerald-500/20"
-        />
-        <StatCard
-          icon={MousePointerClick}
-          label="Avg. CTR (Conversion)"
-          value={agg.avgCTR}
-          subtitle="CTR = (Profile Visits + Simpan + Bagikan) / Views"
-          color="text-amber-400"
-          bgColor="bg-amber-500/10"
-          borderColor="border-amber-500/20"
-        />
-      </div>
+      {/* ── Main Printable / Downloadable Report Container ── */}
+      <div ref={reportRef} className="space-y-6 p-1 sm:p-2 rounded-3xl bg-[#0B0F17]">
+        {/* Infographic Top Banner (Visible in PNG export) */}
+        <div className="p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-purple-950/30 via-[#0B0F17] to-pink-950/20 border border-purple-500/25 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-3.5">
+            {brand.logoType === "image" && brand.logoImageUrl ? (
+              <div className="w-11 h-11 rounded-xl border border-white/20 bg-white/10 overflow-hidden flex items-center justify-center flex-shrink-0">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={brand.logoImageUrl} alt="SOLAKI" className="w-full h-full object-cover" />
+              </div>
+            ) : (
+              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-purple-600 via-pink-600 to-rose-600 flex items-center justify-center text-white font-black text-lg shadow-md">
+                S
+              </div>
+            )}
+            <div>
+              <h2 className="text-lg sm:text-xl font-black text-white tracking-tight flex items-center gap-2">
+                <span>SOLAKI DIGITAL</span>
+                <span className="text-xs font-bold uppercase tracking-wider text-pink-400 px-2 py-0.5 rounded-full bg-pink-500/10 border border-pink-500/20">
+                  Instagram Insights Report
+                </span>
+              </h2>
+              <p className="text-xs text-solaki-muted font-inter">
+                Laporan Kinerja Konten, Interaksi Sosial & Action Analysis (Layer 2 & Layer 4)
+              </p>
+            </div>
+          </div>
+
+          <div className="text-left sm:text-right text-xs font-inter text-solaki-muted">
+            <p className="text-white font-semibold">
+              Postingan: {agg.totalPosts} Konten · {agg.followersCount && agg.followersCount > 0 ? `${fmtNum(agg.followersCount)} Followers` : "Akun Terhubung"}
+            </p>
+            <p className="text-[11px] text-purple-400 font-mono mt-0.5">
+              Zona Waktu: {tzCode} ({resolvedTimezone})
+            </p>
+          </div>
+        </div>
+
+        {/* ── Action Analysis (Layer 2 & Layer 4 Sesuai Pertemuan II.pdf) ── */}
+        <div className="p-6 rounded-2xl bg-gradient-to-b from-[#141226] to-[#0D1424] border border-purple-500/30 space-y-5">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
+            <div>
+              <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-pink-400 mb-1">
+                <Target className="w-4 h-4" />
+                Layer 2 & Layer 4 Action Analysis (Pertemuan II)
+              </div>
+              <h3 className="text-lg font-black text-white">
+                Metrik Efektivitas Konten Sosial (ER, CTR, Amplification & Conversation)
+              </h3>
+            </div>
+            <div className="text-xs text-solaki-muted font-inter flex items-center gap-2">
+              <span className="inline-block w-2 h-2 rounded-full bg-pink-400 animate-ping" />
+              <span>Formula Standar Dr. Valentino Aris / Gohar F. Khan</span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* Engagement Rate (ER) Card */}
+            <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:border-emerald-500/40 transition-all">
+              <div className="flex items-center justify-between text-xs text-solaki-muted mb-1 font-inter">
+                <span className="font-bold text-white uppercase tracking-wider">Engagement Rate (ER)</span>
+                <Zap className="w-4 h-4 text-emerald-400" />
+              </div>
+              <div className="text-3xl font-black text-emerald-400 mt-2">
+                {agg.avgER}
+              </div>
+              <div className="mt-2 text-[11px] text-solaki-muted font-mono leading-tight">
+                {agg.followersCount && agg.followersCount > 0
+                  ? "(Interaksi / (Followers × Post)) × 100%"
+                  : "(Total Interaksi / Views) × 100%"}
+              </div>
+              <div className="mt-2.5">
+                <span
+                  className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                    parseFloat(agg.avgER) >= 3.0
+                      ? "bg-emerald-500/15 text-emerald-300 border border-emerald-500/30"
+                      : parseFloat(agg.avgER) >= 1.0
+                      ? "bg-amber-500/15 text-amber-300 border border-amber-500/30"
+                      : "bg-blue-500/15 text-blue-300 border border-blue-500/30"
+                  }`}
+                >
+                  <CheckCircle2 className="w-3 h-3" />
+                  {parseFloat(agg.avgER) >= 3.0 ? "ER Tinggi (Target UMKM 3-6%)" : "Perlu Optimasi Engagement"}
+                </span>
+              </div>
+            </div>
+
+            {/* Click-Through Rate (CTR) Card */}
+            <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:border-amber-500/40 transition-all">
+              <div className="flex items-center justify-between text-xs text-solaki-muted mb-1 font-inter">
+                <span className="font-bold text-white uppercase tracking-wider">Click-Through (CTR)</span>
+                <MousePointerClick className="w-4 h-4 text-amber-400" />
+              </div>
+              <div className="text-3xl font-black text-amber-400 mt-2">
+                {agg.avgCTR}
+              </div>
+              <div className="mt-2 text-[11px] text-solaki-muted font-mono leading-tight">
+                Rumus: (Simpan + Bagikan / Views) × 100%
+              </div>
+              <div className="mt-2.5">
+                <span
+                  className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                    parseFloat(agg.avgCTR) >= 1.5
+                      ? "bg-amber-500/15 text-amber-300 border border-amber-500/30"
+                      : "bg-blue-500/15 text-blue-300 border border-blue-500/30"
+                  }`}
+                >
+                  <CheckCircle2 className="w-3 h-3" />
+                  {parseFloat(agg.avgCTR) >= 1.5 ? "CTA Efektif (>1.5%)" : "Standar UMKM (0.5 - 1.5%)"}
+                </span>
+              </div>
+            </div>
+
+            {/* Amplification Rate Card (Slide 18) */}
+            <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:border-pink-500/40 transition-all">
+              <div className="flex items-center justify-between text-xs text-solaki-muted mb-1 font-inter">
+                <span className="font-bold text-white uppercase tracking-wider">Amplification Rate</span>
+                <Share2 className="w-4 h-4 text-pink-400" />
+              </div>
+              <div className="text-3xl font-black text-pink-400 mt-2">
+                {agg.amplificationRate || "0.00%"}
+              </div>
+              <div className="mt-2 text-[11px] text-solaki-muted font-mono leading-tight">
+                Rumus: (Shares per post / Followers) × 100%
+              </div>
+              <div className="mt-2.5">
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-pink-500/15 text-pink-300 border border-pink-500/30">
+                  Social Sharing Multiplier
+                </span>
+              </div>
+            </div>
+
+            {/* Conversation Rate Card (Slide 18) */}
+            <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:border-violet-500/40 transition-all">
+              <div className="flex items-center justify-between text-xs text-solaki-muted mb-1 font-inter">
+                <span className="font-bold text-white uppercase tracking-wider">Conversation Rate</span>
+                <MessageCircle className="w-4 h-4 text-violet-400" />
+              </div>
+              <div className="text-3xl font-black text-violet-400 mt-2">
+                {agg.conversationRate || "0.00%"}
+              </div>
+              <div className="mt-2 text-[11px] text-solaki-muted font-mono leading-tight">
+                Rumus: (Comments per post / Followers) × 100%
+              </div>
+              <div className="mt-2.5">
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-violet-500/15 text-violet-300 border border-violet-500/30">
+                  Audience Dialogue Index
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Marketing Interpretation Box (Slide 21 & 22) */}
+          <div className="p-4 rounded-xl bg-purple-950/20 border border-purple-500/25 flex items-start gap-3.5">
+            <div className="w-9 h-9 rounded-lg bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-400 flex-shrink-0 mt-0.5">
+              <Sparkles className="w-4.5 h-4.5" />
+            </div>
+            <div>
+              <h4 className="text-xs font-bold uppercase tracking-wider text-purple-300 mb-1 font-inter">
+                Interpretasi Pemasaran & Rekomendasi Taktis (Slide 21 & 22)
+              </h4>
+              <p className="text-xs text-white/90 font-inter leading-relaxed">
+                {agg.interpretation || "Menganalisis keseimbangan ER vs CTR konten..."}
+              </p>
+              <p className="text-[11px] text-solaki-muted font-inter mt-1.5">
+                *Acuan evaluasi: <em>“Jika CTR tinggi & ER rendah → konten punya CTA bagus, tapi interaksi visual kurang. Keseimbangan ideal jika ER & CTR berada di atas rata-rata industri (Pertemuan II).”</em>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Section 1: Hero Stat Cards ──────────────── */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <StatCard
+            icon={Eye}
+            label="Total Views"
+            value={fmtNum(agg.totalViews)}
+            subtitle={`${agg.totalPosts} postingan`}
+            color="text-blue-400"
+            bgColor="bg-blue-500/10"
+            borderColor="border-blue-500/20"
+          />
+          <StatCard
+            icon={Heart}
+            label="Total Likes"
+            value={fmtNum(agg.totalLikes)}
+            subtitle={`${((agg.totalLikes / Math.max(agg.totalViews, 1)) * 100).toFixed(1)}% like rate`}
+            color="text-rose-400"
+            bgColor="bg-rose-500/10"
+            borderColor="border-rose-500/20"
+          />
+          <StatCard
+            icon={TrendingUp}
+            label="Avg. Engagement Rate"
+            value={agg.avgER}
+            subtitle={
+              agg.followersCount && agg.followersCount > 0
+                ? `ER = Interaksi / ${fmtNum(agg.followersCount)} Followers`
+                : "ER = (Interaksi / Followers) × 100%"
+            }
+            color="text-emerald-400"
+            bgColor="bg-emerald-500/10"
+            borderColor="border-emerald-500/20"
+          />
+          <StatCard
+            icon={MousePointerClick}
+            label="Avg. CTR (Conversion)"
+            value={agg.avgCTR}
+            subtitle="CTR = (Simpan + Bagikan) / Views"
+            color="text-amber-400"
+            bgColor="bg-amber-500/10"
+            borderColor="border-amber-500/20"
+          />
+        </div>
 
       {/* Second row stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -626,5 +849,6 @@ export default function InsightsPage() {
         )}
       </div>
     </div>
+  </div>
   );
 }
