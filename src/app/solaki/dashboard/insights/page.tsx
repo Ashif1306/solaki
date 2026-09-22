@@ -167,17 +167,17 @@ function TopCard({
         {/* Badge */}
         <div className="absolute top-3 left-3">
           <span
-            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${badgeColor}`}
+            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider force-text-white text-white ${badgeColor}`}
           >
-            <BadgeIcon className="w-3 h-3" />
-            {badge}
+            <BadgeIcon className="w-3 h-3 text-white force-text-white" />
+            <span className="text-white force-text-white">{badge}</span>
           </span>
         </div>
         {/* Metric overlay */}
         <div className="absolute bottom-3 right-3">
           <div className="bg-black/60 backdrop-blur-md border border-white/10 rounded-xl px-3 py-1.5">
-            <div className="text-[10px] text-white/50 font-medium">{metricLabel}</div>
-            <div className="text-base font-black text-white">{metricValue}</div>
+            <div className="text-[10px] text-white/70 font-medium force-text-light">{metricLabel}</div>
+            <div className="text-base font-black text-white force-text-white">{metricValue}</div>
           </div>
         </div>
       </div>
@@ -271,10 +271,11 @@ export default function InsightsPage() {
     if (!reportRef.current) return;
     try {
       setDownloadingImage(true);
+      const isLight = document.documentElement.classList.contains("light");
       const dataUrl = await toPng(reportRef.current, {
         cacheBust: true,
         pixelRatio: 2,
-        backgroundColor: "#0B0F17",
+        backgroundColor: isLight ? "#FFFFFF" : "#0B0F17",
       });
       const link = document.createElement("a");
       const dateTag = new Date().toISOString().slice(0, 10);
@@ -367,15 +368,15 @@ export default function InsightsPage() {
           <button
             onClick={handleDownloadImage}
             disabled={downloadingImage || loading || !data}
-            className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 via-pink-600 to-rose-600 hover:from-purple-500 hover:to-rose-500 text-white text-xs font-bold transition-all shadow-md hover:shadow-lg shadow-purple-500/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            className="btn-download-insight inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 via-pink-600 to-rose-600 hover:from-purple-500 hover:to-rose-500 text-white force-text-white text-xs font-bold transition-all shadow-md hover:shadow-lg shadow-purple-500/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             title="Download seluruh hasil insight dan metrik dalam bentuk gambar PNG"
           >
             {downloadingImage ? (
-              <RefreshCw className="w-4 h-4 animate-spin" />
+              <RefreshCw className="w-4 h-4 animate-spin text-white force-text-white" />
             ) : (
-              <Download className="w-4 h-4" />
+              <Download className="w-4 h-4 text-white force-text-white" />
             )}
-            <span>{downloadingImage ? "Membuat Gambar..." : "Download Gambar Insight"}</span>
+            <span className="text-white force-text-white">{downloadingImage ? "Membuat Gambar..." : "Download Gambar Insight"}</span>
           </button>
 
           <button
@@ -403,9 +404,9 @@ export default function InsightsPage() {
       )}
 
       {/* ── Main Printable / Downloadable Report Container ── */}
-      <div ref={reportRef} className="space-y-6 p-1 sm:p-2 rounded-3xl bg-[#0B0F17]">
+      <div ref={reportRef} className="admin-report-card space-y-6 p-2 sm:p-5 rounded-3xl transition-colors duration-300">
         {/* Infographic Top Banner (Visible in PNG export) */}
-        <div className="p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-purple-950/30 via-[#0B0F17] to-pink-950/20 border border-purple-500/25 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="admin-banner-insights p-5 sm:p-6 rounded-2xl border flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors duration-300">
           <div className="flex items-center gap-3.5">
             {brand.logoType === "image" && brand.logoImageUrl ? (
               <div className="w-11 h-11 rounded-xl border border-white/20 bg-white/10 overflow-hidden flex items-center justify-center flex-shrink-0">
@@ -413,7 +414,7 @@ export default function InsightsPage() {
                 <img src={brand.logoImageUrl} alt="SOLAKI" className="w-full h-full object-cover" />
               </div>
             ) : (
-              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-purple-600 via-pink-600 to-rose-600 flex items-center justify-center text-white font-black text-lg shadow-md">
+              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-purple-600 via-pink-600 to-rose-600 flex items-center justify-center text-white force-text-white font-black text-lg shadow-md">
                 S
               </div>
             )}
@@ -441,8 +442,8 @@ export default function InsightsPage() {
         </div>
 
         {/* ── Action Analysis (Layer 2 & Layer 4 Sesuai Pertemuan II.pdf) ── */}
-        <div className="p-6 rounded-2xl bg-gradient-to-b from-[#141226] to-[#0D1424] border border-purple-500/30 space-y-5">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
+        <div className="admin-action-box-insights p-6 rounded-2xl border space-y-5 transition-colors duration-300">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-solaki-border/40 pb-4">
             <div>
               <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-pink-400 mb-1">
                 <Target className="w-4 h-4" />
@@ -460,7 +461,7 @@ export default function InsightsPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Engagement Rate (ER) Card */}
-            <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:border-emerald-500/40 transition-all">
+            <div className="admin-action-subcard p-4 rounded-xl border transition-all">
               <div className="flex items-center justify-between text-xs text-solaki-muted mb-1 font-inter">
                 <span className="font-bold text-white uppercase tracking-wider">Engagement Rate (ER)</span>
                 <Zap className="w-4 h-4 text-emerald-400" />
@@ -490,7 +491,7 @@ export default function InsightsPage() {
             </div>
 
             {/* Click-Through Rate (CTR) Card */}
-            <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:border-amber-500/40 transition-all">
+            <div className="admin-action-subcard p-4 rounded-xl border transition-all">
               <div className="flex items-center justify-between text-xs text-solaki-muted mb-1 font-inter">
                 <span className="font-bold text-white uppercase tracking-wider">Click-Through (CTR)</span>
                 <MousePointerClick className="w-4 h-4 text-amber-400" />
@@ -516,7 +517,7 @@ export default function InsightsPage() {
             </div>
 
             {/* Amplification Rate Card (Slide 18) */}
-            <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:border-pink-500/40 transition-all">
+            <div className="admin-action-subcard p-4 rounded-xl border transition-all">
               <div className="flex items-center justify-between text-xs text-solaki-muted mb-1 font-inter">
                 <span className="font-bold text-white uppercase tracking-wider">Amplification Rate</span>
                 <Share2 className="w-4 h-4 text-pink-400" />
@@ -535,7 +536,7 @@ export default function InsightsPage() {
             </div>
 
             {/* Conversation Rate Card (Slide 18) */}
-            <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:border-violet-500/40 transition-all">
+            <div className="admin-action-subcard p-4 rounded-xl border transition-all">
               <div className="flex items-center justify-between text-xs text-solaki-muted mb-1 font-inter">
                 <span className="font-bold text-white uppercase tracking-wider">Conversation Rate</span>
                 <MessageCircle className="w-4 h-4 text-violet-400" />
@@ -555,12 +556,12 @@ export default function InsightsPage() {
           </div>
 
           {/* Marketing Interpretation Box (Slide 21 & 22) */}
-          <div className="p-4 rounded-xl bg-purple-950/20 border border-purple-500/25 flex items-start gap-3.5">
+          <div className="admin-interpretation-insights p-4 rounded-xl border flex items-start gap-3.5 transition-colors duration-300">
             <div className="w-9 h-9 rounded-lg bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-400 flex-shrink-0 mt-0.5">
               <Sparkles className="w-4.5 h-4.5" />
             </div>
             <div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-purple-300 mb-1 font-inter">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-purple-400 font-inter mb-1">
                 Interpretasi Pemasaran & Rekomendasi Taktis (Slide 21 & 22)
               </h4>
               <p className="text-xs text-white/90 font-inter leading-relaxed">
@@ -847,6 +848,14 @@ export default function InsightsPage() {
             </p>
           </div>
         )}
+      </div>
+
+      {/* Infographic Footer (Branded note in exported image) */}
+      <div className="admin-report-footer pt-4 border-t border-solaki-border/40 flex flex-col sm:flex-row items-center justify-between gap-2 text-[10px] text-solaki-muted font-inter">
+        <p>© {new Date().getFullYear()} SOLAKI Creative Agency • Instagram Content Intelligence</p>
+        <p className="text-pink-400 font-medium">
+          Framework: 7 Layers of Social Media Analytics (Dr. Valentino Aris, S.Kom., M.M.)
+        </p>
       </div>
     </div>
   </div>

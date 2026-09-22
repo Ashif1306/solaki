@@ -37,6 +37,7 @@ import { toPng } from "html-to-image";
 import AdminLiveClock from "@/components/AdminLiveClock";
 import { useAdminTimezone } from "@/hooks/useAdminTimezone";
 import { useSiteBrand } from "@/hooks/useSiteBrand";
+import { useTheme } from "@/context/ThemeContext";
 
 interface AnalyticsData {
   range: string;
@@ -69,6 +70,8 @@ interface AnalyticsData {
 export default function AnalyticsDashboardPage() {
   const { resolvedTimezone, tzCode, formatDateTime } = useAdminTimezone();
   const { brand } = useSiteBrand();
+  const { theme } = useTheme();
+  const isLight = theme === "light";
   const [data, setData] = useState<AnalyticsData | null>(null);
   const [loading, setLoading] = useState(true);
   const [range, setRange] = useState<"24h" | "7d" | "30d">("7d");
@@ -112,10 +115,11 @@ export default function AnalyticsDashboardPage() {
     if (!reportRef.current) return;
     try {
       setDownloadingImage(true);
+      const isLightMode = document.documentElement.classList.contains("light");
       const dataUrl = await toPng(reportRef.current, {
         cacheBust: true,
         pixelRatio: 2,
-        backgroundColor: "#0B0F17",
+        backgroundColor: isLightMode ? "#FFFFFF" : "#0B0F17",
       });
       const link = document.createElement("a");
       const dateTag = new Date().toISOString().slice(0, 10);
@@ -159,7 +163,7 @@ export default function AnalyticsDashboardPage() {
                 onClick={() => setRange(r)}
                 className={`px-3 py-1.5 rounded-lg transition-all ${
                   range === r
-                    ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 shadow-sm"
+                    ? "bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500/30 shadow-sm"
                     : "text-solaki-muted hover:text-white"
                 }`}
               >
@@ -172,15 +176,15 @@ export default function AnalyticsDashboardPage() {
           <button
             onClick={handleDownloadImage}
             disabled={downloadingImage || loading || !data}
-            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold transition-all shadow-md hover:shadow-lg shadow-emerald-500/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            className="btn-download-insight inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white force-text-white text-xs font-bold transition-all shadow-md hover:shadow-lg shadow-emerald-500/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             title="Download seluruh hasil insight dan metrik dalam bentuk gambar PNG"
           >
             {downloadingImage ? (
-              <RefreshCw className="w-4 h-4 animate-spin" />
+              <RefreshCw className="w-4 h-4 animate-spin text-white force-text-white" />
             ) : (
-              <Download className="w-4 h-4" />
+              <Download className="w-4 h-4 text-white force-text-white" />
             )}
-            <span>{downloadingImage ? "Membuat Gambar..." : "Download Gambar Insight"}</span>
+            <span className="text-white force-text-white">{downloadingImage ? "Membuat Gambar..." : "Download Gambar Insight"}</span>
           </button>
 
           {/* Refresh Button */}
@@ -203,9 +207,9 @@ export default function AnalyticsDashboardPage() {
       ) : data ? (
         <>
           {/* Main Printable / Downloadable Report Container */}
-          <div ref={reportRef} className="space-y-6 p-1 sm:p-2 rounded-3xl bg-[#0B0F17]">
+          <div ref={reportRef} className="admin-report-card space-y-6 p-2 sm:p-5 rounded-3xl transition-colors duration-300">
             {/* Infographic Top Banner (Visible in screenshot/download) */}
-            <div className="p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-[#0D5C46]/20 via-[#0B0F17] to-purple-900/15 border border-emerald-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="admin-banner-analytics p-5 sm:p-6 rounded-2xl border flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors duration-300">
               <div className="flex items-center gap-3.5">
                 {brand.logoType === "image" && brand.logoImageUrl ? (
                   <div className="w-11 h-11 rounded-xl border border-white/20 bg-white/10 overflow-hidden flex items-center justify-center flex-shrink-0">
@@ -213,7 +217,7 @@ export default function AnalyticsDashboardPage() {
                     <img src={brand.logoImageUrl} alt="SOLAKI" className="w-full h-full object-cover" />
                   </div>
                 ) : (
-                  <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-700 flex items-center justify-center text-white font-black text-lg shadow-md">
+                  <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-700 flex items-center justify-center text-white force-text-white font-black text-lg shadow-md">
                     S
                   </div>
                 )}
@@ -342,8 +346,8 @@ export default function AnalyticsDashboardPage() {
             </div>
 
             {/* Row 2: Action Analysis (Layer 2 & Layer 4 Sesuai Pertemuan II.pdf) */}
-            <div className="p-6 rounded-2xl bg-gradient-to-b from-[#111827] to-[#0D1424] border border-solaki-teal/30 space-y-5">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
+            <div className="admin-action-box-analytics p-6 rounded-2xl border space-y-5 transition-colors duration-300">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-solaki-border/40 pb-4">
                 <div>
                   <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-solaki-teal mb-1">
                     <Target className="w-4 h-4" />
@@ -361,7 +365,7 @@ export default function AnalyticsDashboardPage() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 {/* Click-Through Rate (CTR) Card */}
-                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:border-emerald-500/40 transition-all">
+                <div className="admin-action-subcard p-4 rounded-xl border transition-all">
                   <div className="flex items-center justify-between text-xs text-solaki-muted mb-1 font-inter">
                     <span className="font-bold text-white uppercase tracking-wider">CTR (Click-Through)</span>
                     <MousePointerClick className="w-4 h-4 text-emerald-400" />
@@ -389,7 +393,7 @@ export default function AnalyticsDashboardPage() {
                 </div>
 
                 {/* Engagement Rate (ER) Card */}
-                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:border-purple-500/40 transition-all">
+                <div className="admin-action-subcard p-4 rounded-xl border transition-all">
                   <div className="flex items-center justify-between text-xs text-solaki-muted mb-1 font-inter">
                     <span className="font-bold text-white uppercase tracking-wider">Engagement Rate (ER)</span>
                     <Zap className="w-4 h-4 text-purple-400" />
@@ -417,7 +421,7 @@ export default function AnalyticsDashboardPage() {
                 </div>
 
                 {/* Total Action Engagements */}
-                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:border-blue-500/40 transition-all">
+                <div className="admin-action-subcard p-4 rounded-xl border transition-all">
                   <div className="flex items-center justify-between text-xs text-solaki-muted mb-1 font-inter">
                     <span className="font-bold text-white uppercase tracking-wider">Total Engagements</span>
                     <Percent className="w-4 h-4 text-blue-400" />
@@ -436,7 +440,7 @@ export default function AnalyticsDashboardPage() {
                 </div>
 
                 {/* Conversion Rate (Leads per Visitor) */}
-                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/10 hover:border-teal-500/40 transition-all">
+                <div className="admin-action-subcard p-4 rounded-xl border transition-all">
                   <div className="flex items-center justify-between text-xs text-solaki-muted mb-1 font-inter">
                     <span className="font-bold text-white uppercase tracking-wider">Conversion Rate</span>
                     <Target className="w-4 h-4 text-teal-400" />
@@ -456,12 +460,12 @@ export default function AnalyticsDashboardPage() {
               </div>
 
               {/* Marketing Interpretation Box (Slide 21 & 22) */}
-              <div className="p-4 rounded-xl bg-emerald-950/20 border border-emerald-500/25 flex items-start gap-3.5">
+              <div className="admin-interpretation-analytics p-4 rounded-xl border flex items-start gap-3.5 transition-colors duration-300">
                 <div className="w-9 h-9 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 flex-shrink-0 mt-0.5">
                   <Sparkles className="w-4.5 h-4.5" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-emerald-300 mb-1 font-inter">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-emerald-400 font-inter mb-1">
                     Interpretasi Pemasaran & Rekomendasi Taktis (Slide 21 & 22)
                   </h4>
                   <p className="text-xs text-white/90 font-inter leading-relaxed">
@@ -513,16 +517,17 @@ export default function AnalyticsDashboardPage() {
                           <stop offset="95%" stopColor="#A855F7" stopOpacity={0} />
                         </linearGradient>
                       </defs>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#2A2A2A" vertical={false} />
-                      <XAxis dataKey="label" stroke="#888888" fontSize={11} tickLine={false} axisLine={{ stroke: "#2A2A2A" }} />
-                      <YAxis stroke="#888888" fontSize={11} tickLine={false} axisLine={{ stroke: "#2A2A2A" }} allowDecimals={false} />
+                      <CartesianGrid strokeDasharray="3 3" stroke={isLight ? "#E2E8F0" : "#2A2A2A"} vertical={false} />
+                      <XAxis dataKey="label" stroke={isLight ? "#64748B" : "#888888"} fontSize={11} tickLine={false} axisLine={{ stroke: isLight ? "#CBD5E1" : "#2A2A2A" }} />
+                      <YAxis stroke={isLight ? "#64748B" : "#888888"} fontSize={11} tickLine={false} axisLine={{ stroke: isLight ? "#CBD5E1" : "#2A2A2A" }} allowDecimals={false} />
                       <Tooltip
                         contentStyle={{
-                          backgroundColor: "#1A1A1A",
-                          borderColor: "#333333",
+                          backgroundColor: isLight ? "#FFFFFF" : "#1A1A1A",
+                          borderColor: isLight ? "#E2E8F0" : "#333333",
                           borderRadius: "12px",
-                          color: "#FFFFFF",
+                          color: isLight ? "#0F172A" : "#FFFFFF",
                           fontSize: "12px",
+                          boxShadow: isLight ? "0 4px 14px rgba(0,0,0,0.06)" : "none",
                         }}
                         labelStyle={{ fontWeight: "bold", marginBottom: "4px" }}
                       />
@@ -643,7 +648,7 @@ export default function AnalyticsDashboardPage() {
             </div>
 
             {/* Infographic Footer (Branded note in exported image) */}
-            <div className="pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-2 text-[10px] text-solaki-muted font-inter">
+            <div className="admin-report-footer pt-4 border-t border-solaki-border/40 flex flex-col sm:flex-row items-center justify-between gap-2 text-[10px] text-solaki-muted font-inter">
               <p>© {new Date().getFullYear()} SOLAKI Creative Agency • Performance Intelligence</p>
               <p className="text-solaki-teal font-medium">
                 Framework: 7 Layers of Social Media Analytics (Dr. Valentino Aris, S.Kom., M.M.)
