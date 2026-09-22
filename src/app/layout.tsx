@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
+import { Analytics } from "@vercel/analytics/next";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -141,6 +142,7 @@ export default function RootLayout({
           <Suspense fallback={null}>
             <AnalyticsTracker />
           </Suspense>
+          <Analytics />
           {children}
         </ThemeProvider>
       </body>

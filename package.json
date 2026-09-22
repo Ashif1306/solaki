@@ -14,6 +14,7 @@
     "@prisma/client": "6.19.3",
     "@types/bcryptjs": "^2.4.6",
     "@types/mongoose": "^5.11.96",
+    "@vercel/analytics": "^2.0.1",
     "bcryptjs": "^3.0.3",
     "framer-motion": "^13.2.0",
     "lucide-react": "^1.43.0",
