@@ -26,17 +26,16 @@ const LinkedInIcon = ({ className }: { className?: string }) => (
 
 const footerLinks = {
   layanan: [
-    { label: "Content Creator", href: "/#services" },
-    { label: "Social Media Management", href: "/#services" },
-    { label: "Digital Advertising (Meta & TikTok)", href: "/#services" },
-    { label: "Brand Strategy & Positioning", href: "/#services" },
-    { label: "Creative Media Production", href: "/#services" },
+    { label: "Content Creator", href: "#services" },
+    { label: "Social Media Management", href: "#services" },
+    { label: "Digital Advertising (Meta & TikTok)", href: "#services" },
+    { label: "Brand Strategy & Positioning", href: "#services" },
+    { label: "Creative Media Production", href: "#services" },
   ],
   navigasi: [
-    { label: "About & Identity", href: "/#about" },
-    { label: "Showcase & Portfolio", href: "/#showcase" },
-    { label: "Pusat Edukasi & Blog UMKM", href: "/blog" },
-    { label: "Konsultasi & Kontak", href: "/#contact" },
+    { label: "About & Identity", href: "#about" },
+    { label: "Showcase & Proses", href: "#showcase" },
+    { label: "Konsultasi & Kontak", href: "#contact" },
   ],
 };
 

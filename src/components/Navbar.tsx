@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { usePathname } from "next/navigation";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { Menu, X, Zap, Sun, Moon, ArrowUpRight, Sparkles, MessageCircle } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
@@ -13,12 +12,10 @@ const navLinks = [
   { label: "About", href: "#about" },
   { label: "Services", href: "#services" },
   { label: "Showcase", href: "#showcase" },
-  { label: "Blog", href: "/blog" },
   { label: "Contact", href: "#contact" },
 ];
 
 export default function Navbar() {
-  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
@@ -85,16 +82,6 @@ export default function Navbar() {
   }, []);
 
   const scrollToSection = (href: string) => {
-    if (href.startsWith("/")) {
-      window.location.href = href;
-      setMobileOpen(false);
-      return;
-    }
-    if (pathname !== "/") {
-      window.location.href = `/${href}`;
-      setMobileOpen(false);
-      return;
-    }
     const id = href.replace("#", "");
     if (id === "home") {
       setActiveSection("home");
@@ -216,9 +203,7 @@ export default function Navbar() {
           {/* ── Nav Links (desktop) ── */}
           <nav className="hidden lg:flex items-center gap-1" aria-label="Main navigation">
             {navLinks.map((link) => {
-              const isActive = link.href.startsWith("/")
-                ? pathname?.startsWith(link.href)
-                : pathname === "/" && activeSection === link.href.replace("#", "");
+              const isActive = activeSection === link.href.replace("#", "");
               const isHovered = hoveredLink === link.href;
 
               return (
@@ -501,9 +486,7 @@ export default function Navbar() {
               {/* Nav links */}
               <div className="px-3 py-2.5 space-y-1">
                 {navLinks.map((link, i) => {
-                  const isActive = link.href.startsWith("/")
-                    ? pathname?.startsWith(link.href)
-                    : pathname === "/" && activeSection === link.href.replace("#", "");
+                  const isActive = activeSection === link.href.replace("#", "");
                   return (
                     <motion.a
                       key={link.href}

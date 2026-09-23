@@ -146,29 +146,3 @@ model AnalyticsEvent {
   @@index([visitorId])
 }
 
-// Educational Articles & Blog for MSMEs (Pusat Edukasi UMKM)
-model Article {
-  id          String   @id @default(cuid())
-  slug        String   @unique
-  title       String
-  excerpt     String   @db.Text
-  content     String   @db.Text
-  coverImage  String   @default("/showcase/reels_kopi_enrekang.png")
-  category    String   @default("Tips UMKM") // "Instagram Marketing", "Meta Ads", "Tips UMKM", "Branding & Konten"
-  tags        String[]
-  readTime    String   @default("4 menit baca")
-  authorName  String   @default("Tim Edukasi SOLAKI")
-  authorRole  String   @default("Digital Strategist")
-  authorAvatar String  @default("/logo_solaki/Logo_Solaki.png")
-  isPublished Boolean  @default(true)
-  isFeatured  Boolean  @default(false)
-  viewCount   Int      @default(0)
-  publishedAt DateTime @default(now())
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  @@index([category])
-  @@index([isPublished])
-  @@index([publishedAt])
-}
-
