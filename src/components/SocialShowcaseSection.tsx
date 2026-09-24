@@ -2,7 +2,7 @@
 
 import ShowcaseMedia from "@/components/ShowcaseMedia";
 import { showcaseKind, safeMediaUrl, socialEmbedUrl } from "@/lib/showcase-media";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useSyncExternalStore } from "react";
 import { motion, AnimatePresence, useInView, useMotionValue, useSpring } from "framer-motion";
 import {
   Sparkles,
@@ -17,6 +17,8 @@ import {
   MessageCircle,
   Play,
   ArrowRight,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 
 import type { ShowcaseItem } from "@/lib/public-content-types";
@@ -388,11 +390,40 @@ export default function SocialShowcaseSection({ items, loadError = false }: { it
   const [activePlatform, setActivePlatform] = useState<"all" | "instagram" | "tiktok">("all");
   const [activeFormat, setActiveFormat] = useState("all");
   const [selectedItem, setSelectedItem] = useState<ShowcaseItem | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const portfolioGridRef = useRef<HTMLDivElement>(null);
 
+  const isMobile = useSyncExternalStore(
+    (callback) => {
+      const mql = window.matchMedia("(max-width: 639px)");
+      mql.addEventListener("change", callback);
+      return () => mql.removeEventListener("change", callback);
+    },
+    () => window.innerWidth < 640,
+    () => false
+  );
 
   const filteredItems = items.filter((item) =>
     (activePlatform === "all" || item.platform === activePlatform) && (activeFormat === "all" || showcaseKind(item) === activeFormat)
   );
+
+  const MOBILE_PAGE_SIZE = 4;
+  const totalPages = Math.ceil(filteredItems.length / MOBILE_PAGE_SIZE);
+  const safeCurrentPage = Math.min(Math.max(1, currentPage), Math.max(1, totalPages));
+
+  const displayedItems = isMobile
+    ? filteredItems.slice((safeCurrentPage - 1) * MOBILE_PAGE_SIZE, safeCurrentPage * MOBILE_PAGE_SIZE)
+    : filteredItems;
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+    if (portfolioGridRef.current) {
+      const rect = portfolioGridRef.current.getBoundingClientRect();
+      if (rect.top < 80) {
+        portfolioGridRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+  };
 
   const formatNumber = (num: number) => {
     if (!num) return "0";
@@ -445,7 +476,10 @@ export default function SocialShowcaseSection({ items, loadError = false }: { it
                 <button
                   key={tab.id}
                   aria-pressed={activePlatform === tab.id}
-                  onClick={() => setActivePlatform(tab.id)}
+                  onClick={() => {
+                    setActivePlatform(tab.id);
+                    setCurrentPage(1);
+                  }}
                   className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 cursor-pointer ${
                     activePlatform === tab.id
                       ? tab.id === "instagram"
@@ -478,7 +512,10 @@ export default function SocialShowcaseSection({ items, loadError = false }: { it
                 <button
                   key={tab.id}
                   aria-pressed={activeFormat === tab.id}
-                  onClick={() => setActiveFormat(tab.id)}
+                  onClick={() => {
+                    setActiveFormat(tab.id);
+                    setCurrentPage(1);
+                  }}
                   className={`rounded-full px-3 py-2 text-xs font-semibold transition-colors ${
                     activeFormat === tab.id
                       ? "bg-emerald-200 text-emerald-950"
@@ -492,20 +529,84 @@ export default function SocialShowcaseSection({ items, loadError = false }: { it
           </div>
 
           {filteredItems.length > 0 ? (
-            <div className="showcase-portfolio-grid">
-              <AnimatePresence mode="popLayout">
-                {filteredItems.map((item, idx) => (
-                  <div key={item.id} className="min-w-0">
-                    <PortfolioCard
-                      item={item}
-                      idx={idx}
-                      formatNumber={formatNumber}
-                      onDetailClick={setSelectedItem}
-                    />
+            <>
+              <div ref={portfolioGridRef} className="showcase-portfolio-grid scroll-mt-24">
+                <AnimatePresence mode="popLayout">
+                  {displayedItems.map((item, idx) => (
+                    <div key={item.id} className="min-w-0">
+                      <PortfolioCard
+                        item={item}
+                        idx={idx}
+                        formatNumber={formatNumber}
+                        onDetailClick={setSelectedItem}
+                      />
+                    </div>
+                  ))}
+                </AnimatePresence>
+              </div>
+
+              {/* Mobile pagination controls (Max 4 items per page) */}
+              {isMobile && totalPages > 1 && (
+                <div className="mt-8 flex flex-col items-center gap-3 sm:hidden">
+                  <div className="flex items-center justify-between w-full max-w-sm gap-2">
+                    <button
+                      type="button"
+                      onClick={() => handlePageChange(safeCurrentPage - 1)}
+                      disabled={safeCurrentPage <= 1}
+                      className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl text-xs font-bold transition-all border ${
+                        safeCurrentPage <= 1
+                          ? "opacity-30 cursor-not-allowed border-[var(--showcase-ink)]/10 text-[var(--showcase-ink)]/40 bg-[var(--showcase-ink)]/[0.03]"
+                          : "border-[var(--showcase-ink)]/15 bg-[var(--showcase-card)] text-[var(--showcase-ink)] active:scale-95 shadow-sm hover:border-emerald-300/40 cursor-pointer"
+                      }`}
+                      aria-label="Halaman sebelumnya"
+                    >
+                      <ChevronLeft className="w-4 h-4" />
+                      <span>Prev</span>
+                    </button>
+
+                    {/* Page indicator dots */}
+                    <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[var(--showcase-ink)]/[0.04] border border-[var(--showcase-ink)]/[0.08]">
+                      {Array.from({ length: totalPages }).map((_, i) => {
+                        const pageNum = i + 1;
+                        const isActive = safeCurrentPage === pageNum;
+                        return (
+                          <button
+                            key={pageNum}
+                            type="button"
+                            onClick={() => handlePageChange(pageNum)}
+                            className={`transition-all duration-300 rounded-full cursor-pointer ${
+                              isActive
+                                ? "w-6 h-2 bg-emerald-300 shadow-sm shadow-emerald-400/30"
+                                : "w-2 h-2 bg-[var(--showcase-ink)]/20 hover:bg-[var(--showcase-ink)]/40"
+                            }`}
+                            aria-label={`Ke halaman ${pageNum}`}
+                          />
+                        );
+                      })}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => handlePageChange(safeCurrentPage + 1)}
+                      disabled={safeCurrentPage >= totalPages}
+                      className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-xl text-xs font-bold transition-all border ${
+                        safeCurrentPage >= totalPages
+                          ? "opacity-30 cursor-not-allowed border-[var(--showcase-ink)]/10 text-[var(--showcase-ink)]/40 bg-[var(--showcase-ink)]/[0.03]"
+                          : "border-emerald-400/40 bg-emerald-300 text-emerald-950 font-bold active:scale-95 shadow-md shadow-emerald-500/20 hover:bg-emerald-200 cursor-pointer"
+                      }`}
+                      aria-label="Halaman selanjutnya"
+                    >
+                      <span>Next</span>
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
                   </div>
-                ))}
-              </AnimatePresence>
-            </div>
+
+                  <p className="text-[11px] font-medium text-[var(--showcase-ink)]/50 tracking-wide">
+                    Halaman {safeCurrentPage} dari {totalPages} &bull; Menampilkan {Math.min(filteredItems.length, (safeCurrentPage - 1) * MOBILE_PAGE_SIZE + 1)}–{Math.min(filteredItems.length, safeCurrentPage * MOBILE_PAGE_SIZE)} dari {filteredItems.length} karya
+                  </p>
+                </div>
+              )}
+            </>
           ) : (
             <motion.div
               initial={false}
@@ -524,7 +625,7 @@ export default function SocialShowcaseSection({ items, loadError = false }: { it
               <button
                 onClick={() => {
                   if (loadError) window.location.reload();
-                  else { setActivePlatform("all"); setActiveFormat("all"); }
+                  else { setActivePlatform("all"); setActiveFormat("all"); setCurrentPage(1); }
                 }}
                 className="rounded-full bg-emerald-200 px-6 py-3 text-sm font-bold text-emerald-950"
               >
