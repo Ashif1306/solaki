@@ -94,112 +94,15 @@ function TeamCard({
   const color = member.color || colorForIndex(index);
   const hasPhoto = !!member.photo && member.photo.trim().length > 0;
   
-  // Center card (index 1) has text at TOP and image slides DOWN from top
-  // Side cards (index 0, 2, etc.) have text at BOTTOM and image slides UP from bottom
-  const isCenter = index === 1;
-
   // Slanted clip path for the parallelogram shape (leaning right / slanted top-right & bottom-left)
   const clipPathStyle = "polygon(14% 0%, 100% 0%, 86% 100%, 0% 100%)";
 
   return (
     <div
-      className={`relative flex flex-col items-center justify-between ${
-        isCenter ? "md:-mt-8" : "mt-0"
-      }`}
+      className="relative flex flex-col items-center justify-between mt-0"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* ── TOP TEXT (for Center card) ── */}
-      {isCenter && (
-        <motion.div
-          initial={{ opacity: 0, y: -12 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{
-            delay: 0.1,
-            duration: 0.5,
-            ease: [0.22, 1, 0.36, 1],
-          }}
-          className="text-center mb-4 z-20 w-full px-2"
-        >
-          <h4 className="text-lg md:text-xl font-black text-white tracking-tight mb-1 drop-shadow-md">
-            {member.name}
-          </h4>
-          <p className="text-solaki-muted text-xs md:text-sm font-medium font-inter tracking-wide mb-2.5">
-            {member.role}
-          </p>
-
-          {/* Social Icons directly under job title */}
-          <div className="flex items-center justify-center gap-2">
-            {member.instagram && member.instagram !== "#" ? (
-              <a
-                href={member.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`${member.name} Instagram`}
-                className="w-7 h-7 rounded-full flex items-center justify-center transition-all duration-300 text-solaki-muted hover:text-white hover:scale-110"
-                style={{
-                  background: "rgba(255,255,255,0.06)",
-                  border: "1px solid rgba(255,255,255,0.12)",
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.borderColor = `${color}80`;
-                  (e.currentTarget as HTMLElement).style.boxShadow = `0 0 12px ${color}40`;
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.12)";
-                  (e.currentTarget as HTMLElement).style.boxShadow = "none";
-                }}
-              >
-                <InstagramIcon className="w-3.5 h-3.5" />
-              </a>
-            ) : (
-              <span
-                className="w-7 h-7 rounded-full flex items-center justify-center text-solaki-subtle/50"
-                style={{
-                  background: "rgba(255,255,255,0.03)",
-                  border: "1px solid rgba(255,255,255,0.06)",
-                }}
-              >
-                <InstagramIcon className="w-3.5 h-3.5" />
-              </span>
-            )}
-
-            {member.linkedin && member.linkedin !== "#" ? (
-              <a
-                href={member.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`${member.name} LinkedIn`}
-                className="w-7 h-7 rounded-full flex items-center justify-center transition-all duration-300 text-solaki-muted hover:text-white hover:scale-110"
-                style={{
-                  background: "rgba(255,255,255,0.06)",
-                  border: "1px solid rgba(255,255,255,0.12)",
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.borderColor = `${color}80`;
-                  (e.currentTarget as HTMLElement).style.boxShadow = `0 0 12px ${color}40`;
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.borderColor = "rgba(255,255,255,0.12)";
-                  (e.currentTarget as HTMLElement).style.boxShadow = "none";
-                }}
-              >
-                <LinkedinIcon className="w-3.5 h-3.5" />
-              </a>
-            ) : (
-              <span
-                className="w-7 h-7 rounded-full flex items-center justify-center text-solaki-subtle/50"
-                style={{
-                  background: "rgba(255,255,255,0.03)",
-                  border: "1px solid rgba(255,255,255,0.06)",
-                }}
-              >
-                <LinkedinIcon className="w-3.5 h-3.5" />
-              </span>
-            )}
-          </div>
-        </motion.div>
-      )}
 
       {/* ── SLANTED CARD CONTAINER WITH ANIMATION ── */}
       <motion.div
@@ -255,9 +158,7 @@ function TeamCard({
 
         {/* Main Photo Card (Directly clipped parallelogram frame) */}
         <div
-          className={`relative w-full overflow-hidden transition-all duration-500 z-10 ${
-            isCenter ? "h-[320px] md:h-[355px]" : "h-[295px] md:h-[330px]"
-          }`}
+          className="relative w-full h-[295px] md:h-[330px] overflow-hidden transition-all duration-500 z-10"
           style={{
             clipPath: clipPathStyle,
             background: "#080C14",
@@ -269,8 +170,6 @@ function TeamCard({
           {/* Subtle grid pattern inside */}
           <div className="absolute inset-0 dot-bg opacity-10 pointer-events-none" />
 
-
-
           {/* Photo directly filling the card */}
           {hasPhoto ? (
             <div className="absolute inset-0 w-full h-full">
@@ -280,9 +179,6 @@ function TeamCard({
                 fill
                 className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-108"
                 sizes="(max-width: 768px) 100vw, 33vw"
-              />
-              <div
-                className="absolute inset-x-0 bottom-0 h-28 pointer-events-none bg-[#080c14]/85"
               />
               {/* Color tint on hover */}
               <div
@@ -314,8 +210,6 @@ function TeamCard({
             </div>
           )}
 
-
-
           {/* Border contour outline */}
           <div
             className="absolute inset-0 pointer-events-none border border-white/10 group-hover:border-white/25 transition-colors"
@@ -326,9 +220,8 @@ function TeamCard({
         </div>
       </motion.div>
 
-      {/* ── BOTTOM TEXT (for Left, Right, & default cards) ── */}
-      {!isCenter && (
-        <motion.div
+      {/* ── BOTTOM TEXT (for all cards) ── */}
+      <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{
@@ -416,7 +309,6 @@ function TeamCard({
             )}
           </div>
         </motion.div>
-      )}
     </div>
   );
 }
@@ -470,9 +362,6 @@ function MobileTeamCard({
                 fill
                 className="object-cover object-top"
                 sizes="230px"
-              />
-              <div
-                className="absolute inset-x-0 bottom-0 h-24 pointer-events-none bg-[#080c14]/85"
               />
             </div>
           ) : (
@@ -1097,7 +986,7 @@ export default function Philosophy({ team }: { team: TeamMember[] }) {
           </motion.div>
 
           {/* ── DESKTOP VIEW (Slanted 3-column Grid) ── */}
-          <div className="hidden md:grid grid-cols-3 gap-8 lg:gap-10 items-center justify-center max-w-5xl mx-auto">
+          <div className="hidden md:grid grid-cols-3 gap-8 lg:gap-10 items-start justify-center max-w-5xl mx-auto">
             {team.map((member, i) => (
               <TeamCard
                 key={member.id || member.name}
