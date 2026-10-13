@@ -172,7 +172,7 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* Web Traffic Snapshot Widget */}
-      <div className="bento-card p-6 border-solaki-teal/30 bg-gradient-to-r from-solaki-teal/10 via-transparent to-purple-500/10">
+      <div className="bento-card p-6 border-solaki-teal/30 bg-solaki-card">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div className="flex items-start sm:items-center gap-4">
             <div className="w-12 h-12 rounded-xl bg-solaki-teal/20 border border-solaki-teal/30 flex items-center justify-center text-solaki-teal shrink-0">

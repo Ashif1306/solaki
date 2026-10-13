@@ -32,7 +32,7 @@ const deliverables = [
   {
     icon: Layers,
     title: "Produksi Aset Visual & Template Brand",
-    desc: "Desain grafis presisi tinggi — micro-graphics, carousel edukatif, feed visual identity, dan guideline tipografi yang konsisten.",
+    desc: "Desain grafis presisi tinggi: micro-graphics, carousel edukatif, feed visual identity, dan guideline tipografi yang konsisten.",
     tag: "Creative",
     color: "#D95338",
     bg: "rgba(217,83,56,0.12)",
@@ -88,7 +88,7 @@ const technicalPillars = [
   {
     icon: LineChart,
     title: "Transparent Attribution & Reporting",
-    desc: "Laporan analitik data mingguan tanpa metrik semu (vanity metrics) — fokus pada pertumbuhan engagement dan efisiensi konversi.",
+    desc: "Laporan analitik data mingguan tanpa metrik semu (vanity metrics) dengan fokus pada pertumbuhan engagement dan efisiensi konversi.",
     highlight: false,
   },
   {
@@ -143,7 +143,6 @@ export default function PartnerShowcase() {
 
   return (
     <section id="program-mitra" ref={sectionRef} className="py-32 relative overflow-hidden bg-solaki-dark">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_60%_at_80%_50%,rgba(217,83,56,0.07)_0%,transparent_70%)]" />
       <div className="absolute inset-0 grid-bg opacity-25" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -356,7 +355,7 @@ export default function PartnerShowcase() {
                     <h4 className="text-base font-bold text-white">{item.title}</h4>
                     {item.highlight && (
                       <span className="text-xs px-2 py-0.5 rounded-full bg-solaki-coral/15 text-solaki-coral border border-solaki-coral/25 font-semibold">
-                        ★ Core Stack
+                        Core Stack
                       </span>
                     )}
                   </div>

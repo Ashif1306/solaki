@@ -56,7 +56,7 @@ function createWelcomeMessage(): Message {
     id: "welcome",
     role: "assistant",
     content:
-      "Halo! Saya **Sola**, partner digital dari SOLAKI. Ceritakan bisnis atau tantangan pemasaran Anda—saya bisa membantu memberi arah awal untuk konten, media sosial, dan iklan digital.",
+      "Halo! Saya **Sola**, partner digital dari SOLAKI. Ceritakan bisnis atau tantangan pemasaran Anda, saya bisa membantu memberi arah awal untuk konten, media sosial, dan iklan digital.",
     timestamp: "Sekarang",
   };
 }
@@ -210,9 +210,9 @@ export default function ChatBot() {
 
   const whatsappUrl = brand.whatsappUrl || "https://wa.me/6285255443322";
   const panelClass = isDark
-    ? "border-[#27453b] bg-[#0d1a17] text-[#f7fbf9] shadow-[0_28px_80px_rgba(0,0,0,0.55)]"
+    ? "border-[#383838] bg-[#212121] text-white shadow-[0_28px_80px_rgba(0,0,0,0.75)]"
     : "border-[#dce8e3] bg-[#fbfdfc] text-[#17211e] shadow-[0_28px_80px_rgba(23,50,41,0.18)]";
-  const mutedText = isDark ? "text-[#8fb2a5]" : "text-[#64756f]";
+  const mutedText = isDark ? "text-[#a3a3a3]" : "text-[#64756f]";
 
   return (
     <>
@@ -234,12 +234,11 @@ export default function ChatBot() {
                 setHasUnread(false);
               }}
               aria-label="Buka chat dengan Sola"
-              className="group relative flex cursor-pointer items-center justify-center sm:justify-start gap-3 overflow-hidden rounded-2xl border border-[#dec83a]/30 bg-gradient-to-br from-[#025048] to-[#013e37] w-14 h-14 p-2 sm:w-auto sm:h-auto sm:px-3.5 sm:py-3 text-left shadow-[0_16px_42px_rgba(1,62,55,0.38)] transition-all duration-300"
+              className="group relative flex cursor-pointer items-center justify-center sm:justify-start gap-3 overflow-hidden rounded-2xl border border-[#dec83a] bg-[#013e37] w-14 h-14 p-2 sm:w-auto sm:h-auto sm:px-3.5 sm:py-3 text-left shadow-[0_16px_42px_rgba(1,62,55,0.38)] transition-all duration-300"
             >
-              <span className="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-[#dec83a]/80 to-transparent" />
               <span className="relative grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white/10 ring-1 ring-white/15">
-                <Bot className="h-5 w-5 text-emerald-300 force-text-white" />
-                <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full border-2 border-[#025048] bg-emerald-400" />
+                <Bot className="h-5 w-5 text-[#dec83a] force-text-white" />
+                <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full border-2 border-[#013e37] bg-[#dec83a]" />
               </span>
               <span className="hidden sm:block pr-2">
                 <span className="force-text-white block text-sm font-bold leading-tight">Tanya Sola</span>
@@ -266,13 +265,13 @@ export default function ChatBot() {
           >
             <header
               className={`relative flex items-center justify-between border-b px-4 py-3.5 ${
-                isDark ? "border-white/10 bg-[#10231d]" : "border-[#e3ece8] bg-white"
+                isDark ? "border-[#333333] bg-[#262626]" : "border-[#e3ece8] bg-white"
               }`}
             >
               <div className="flex min-w-0 items-center gap-3">
-                <div className="relative grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-[#0a7a5e] to-[#013e37] shadow-[0_8px_24px_rgba(1,62,55,0.25)]">
-                  <Bot className="h-6 w-6 text-emerald-300 force-text-white" />
-                  <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-white bg-emerald-400" />
+                <div className="relative grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-[#013e37] border border-[#dec83a]/40 shadow-[0_8px_24px_rgba(1,62,55,0.25)]">
+                  <Bot className="h-6 w-6 text-[#dec83a]" />
+                  <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full border-2 border-[#262626] bg-[#dec83a]" />
                 </div>
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
@@ -327,11 +326,7 @@ export default function ChatBot() {
 
             <div
               aria-live="polite"
-              className={`flex-1 space-y-5 overflow-y-auto px-4 py-5 ${
-                isDark
-                  ? "bg-[radial-gradient(circle_at_top_right,rgba(10,122,94,0.10),transparent_38%)]"
-                  : "bg-[radial-gradient(circle_at_top_right,rgba(10,122,94,0.07),transparent_38%)]"
-              }`}
+              className="flex-1 space-y-5 overflow-y-auto px-4 py-5"
             >
               <div className="mx-auto flex max-w-[280px] items-center justify-center gap-2 text-center">
                 <span className={`h-px flex-1 ${isDark ? "bg-white/10" : "bg-[#dce8e3]"}`} />
@@ -360,16 +355,16 @@ export default function ChatBot() {
                     <div
                       className={`max-w-[82%] break-words rounded-2xl px-3.5 py-3 text-[13px] leading-[1.65] ${
                         isUser
-                          ? "rounded-br-md bg-gradient-to-br from-[#0a7058] to-[#025048] text-white force-text-white shadow-[0_8px_20px_rgba(1,62,55,0.16)]"
+                          ? "rounded-br-md bg-[#013e37] border border-[#dec83a]/40 text-white force-text-white shadow-[0_4px_16px_rgba(1,62,55,0.2)]"
                           : isDark
-                            ? "rounded-bl-md border border-white/[0.08] bg-white/[0.055] text-[#e4eee9]"
+                            ? "rounded-bl-md border border-[#383838] bg-[#262626] text-[#e4eee9]"
                             : "rounded-bl-md border border-[#e1ebe7] bg-white text-[#263a33] shadow-[0_5px_18px_rgba(29,65,52,0.06)]"
                       }`}
                     >
                       {isUser ? message.content : <FormattedMessage text={message.content} />}
                       <span
                         className={`mt-1.5 block text-[9px] ${
-                          isUser ? "text-right text-emerald-100/60" : mutedText
+                          isUser ? "text-right text-[#dec83a]" : mutedText
                         }`}
                       >
                         {message.timestamp}
@@ -437,7 +432,7 @@ export default function ChatBot() {
               }`}
             >
               <div className="mb-2 flex items-center justify-between px-1">
-                <span className={`text-[9px] ${mutedText}`}>AI dapat keliru—konfirmasi detail proyek dengan tim.</span>
+                <span className={`text-[9px] ${mutedText}`}>AI dapat keliru. Konfirmasi detail proyek dengan tim.</span>
                 <a
                   href={whatsappUrl}
                   target="_blank"
@@ -477,9 +472,9 @@ export default function ChatBot() {
                   type="submit"
                   disabled={!input.trim() || loading}
                   aria-label="Kirim pesan"
-                  className="grid h-10 w-10 shrink-0 cursor-pointer place-items-center rounded-xl bg-gradient-to-br from-[#0a7a5e] to-[#013e37] text-white shadow-md transition-all hover:brightness-110 active:scale-95 disabled:cursor-not-allowed disabled:opacity-35"
+                  className="grid h-10 w-10 shrink-0 cursor-pointer place-items-center rounded-xl bg-[#013e37] border border-[#dec83a] hover:bg-[#dec83a] hover:text-[#212121] text-[#dec83a] shadow-md transition-all active:scale-95 disabled:cursor-not-allowed disabled:opacity-35"
                 >
-                  <ArrowUp className="h-4 w-4 force-text-white" />
+                  <ArrowUp className="h-4 w-4" />
                 </button>
               </form>
             </div>

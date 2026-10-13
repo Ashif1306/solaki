@@ -211,7 +211,7 @@ export default function AdminTeamPage() {
                   style={{
                     background: member.photo
                       ? "transparent"
-                      : `linear-gradient(135deg, ${member.color || "#0D5C46"}20, rgba(8,12,20,0.8))`,
+                      : "#080C14",
                   }}
                 >
                   {member.photo ? (
@@ -233,10 +233,6 @@ export default function AdminTeamPage() {
                     >
                       {member.initials || "SOL"}
                     </div>
-                  )}
-                  {/* Gradient bottom overlay */}
-                  {member.photo && (
-                    <div className="absolute inset-0 bg-gradient-to-t from-solaki-card/80 to-transparent" />
                   )}
                   {/* Status badge */}
                   <div className="absolute top-2 right-2 flex items-center gap-1">

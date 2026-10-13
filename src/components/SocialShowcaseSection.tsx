@@ -46,7 +46,7 @@ function PlatformBadge({ platform, size = "sm" }: { platform: "instagram" | "tik
   const cls = size === "md" ? "px-3 py-1.5 text-xs" : "px-2 py-0.5 text-[10px]";
   if (platform === "instagram")
     return (
-      <span className={`${cls} rounded-full font-black uppercase tracking-wider bg-gradient-to-r from-purple-600 to-pink-600 force-text-white border border-pink-400/30`}>
+      <span className={`${cls} rounded-full font-black uppercase tracking-wider bg-[#C13584] force-text-white border border-pink-400/30`}>
         Instagram
       </span>
     );
@@ -72,10 +72,11 @@ function PortfolioCard({
   return (
     <motion.article
       layout
-      initial={false}
-      animate={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 20, scale: 0.98 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, margin: "-20px" }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.35, delay: Math.min(idx * 0.05, 0.3) }}
+      transition={{ duration: 0.4, delay: Math.min(idx * 0.06, 0.25), ease: [0.22, 1, 0.36, 1] }}
       className="showcase-portfolio-card group h-full rounded-2xl sm:rounded-3xl border border-[var(--showcase-ink)]/10 bg-[var(--showcase-card)] p-1.5 sm:p-2 transition-colors hover:border-emerald-300/40 flex flex-col justify-between"
     >
       <button
@@ -85,7 +86,7 @@ function PortfolioCard({
         className="relative block aspect-[3/4] w-full overflow-hidden rounded-xl sm:rounded-2xl bg-black text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300"
       >
         <ShowcaseMedia mediaUrl={item.mediaUrl} postUrl={item.postUrl} title={item.title} />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/35" />
+        <div className="pointer-events-none absolute inset-0 bg-black/40" />
         <div className="absolute inset-x-2 top-2 sm:inset-x-3 sm:top-3 flex items-center justify-between gap-1 sm:gap-2">
           <PlatformBadge platform={item.platform} />
           {item.isFeatured && (
@@ -154,7 +155,7 @@ function DetailModal({
   const metrics = [
     { icon: Eye, label: "Views", value: formatNumber(item.views), color: "text-blue-400", bg: "bg-blue-500/10 border-blue-500/20" },
     { icon: Heart, label: "Likes", value: formatNumber(item.likes), color: "text-rose-400", bg: "bg-rose-500/10 border-rose-500/20" },
-    { icon: TrendingUp, label: "Engagement", value: item.engagementRate || "—", color: "text-emerald-400", bg: "bg-emerald-500/10 border-emerald-500/20" },
+    { icon: TrendingUp, label: "Engagement", value: item.engagementRate || "-", color: "text-emerald-400", bg: "bg-emerald-500/10 border-emerald-500/20" },
     { icon: MessageCircle, label: "Komentar", value: formatNumber(item.comments), color: "text-violet-400", bg: "bg-violet-500/10 border-violet-500/20" },
     { icon: Share2, label: "Shares", value: formatNumber(item.shares), color: "text-amber-400", bg: "bg-amber-500/10 border-amber-500/20" },
     { icon: Bookmark, label: "Saves", value: formatNumber(item.saves), color: "text-cyan-400", bg: "bg-cyan-500/10 border-cyan-500/20" },
@@ -162,17 +163,17 @@ function DetailModal({
 
   return (
     <motion.dialog ref={dialogRef} onCancel={(event) => { event.preventDefault(); onClose(); }} aria-label={item.title}
-      initial={false}
+      initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       className="m-0 h-dvh max-h-none w-screen max-w-none border-0 fixed inset-0 z-50 flex items-start justify-center p-0 md:py-10 md:px-4 bg-black/85 backdrop-blur-lg overflow-y-auto"
       onClick={(e) => e.target === e.currentTarget && onClose()}
     >
       <motion.div
-        initial={false}
+        initial={{ opacity: 0, scale: 0.95, y: 16 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.94, y: 24 }}
-        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+        exit={{ opacity: 0, scale: 0.95, y: 16 }}
+        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
         className="relative w-full max-w-4xl bg-[var(--showcase-dialog)] border-0 md:border border-[var(--showcase-ink)]/[0.09] rounded-none md:rounded-3xl shadow-[0_40px_80px_rgba(0,0,0,0.9)] md:overflow-hidden flex flex-col md:flex-row flex-shrink-0 min-h-dvh md:min-h-0"
       >
         {/* Desktop close button */}
@@ -296,7 +297,7 @@ function DetailModal({
               <div className="grid grid-cols-2 gap-2">
                 <div className="p-3 rounded-xl bg-[var(--showcase-ink)]/[0.03] border border-[var(--showcase-ink)]/[0.06]">
                   <p className="text-[10px] text-[var(--showcase-ink)]/30 mb-1">Target Audiens</p>
-                  <p className="text-xs text-[var(--showcase-ink)] font-semibold">{item.targetAudience || "—"}</p>
+                  <p className="text-xs text-[var(--showcase-ink)] font-semibold">{item.targetAudience || "-"}</p>
                 </div>
                 <div className="p-3 rounded-xl bg-[var(--showcase-ink)]/[0.03] border border-[var(--showcase-ink)]/[0.06]">
                   <p className="text-[10px] text-[var(--showcase-ink)]/30 mb-1">Sentimen Audiens</p>
@@ -337,7 +338,7 @@ function AggregateStatsBar({ items }: { items: ShowcaseItem[] }) {
   const avgER =
     erItems.length > 0
       ? (erItems.reduce((s, i) => s + parseFloat(i.engagementRate || "0"), 0) / erItems.length).toFixed(1) + "%"
-      : "—";
+      : "-";
 
   const stats = [
     { icon: Eye, label: "Total Views", value: totalViews, color: "text-blue-400", bg: "bg-blue-500/10 border-blue-500/20" },
@@ -351,17 +352,19 @@ function AggregateStatsBar({ items }: { items: ShowcaseItem[] }) {
   return (
     <motion.div
       ref={ref}
-      initial={false}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay: 0.2 }}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
       className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-12"
     >
       {stats.map(({ icon: Icon, label, value, valueStr, color, bg }, i) => (
         <motion.div
           key={label}
-          initial={false}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.1 + i * 0.08, duration: 0.5 }}
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ delay: 0.05 + i * 0.06, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
           className={`flex items-center gap-3 px-4 py-4 rounded-2xl border ${bg}`}
         >
           <div className="w-9 h-9 rounded-xl bg-[var(--showcase-ink)]/5 flex items-center justify-center flex-shrink-0">
@@ -436,21 +439,20 @@ export default function SocialShowcaseSection({ items, loadError = false }: { it
     <section id="showcase" ref={sectionRef} className="relative overflow-hidden">
       {/* Ambient */}
       <div className="absolute inset-0 grid-bg opacity-20 pointer-events-none" />
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-solaki-teal/40 to-transparent" />
-      <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[600px] bg-[radial-gradient(ellipse,rgba(13,92,70,0.13)_0%,transparent_65%)] pointer-events-none blur-3xl" />
-      <div className="absolute bottom-0 right-0 w-[500px] h-[400px] bg-[radial-gradient(ellipse,rgba(139,92,246,0.06)_0%,transparent_70%)] pointer-events-none blur-3xl" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-solaki-teal/30" />
 
       {/* -- Portfolio -- */}
-      <div className="pt-20 sm:pt-28 pb-6 sm:pb-8">
+      <div className="pt-10 sm:pt-14 md:pt-16 pb-6 sm:pb-8">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
 
           <motion.div
-            initial={false}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className="text-center mb-10"
           >
-            <div className="section-badge mb-5 inline-flex items-center gap-2">
+            <div className="section-badge mb-3 sm:mb-3.5 inline-flex items-center gap-2">
               <Sparkles className="w-3.5 h-3.5 text-solaki-glow animate-pulse" />
               <span>SOLAKI / SELECTED SOCIAL WORK</span>
             </div>
@@ -463,9 +465,10 @@ export default function SocialShowcaseSection({ items, loadError = false }: { it
             </p>
 
             <motion.div
-              initial={false}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.25, duration: 0.5 }}
+              initial={{ opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ delay: 0.15, duration: 0.45 }}
               className="flex items-center justify-center gap-2 mt-8 flex-wrap"
             >
               {[
@@ -483,7 +486,7 @@ export default function SocialShowcaseSection({ items, loadError = false }: { it
                   className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-all duration-300 cursor-pointer ${
                     activePlatform === tab.id
                       ? tab.id === "instagram"
-                        ? "bg-gradient-to-r from-purple-600 to-pink-600 force-text-white shadow-lg shadow-pink-500/20 scale-105"
+                        ? "bg-[#C13584] force-text-white shadow-lg shadow-pink-500/20 scale-105"
                         : tab.id === "tiktok"
                         ? "bg-white text-black shadow-lg scale-105"
                         : "bg-solaki-teal force-text-white shadow-lg shadow-solaki-teal/25 scale-105"

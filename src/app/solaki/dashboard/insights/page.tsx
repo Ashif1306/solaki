@@ -21,6 +21,7 @@ import {
   Target,
   Percent,
   CheckCircle2,
+  Users,
 } from "lucide-react";
 import { toPng } from "html-to-image";
 import { useAdminTimezone } from "@/hooks/useAdminTimezone";
@@ -163,7 +164,6 @@ function TopCard({
             <BarChart3 className="w-12 h-12" />
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
         {/* Badge */}
         <div className="absolute top-3 left-3">
           <span
@@ -355,10 +355,10 @@ export default function InsightsPage() {
             Analitik Konten Instagram
           </h1>
           <p className="text-sm text-solaki-muted font-inter mt-1">
-            Dashboard performa konten @solaki_digital — {agg.totalPosts} postingan teranalisis
+            Dashboard performa konten @solaki_digital ({agg.totalPosts} postingan teranalisis)
             {Boolean(agg.followersCount && agg.followersCount > 0) && (
-              <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-pink-500/10 text-pink-400 border border-pink-500/20">
-                👥 {fmtNum(agg.followersCount!)} Followers
+              <span className="ml-2 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-pink-500/10 text-pink-400 border border-pink-500/20">
+                <Users className="w-3 h-3" /> {fmtNum(agg.followersCount!)} Followers
               </span>
             )}
           </p>
@@ -368,7 +368,7 @@ export default function InsightsPage() {
           <button
             onClick={handleDownloadImage}
             disabled={downloadingImage || loading || !data}
-            className="btn-download-insight inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 via-pink-600 to-rose-600 hover:from-purple-500 hover:to-rose-500 text-white force-text-white text-xs font-bold transition-all shadow-md hover:shadow-lg shadow-purple-500/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            className="btn-download-insight inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-[#C13584] hover:bg-[#a52d70] text-white force-text-white text-xs font-bold transition-all shadow-md hover:shadow-lg shadow-pink-500/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             title="Download seluruh hasil insight dan metrik dalam bentuk gambar PNG"
           >
             {downloadingImage ? (
@@ -414,7 +414,7 @@ export default function InsightsPage() {
                 <img src={brand.logoImageUrl} alt="SOLAKI" className="w-full h-full object-cover" />
               </div>
             ) : (
-              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-purple-600 via-pink-600 to-rose-600 flex items-center justify-center text-white force-text-white font-black text-lg shadow-md">
+              <div className="w-11 h-11 rounded-xl bg-[#C13584] flex items-center justify-center text-white force-text-white font-black text-lg shadow-md">
                 S
               </div>
             )}

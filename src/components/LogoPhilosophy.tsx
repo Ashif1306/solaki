@@ -48,7 +48,7 @@ const partsData: Record<LogoPart, PartInfo> = {
     headline: "Solusi",
     subtitle: "Aliran Solusi Digital yang Tepat Sasaran",
     description:
-      'Membentuk huruf S yang merepresentasikan "Solusi" — komitmen SOLAKI menghadirkan solusi digital yang mengalir fleksibel dan menjawab kebutuhan spesifik setiap klien secara tepat.',
+      'Membentuk huruf S yang merepresentasikan "Solusi", sebagai komitmen SOLAKI menghadirkan solusi digital yang mengalir fleksibel dan menjawab kebutuhan spesifik setiap klien secara tepat.',
     image: "/logo_solaki/solaki_s.png",
     color: "#0D5C46",
     glowColorDark: "rgba(13,92,70,0.7)",
@@ -63,7 +63,7 @@ const partsData: Record<LogoPart, PartInfo> = {
     headline: "Inovasi Digital",
     subtitle: "Siklus Pembaharuan Berkelanjutan",
     description:
-      'Membentuk huruf O yang merepresentasikan "Inovasi Digital" — siklus inovasi yang terus berputar, beradaptasi, dan berkembang mengikuti dinamika transformasi dunia digital.',
+      'Membentuk huruf O yang merepresentasikan "Inovasi Digital", yakni siklus inovasi yang terus berputar, beradaptasi, dan berkembang mengikuti dinamika transformasi dunia digital.',
     image: "/logo_solaki/solaki_o.png",
     color: "#10B981",
     glowColorDark: "rgba(16,185,129,0.65)",
@@ -78,7 +78,7 @@ const partsData: Record<LogoPart, PartInfo> = {
     headline: "Agensi Kreatif",
     subtitle: "Simbol Keterhubungan (Link) & Kemitraan",
     description:
-      'Membentuk huruf L yang merepresentasikan "Agensi Kreatif" — simbol keterhubungan (link) erat antara agensi dan klien dalam setiap layanan kreatif dan desain visual yang dihadirkan.',
+      'Membentuk huruf L yang merepresentasikan "Agensi Kreatif", simbol keterhubungan (link) erat antara agensi dan klien dalam setiap layanan kreatif dan desain visual yang dihadirkan.',
     image: "/logo_solaki/solaki_l.png",
     color: "#D95338",
     glowColorDark: "rgba(217,83,56,0.65)",
@@ -133,23 +133,13 @@ export default function LogoPhilosophy() {
 
   return (
     <section ref={containerRef} className="relative py-2 sm:py-6 md:py-8">
-      {/* ── Ambient Radial Studio Glow ── */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <motion.div
-          animate={{
-            background: `radial-gradient(ellipse at 35% 50%, ${activeGlowColor} 0%, transparent 65%)`,
-          }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[600px] pointer-events-none blur-3xl ${
-            isDark ? "opacity-40" : "opacity-25"
-          }`}
-        />
-      </div>
+
 
       {/* ── Section Header & Timeline Selector ── */}
       <motion.div
-        initial={false}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-40px" }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         className="text-center relative z-10 mb-4 sm:mb-8 md:mb-10"
       >
@@ -186,7 +176,7 @@ export default function LogoPhilosophy() {
                     <motion.div
                       layoutId="activeTabPill"
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                      className="absolute inset-0 rounded-full bg-gradient-to-r from-solaki-teal to-[#087355] shadow-lg shadow-solaki-teal/40 -z-10"
+                      className="absolute inset-0 rounded-full bg-solaki-teal shadow-lg shadow-solaki-teal/40 -z-10"
                     />
                   )}
 
@@ -247,7 +237,7 @@ export default function LogoPhilosophy() {
             <div className="relative w-64 h-64 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 flex items-center justify-center select-none">
               
               {/* Studio Pedestal Disc with Deep Vignette (Consistent Dark Stage for #FFFFFF Logo Visibility) */}
-              <div className="absolute inset-2 sm:inset-3 lg:inset-4 rounded-full bg-gradient-to-b from-[#161f2e] via-[#0d1420] to-[#060a12] border border-white/15 shadow-[0_15px_40px_rgba(0,0,0,0.85)] backdrop-blur-xl" />
+              <div className="absolute inset-2 sm:inset-3 lg:inset-4 rounded-full bg-[#0d1420] border border-white/15 shadow-[0_15px_40px_rgba(0,0,0,0.85)] backdrop-blur-xl" />
 
               {/* Luminous Orbital Cosmic Rings */}
               <div className="absolute inset-0 rounded-full border border-white/[0.08] animate-[spin_60s_linear_infinite]" />

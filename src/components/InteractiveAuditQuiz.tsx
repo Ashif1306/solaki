@@ -60,7 +60,6 @@ export default function InteractiveAuditQuiz() {
 
   return (
     <section className="py-28 relative overflow-hidden bg-solaki-dark border-t border-solaki-border/40">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_70%_50%,rgba(217,83,56,0.08)_0%,transparent_70%)]" />
       <div className="absolute inset-0 grid-bg opacity-25" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -105,13 +104,13 @@ export default function InteractiveAuditQuiz() {
                     onClick={() => setSelectedIndustry(ind)}
                     className={`p-3 rounded-xl border text-xs sm:text-sm font-semibold transition-all duration-200 text-left flex items-center justify-between cursor-pointer ${
                       selectedIndustry.id === ind.id
-                        ? "bg-solaki-green/20 border-solaki-green text-solaki-green shadow-md"
-                        : "bg-solaki-card/50 border-solaki-border/50 text-solaki-muted hover:text-white hover:border-solaki-green/30"
+                        ? "bg-[#013e37] border-[#dec83a] text-[#dec83a] shadow-md"
+                        : "bg-solaki-card/50 border-solaki-border/50 text-solaki-muted hover:text-white hover:border-[#dec83a]/30"
                     }`}
                   >
                     <span>{ind.name}</span>
                     {selectedIndustry.id === ind.id && (
-                      <span className="w-2 h-2 rounded-full bg-solaki-green flex-shrink-0" />
+                      <span className="w-2 h-2 rounded-full bg-[#dec83a] flex-shrink-0" />
                     )}
                   </button>
                 ))}
@@ -130,8 +129,8 @@ export default function InteractiveAuditQuiz() {
                     onClick={() => setSelectedChallenge(c.id)}
                     className={`p-3 rounded-xl border text-xs sm:text-sm font-medium transition-all duration-200 text-left cursor-pointer ${
                       selectedChallenge === c.id
-                        ? "bg-solaki-coral/15 border-solaki-coral text-solaki-coral shadow-sm"
-                        : "bg-solaki-card/50 border-solaki-border/50 text-solaki-muted hover:text-white hover:border-solaki-coral/30"
+                        ? "bg-[#013e37] border-[#dec83a] text-[#dec83a] shadow-sm"
+                        : "bg-solaki-card/50 border-solaki-border/50 text-solaki-muted hover:text-white hover:border-[#dec83a]/30"
                     }`}
                   >
                     {c.label}
@@ -146,7 +145,7 @@ export default function InteractiveAuditQuiz() {
                 <label className="text-xs font-bold text-solaki-muted uppercase tracking-wider">
                   3. Skala Intensitas Pertumbuhan
                 </label>
-                <span className="text-xs font-bold text-solaki-coral">
+                <span className="text-xs font-bold text-[#dec83a]">
                   {budgetTier === 1 ? "Starter Acceleration" : budgetTier === 2 ? "Growth Scaling (Rekomendasi)" : "Market Leader Expansion"}
                 </span>
               </div>
@@ -161,7 +160,7 @@ export default function InteractiveAuditQuiz() {
                     onClick={() => setBudgetTier(item.tier)}
                     className={`p-3 rounded-xl border text-center transition-all cursor-pointer ${
                       budgetTier === item.tier
-                        ? "bg-gradient-to-br from-solaki-green/20 to-solaki-card border-solaki-green text-white shadow-md"
+                        ? "bg-[#013e37] border-[#dec83a] text-white shadow-md"
                         : "bg-solaki-card/50 border-solaki-border/50 text-solaki-muted hover:text-white"
                     }`}
                   >
@@ -178,46 +177,46 @@ export default function InteractiveAuditQuiz() {
             initial={{ opacity: 0, x: 30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="lg:col-span-5 bento-card p-6 sm:p-8 bg-gradient-to-br from-solaki-dark to-solaki-black border-2 border-solaki-green/40 shadow-2xl relative overflow-hidden"
+            className="lg:col-span-5 bento-card p-6 sm:p-8 bg-[#212121] border-2 border-[#dec83a]/40 shadow-2xl relative overflow-hidden"
           >
             {/* Live Indicator */}
             <div className="flex items-center justify-between mb-6 pb-4 border-b border-solaki-border/50">
               <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-solaki-green animate-ping" />
+                <span className="w-2.5 h-2.5 rounded-full bg-[#dec83a] animate-ping" />
                 <span className="text-xs font-bold uppercase tracking-wider text-white">Hasil Analisis Diagnostik</span>
               </div>
-              <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-solaki-green/20 text-solaki-green border border-solaki-green/30">
+              <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#013e37] text-[#dec83a] border border-[#dec83a]/40">
                 Blueprint Siap
               </span>
             </div>
 
             {/* Projected Metrics */}
             <div className="space-y-4 mb-6">
-              <div className="p-4 rounded-2xl bg-solaki-card/80 border border-solaki-border/60">
+              <div className="p-4 rounded-2xl bg-[#262626] border border-solaki-border/60">
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-xs text-solaki-muted font-inter">Estimasi Jangkauan Bulanan</span>
-                  <TrendingUp className="w-4 h-4 text-solaki-green" />
+                  <TrendingUp className="w-4 h-4 text-[#dec83a]" />
                 </div>
                 <p className="text-2xl sm:text-3xl font-black text-white">{getEstimatedReach()} <span className="text-xs font-normal text-solaki-muted">Audience Accounts</span></p>
-                <p className="text-[11px] text-solaki-green font-inter mt-1">+350% potensi eksposur dari baseline awal</p>
+                <p className="text-[11px] text-[#dec83a] font-inter mt-1">+350% potensi eksposur dari baseline awal</p>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
-                <div className="p-3.5 rounded-xl bg-solaki-card/80 border border-solaki-border/60">
+                <div className="p-3.5 rounded-xl bg-[#262626] border border-solaki-border/60">
                   <p className="text-xs text-solaki-muted font-inter mb-0.5">Target ROAS Iklan</p>
-                  <p className="text-xl font-extrabold text-solaki-coral">{getEstimatedROAS()}</p>
+                  <p className="text-xl font-extrabold text-[#dec83a]">{getEstimatedROAS()}</p>
                   <p className="text-[10px] text-solaki-muted font-inter mt-0.5">Benchmark industri teruji</p>
                 </div>
-                <div className="p-3.5 rounded-xl bg-solaki-card/80 border border-solaki-border/60">
+                <div className="p-3.5 rounded-xl bg-[#262626] border border-solaki-border/60">
                   <p className="text-xs text-solaki-muted font-inter mb-0.5">Output Konten</p>
-                  <p className="text-xl font-extrabold text-solaki-green">30+ Aset / Bln</p>
+                  <p className="text-xl font-extrabold text-white">30+ Aset / Bln</p>
                   <p className="text-[10px] text-solaki-muted font-inter mt-0.5">Visual & Video High-Retention</p>
                 </div>
               </div>
 
               {/* Strategy Recommended */}
-              <div className="p-4 rounded-2xl bg-solaki-green/10 border border-solaki-green/25">
-                <p className="text-xs font-bold text-solaki-green uppercase tracking-wider mb-1 flex items-center gap-1.5">
+              <div className="p-4 rounded-2xl bg-[#013e37] border border-[#dec83a]/30">
+                <p className="text-xs font-bold text-[#dec83a] uppercase tracking-wider mb-1 flex items-center gap-1.5">
                   <Zap className="w-3.5 h-3.5" /> Rekomendasi Arah Strategi
                 </p>
                 <p className="text-xs sm:text-sm text-white font-semibold">
@@ -235,7 +234,7 @@ export default function InteractiveAuditQuiz() {
                 }
                 document.getElementById("kontak")?.scrollIntoView({ behavior: "smooth" });
               }}
-              className="w-full btn-neon py-3.5 rounded-xl text-white font-bold text-sm flex items-center justify-center gap-2 group cursor-pointer shadow-lg"
+              className="w-full btn-primary py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 group cursor-pointer shadow-lg"
             >
               Jadwalkan Konsultasi Strategis
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Zap, Sun, Moon, ArrowUpRight, Sparkles, MessageCircle } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { useSiteBrand } from "@/hooks/useSiteBrand";
@@ -26,59 +26,70 @@ export default function Navbar() {
 
   const isDark = theme === "dark";
 
-  const { scrollY } = useScroll();
-  const navOpacity = useTransform(scrollY, [0, 60], [0.92, 0.98]);
-
-  // Scroll detection for navbar background intensity
+  // High-performance scroll handling & section tracking without layout thrashing
   useEffect(() => {
+    let ticking = false;
+
+    const getSections = () => {
+      return navLinks
+        .map((l) => {
+          const id = l.href.replace("#", "");
+          const el = document.getElementById(id);
+          if (!el) return null;
+          return { id, top: el.offsetTop, height: el.offsetHeight };
+        })
+        .filter(Boolean) as { id: string; top: number; height: number }[];
+    };
+
+    let cachedSections: { id: string; top: number; height: number }[] = [];
+
+    const updateCachedSections = () => {
+      cachedSections = getSections();
+    };
+
+    updateCachedSections();
+    window.addEventListener("resize", updateCachedSections, { passive: true });
+
     const handleScroll = () => {
-      setScrolled(window.scrollY > 30);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollY = window.scrollY;
+          const isScrolled = scrollY > 30;
+          setScrolled((prev) => (prev !== isScrolled ? isScrolled : prev));
+
+          if (scrollY < 200) {
+            setActiveSection((prev) => (prev !== "home" ? "home" : prev));
+          } else if (window.innerHeight + scrollY >= document.documentElement.scrollHeight - 100) {
+            const last = navLinks[navLinks.length - 1];
+            if (last) {
+              const lastId = last.href.replace("#", "");
+              setActiveSection((prev) => (prev !== lastId ? lastId : prev));
+            }
+          } else {
+            const scrollPos = scrollY + 200;
+            for (const s of cachedSections) {
+              if (scrollPos >= s.top && scrollPos < s.top + s.height) {
+                setActiveSection((prev) => (prev !== s.id ? s.id : prev));
+                break;
+              }
+            }
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
+
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
-  // Precise scroll spy to track current section
-  useEffect(() => {
-    const handleScrollSpy = () => {
-      const scrollPos = window.scrollY + 200;
+    // Refresh cached positions after assets load
+    const refreshTimer = setTimeout(updateCachedSections, 800);
 
-      // When near the top, Home is active
-      if (window.scrollY < 200) {
-        setActiveSection("home");
-        return;
-      }
-
-      // If scrolled near bottom of page, activate last link (Contact)
-      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 100) {
-        const last = navLinks[navLinks.length - 1];
-        if (last) setActiveSection(last.href.replace("#", ""));
-        return;
-      }
-
-      const sections = navLinks
-        .map((l) => document.getElementById(l.href.replace("#", "")))
-        .filter(Boolean) as HTMLElement[];
-
-      let current = "";
-      for (const section of sections) {
-        const top = section.offsetTop;
-        const height = section.offsetHeight;
-        if (scrollPos >= top && scrollPos < top + height) {
-          current = section.id;
-          break;
-        }
-      }
-
-      if (current) {
-        setActiveSection(current);
-      }
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", updateCachedSections);
+      clearTimeout(refreshTimer);
     };
-
-    window.addEventListener("scroll", handleScrollSpy, { passive: true });
-    handleScrollSpy(); // Trigger once on mount
-
-    return () => window.removeEventListener("scroll", handleScrollSpy);
   }, []);
 
   const scrollToSection = (href: string) => {
@@ -109,12 +120,11 @@ export default function Navbar() {
         {/* Floating pill wrapper */}
         <motion.div
           ref={navRef}
-          style={{ opacity: navOpacity }}
           className={`pointer-events-auto flex items-center gap-2 px-3.5 py-2 rounded-2xl border transition-all duration-300 ${
             isDark
               ? scrolled
-                ? "bg-[#080C14]/95 border-white/20 backdrop-blur-2xl shadow-[0_12px_40px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.1)]"
-                : "bg-[#080C14]/90 border-white/15 backdrop-blur-xl shadow-[0_8px_30px_rgba(0,0,0,0.6)]"
+                ? "bg-[#212121]/95 border-white/20 backdrop-blur-2xl shadow-[0_12px_40px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(255,255,255,0.1)]"
+                : "bg-[#212121]/90 border-white/15 backdrop-blur-xl shadow-[0_8px_30px_rgba(0,0,0,0.6)]"
               : scrolled
                 ? "bg-white/98 border-slate-300/90 backdrop-blur-2xl shadow-[0_12px_36px_rgba(0,0,0,0.14),0_2px_8px_rgba(0,0,0,0.06)]"
                 : "bg-white/92 border-slate-300/80 backdrop-blur-xl shadow-[0_8px_24px_rgba(0,0,0,0.1)]"
@@ -213,29 +223,27 @@ export default function Navbar() {
                   onClick={(event) => { event.preventDefault(); scrollToSection(link.href); }}
                   onMouseEnter={() => setHoveredLink(link.href)}
                   onMouseLeave={() => setHoveredLink(null)}
+                  data-nav-active={isActive ? "true" : undefined}
                   className={`relative px-3.5 py-1.5 text-xs rounded-xl cursor-pointer transition-colors duration-200 group select-none ${
                     isActive
-                      ? isDark
-                        ? "text-white font-bold"
-                        : "text-[#0D5C46] font-extrabold"
+                      ? "font-extrabold"
                       : isHovered
                         ? isDark
                           ? "text-white font-semibold"
                           : "text-slate-950 font-bold"
                         : isDark
                           ? "text-slate-300 font-medium"
-                          : "text-slate-700 font-semibold"
+                          : "text-slate-800 font-bold"
                   }`}
+                  style={{
+                    color: isActive ? "#FFFFFF" : undefined,
+                  }}
                 >
                   {/* Active pill background */}
                   {isActive && (
                     <motion.span
                       layoutId="activePill"
-                      className={`absolute inset-0 rounded-xl ${
-                        isDark
-                          ? "bg-[#0D5C46]/35 border border-[#10B981]/50 shadow-[0_0_16px_rgba(16,185,129,0.3)]"
-                          : "bg-[#0D5C46]/12 border border-[#0D5C46]/40 shadow-[0_2px_10px_rgba(13,92,70,0.18)]"
-                      }`}
+                      className="absolute inset-0 rounded-xl bg-[#013e37] border border-[#dec83a] shadow-md"
                       transition={{ type: "spring", stiffness: 450, damping: 35 }}
                     />
                   )}
@@ -245,22 +253,23 @@ export default function Navbar() {
                     <motion.span
                       layoutId="hoverPill"
                       className={`absolute inset-0 rounded-xl ${
-                        isDark ? "bg-white/[0.08]" : "bg-slate-100"
+                        isDark ? "bg-white/[0.08]" : "bg-slate-200/80"
                       }`}
                       transition={{ duration: 0.15 }}
                     />
                   )}
 
                   {/* Link Content */}
-                  <span className="relative z-10 flex items-center gap-1.5">
+                  <span
+                    className="relative z-10 flex items-center gap-1.5 font-bold"
+                    style={{ color: isActive ? "#FFFFFF" : undefined }}
+                  >
                     {link.label}
                     {isActive && (
                       <motion.span
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
-                        className={`w-1.5 h-1.5 rounded-full ${
-                          isDark ? "bg-[#10B981] shadow-[0_0_8px_#10B981]" : "bg-[#0D5C46]"
-                        }`}
+                        className="w-1.5 h-1.5 rounded-full bg-[#dec83a]"
                       />
                     )}
                   </span>
@@ -279,7 +288,7 @@ export default function Navbar() {
               onClick={toggleTheme}
               className={`w-9 h-9 rounded-xl flex items-center justify-center border transition-all cursor-pointer ${
                 isDark
-                  ? "border-white/15 bg-white/[0.04] hover:bg-white/[0.1] hover:border-[#10B981]/60 text-slate-200 hover:text-white shadow-sm"
+                  ? "border-white/15 bg-white/[0.04] hover:bg-white/[0.1] hover:border-[#dec83a] text-slate-200 hover:text-white shadow-sm"
                   : "border-slate-300 bg-slate-100/90 hover:bg-slate-200 hover:border-slate-400 text-slate-800 hover:text-slate-950 shadow-sm"
               }`}
               whileHover={{ scale: 1.08 }}
@@ -306,7 +315,7 @@ export default function Navbar() {
                     exit={{ rotate: -90, opacity: 0, scale: 0.5 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <Moon className="w-4 h-4 text-[#0D5C46]" />
+                    <Moon className="w-4 h-4 text-[#013e37]" />
                   </motion.div>
                 )}
               </AnimatePresence>
@@ -317,22 +326,28 @@ export default function Navbar() {
               href={brand.whatsappUrl || "#contact"}
               target={brand.whatsappUrl ? "_blank" : undefined}
               rel={brand.whatsappUrl ? "noopener noreferrer" : undefined}
-              className="hidden sm:flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-white text-xs font-bold cursor-pointer select-none relative overflow-hidden group shadow-md"
+              data-nav-cta="true"
+              className="hidden sm:flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold cursor-pointer select-none relative overflow-hidden group shadow-md"
               style={{
-                background: "linear-gradient(135deg, #0D5C46 0%, #12795C 100%)",
+                background: "#013e37",
+                color: "#FFFFFF",
+                border: "1.5px solid #dec83a",
                 boxShadow: isDark
-                  ? "0 0 0 1px rgba(16,185,129,0.4), 0 4px 16px rgba(13,92,70,0.45)"
-                  : "0 4px 16px rgba(13,92,70,0.3)",
+                  ? "0 4px 14px rgba(1,62,55,0.4)"
+                  : "0 4px 14px rgba(1,62,55,0.2)",
               }}
               whileHover={{
                 scale: 1.04,
-                boxShadow: "0 0 0 1px rgba(16,185,129,0.7), 0 6px 24px rgba(13,92,70,0.55)",
+                background: "#dec83a",
+                color: "#212121",
               }}
               whileTap={{ scale: 0.96 }}
             >
-              <MessageCircle className="w-3.5 h-3.5 text-[#25D366] fill-[#25D366]/20 relative z-10" />
-              <span className="relative z-10">Konsultasi</span>
-              <ArrowUpRight className="w-3.5 h-3.5 text-[#FCEEB5]/90 relative z-10 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              <MessageCircle className="w-3.5 h-3.5 text-[#dec83a] group-hover:text-[#212121] transition-colors relative z-10" />
+              <span className="relative z-10 font-bold transition-colors" style={{ color: "#FFFFFF" }}>
+                Konsultasi
+              </span>
+              <ArrowUpRight className="w-3.5 h-3.5 text-[#dec83a] group-hover:text-[#212121] transition-colors relative z-10 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </motion.a>
 
             {/* Mobile hamburger */}
@@ -443,7 +458,7 @@ export default function Navbar() {
                 ) : (
                   <div className="relative w-8 h-8 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center flex-shrink-0">
                     <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-5 h-5">
-                      <circle cx="20" cy="20" r="19" stroke="url(#nav-drawer-grad)" strokeWidth="1.5" />
+                      <circle cx="20" cy="20" r="19" stroke="#0D5C46" strokeWidth="1.5" />
                       <path
                         d="M12 20 C12 14, 18 10, 20 10 C22 10, 22 14, 20 20 C18 26, 18 30, 20 30 C22 30, 28 26, 28 20"
                         stroke="#0D5C46"
@@ -454,12 +469,6 @@ export default function Navbar() {
                       <circle cx="20" cy="20" r="3" fill="#FCEEB5" />
                       <circle cx="12" cy="20" r="2" fill="#D95338" opacity="0.85" />
                       <circle cx="28" cy="20" r="2" fill="#0D5C46" />
-                      <defs>
-                        <linearGradient id="nav-drawer-grad" x1="0" y1="0" x2="40" y2="40">
-                          <stop stopColor="#0D5C46" />
-                          <stop offset="1" stopColor="#D95338" />
-                        </linearGradient>
-                      </defs>
                     </svg>
                   </div>
                 )}
@@ -556,14 +565,15 @@ export default function Navbar() {
                   rel={brand.whatsappUrl ? "noopener noreferrer" : undefined}
                   className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl text-white text-xs font-bold cursor-pointer select-none relative overflow-hidden shadow-md"
                   style={{
-                    background: "linear-gradient(135deg, #0D5C46 0%, #12795C 100%)",
-                    boxShadow: "0 4px 16px rgba(13,92,70,0.35)",
+                    background: "#013e37",
+                    border: "1px solid #dec83a",
+                    boxShadow: "0 4px 16px rgba(1,62,55,0.35)",
                   }}
                   whileTap={{ scale: 0.97 }}
                 >
-                  <MessageCircle className="w-3.5 h-3.5 text-[#25D366] fill-[#25D366]/20" />
-                  Konsultasi
-                  <ArrowUpRight className="w-3.5 h-3.5 text-[#FCEEB5]/80" />
+                  <MessageCircle className="w-3.5 h-3.5 text-[#dec83a]" />
+                  <span>Konsultasi</span>
+                  <ArrowUpRight className="w-3.5 h-3.5 text-[#dec83a]" />
                 </motion.a>
               </div>
             </motion.div>

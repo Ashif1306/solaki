@@ -12,7 +12,7 @@ const services = [
     title: "Content Creator",
     subtitle: "Konten yang Bicara ke Audiens",
     description:
-      "Merancang konten visual dan tulisan yang menarik, relevan, dan konsisten dengan identitas brand Anda — mulai dari desain grafis, carousel, caption, hingga short-form video.",
+      "Merancang konten visual dan tulisan yang menarik, relevan, dan konsisten dengan identitas brand Anda, mulai dari desain grafis, carousel, caption, hingga short-form video.",
     features: [
       "Desain grafis & template brand",
       "Copywriting & caption strategy",
@@ -32,7 +32,7 @@ const services = [
     title: "Social Media Management",
     subtitle: "Kehadiran Digital yang Konsisten",
     description:
-      "Mengelola media sosial dari perencanaan konten hingga interaksi langsung dengan audiens — memastikan brand Anda aktif, relevan, dan membangun komunitas yang loyal.",
+      "Mengelola media sosial dari perencanaan konten hingga interaksi langsung dengan audiens untuk memastikan brand Anda aktif, relevan, dan membangun komunitas yang loyal.",
     features: [
       "Perencanaan & penjadwalan konten",
       "Pengelolaan Instagram, TikTok, Facebook",
@@ -52,7 +52,7 @@ const services = [
     title: "Digital Advertising",
     subtitle: "Iklan yang Menghasilkan Konversi",
     description:
-      "Menjalankan dan mengoptimalkan kampanye iklan berbayar di Meta (Instagram & Facebook) dan TikTok Ads — dengan target audiens yang presisi dan fokus pada hasil nyata.",
+      "Menjalankan dan mengoptimalkan kampanye iklan berbayar di Meta (Instagram & Facebook) dan TikTok Ads dengan target audiens yang presisi dan fokus pada hasil nyata.",
     features: [
       "Setup & manajemen Meta Ads",
       "Setup & manajemen TikTok Ads",
@@ -84,7 +84,7 @@ export default function BentoServices() {
     <section
       id="services"
       ref={sectionRef}
-      className="py-28 relative overflow-hidden bg-solaki-bg scroll-mt-12"
+      className="pt-8 sm:pt-12 md:pt-14 pb-10 sm:pb-12 md:pb-14 relative overflow-hidden bg-solaki-bg scroll-mt-12"
     >
       {/* Anchor alias for #layanan */}
       <span id="layanan" className="sr-only absolute -top-12 left-0" />
@@ -93,12 +93,13 @@ export default function BentoServices() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <motion.div
-          initial={false}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7 }}
-          className="text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="text-center mb-10 sm:mb-12"
         >
-          <span className="section-badge mb-6 inline-flex">
+          <span className="section-badge mb-3 sm:mb-3.5 inline-flex">
             <PenTool className="w-3 h-3" />
             Layanan SOLAKI
           </span>
@@ -112,13 +113,14 @@ export default function BentoServices() {
         </motion.div>
 
         {/* Service Cards */}
-        <div className="grid md:grid-cols-3 gap-6 mb-12">
+        <div className="grid md:grid-cols-3 gap-6 mb-8">
           {services.map((svc, i) => (
             <motion.div
               key={svc.id}
-              initial={false}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: i * 0.12, duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
+              initial={{ opacity: 0, y: 28, scale: 0.98 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ delay: i * 0.1, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
               className="group"
             >
               <div
@@ -190,13 +192,13 @@ export default function BentoServices() {
 
         {/* Bottom note */}
         <motion.div
-          initial={false}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.5, duration: 0.6 }}
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ delay: 0.2, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           className="text-center bento-card p-6 max-w-2xl mx-auto"
         >
           <p className="text-solaki-muted text-sm font-inter">
-            💬{" "}
             <span className="text-white font-semibold">
               Butuh lebih dari satu layanan?
             </span>{" "}

@@ -176,7 +176,7 @@ export default function AnalyticsDashboardPage() {
           <button
             onClick={handleDownloadImage}
             disabled={downloadingImage || loading || !data}
-            className="btn-download-insight inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white force-text-white text-xs font-bold transition-all shadow-md hover:shadow-lg shadow-emerald-500/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            className="btn-download-insight inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#0D5C46] hover:bg-[#0a7a5e] text-white force-text-white text-xs font-bold transition-all shadow-md hover:shadow-lg shadow-emerald-500/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             title="Download seluruh hasil insight dan metrik dalam bentuk gambar PNG"
           >
             {downloadingImage ? (
@@ -217,7 +217,7 @@ export default function AnalyticsDashboardPage() {
                     <img src={brand.logoImageUrl} alt="SOLAKI" className="w-full h-full object-cover" />
                   </div>
                 ) : (
-                  <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-700 flex items-center justify-center text-white force-text-white font-black text-lg shadow-md">
+                  <div className="w-11 h-11 rounded-xl bg-[#0D5C46] flex items-center justify-center text-white force-text-white font-black text-lg shadow-md">
                     S
                   </div>
                 )}
@@ -507,16 +507,6 @@ export default function AnalyticsDashboardPage() {
                 {data.trendData && data.trendData.length > 0 ? (
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={data.trendData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                      <defs>
-                        <linearGradient id="viewsGradient" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#0D5C46" stopOpacity={0.6} />
-                          <stop offset="95%" stopColor="#0D5C46" stopOpacity={0} />
-                        </linearGradient>
-                        <linearGradient id="visitorsGradient" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#A855F7" stopOpacity={0.4} />
-                          <stop offset="95%" stopColor="#A855F7" stopOpacity={0} />
-                        </linearGradient>
-                      </defs>
                       <CartesianGrid strokeDasharray="3 3" stroke={isLight ? "#E2E8F0" : "#2A2A2A"} vertical={false} />
                       <XAxis dataKey="label" stroke={isLight ? "#64748B" : "#888888"} fontSize={11} tickLine={false} axisLine={{ stroke: isLight ? "#CBD5E1" : "#2A2A2A" }} />
                       <YAxis stroke={isLight ? "#64748B" : "#888888"} fontSize={11} tickLine={false} axisLine={{ stroke: isLight ? "#CBD5E1" : "#2A2A2A" }} allowDecimals={false} />
@@ -531,8 +521,8 @@ export default function AnalyticsDashboardPage() {
                         }}
                         labelStyle={{ fontWeight: "bold", marginBottom: "4px" }}
                       />
-                      <Area type="monotone" dataKey="views" name="Pageviews" stroke="#10B981" strokeWidth={2} fillOpacity={1} fill="url(#viewsGradient)" />
-                      <Area type="monotone" dataKey="visitors" name="Unique Visitors" stroke="#C084FC" strokeWidth={2} fillOpacity={1} fill="url(#visitorsGradient)" />
+                      <Area type="monotone" dataKey="views" name="Pageviews" stroke="#10B981" strokeWidth={2} fill="#10B981" fillOpacity={0.15} />
+                      <Area type="monotone" dataKey="visitors" name="Unique Visitors" stroke="#C084FC" strokeWidth={2} fill="#C084FC" fillOpacity={0.15} />
                     </AreaChart>
                   </ResponsiveContainer>
                 ) : (

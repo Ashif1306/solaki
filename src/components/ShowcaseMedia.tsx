@@ -16,5 +16,5 @@ export default function ShowcaseMedia({ mediaUrl = "", postUrl = "", title, cont
     return <img src={source} alt={title} loading="lazy" className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]" onError={() => setFailed(source)} />;
   }
   if (embed) return <iframe src={embed} title={title} loading="lazy" allow="fullscreen; encrypted-media; picture-in-picture" allowFullScreen className={`absolute inset-0 h-full w-full border-0 bg-white ${controls ? "" : "pointer-events-none"}`} tabIndex={controls ? 0 : -1} />;
-  return <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-gradient-to-br from-emerald-950 via-zinc-900 to-zinc-950 p-6 text-center"><ImageIcon className="h-9 w-9 text-emerald-300/50" /><span className="text-xs text-white/60">Preview belum tersedia</span></div>;
+  return <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-[#14231d] p-6 text-center"><ImageIcon className="h-9 w-9 text-emerald-300/50" /><span className="text-xs text-white/60">Preview belum tersedia</span></div>;
 }

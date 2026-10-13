@@ -26,8 +26,7 @@ export default function TransformationShowcase() {
 
   return (
     <section className="py-28 relative overflow-hidden bg-solaki-black border-y border-solaki-border/40">
-      {/* Background glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(13,92,70,0.1)_0%,transparent_70%)]" />
+      {/* Background */}
       <div className="absolute inset-0 grid-bg opacity-20" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -240,15 +239,15 @@ export default function TransformationShowcase() {
 
               {/* Right Column: Simulated Winning Mockup */}
               <div className="lg:col-span-6 flex justify-center">
-                <div className="w-full max-w-sm rounded-3xl p-6 bg-gradient-to-br from-solaki-card to-solaki-dark border-2 border-solaki-green/50 shadow-[0_0_50px_rgba(13,92,70,0.25)] relative overflow-hidden">
+                <div className="w-full max-w-sm rounded-3xl p-6 bg-solaki-card border-2 border-solaki-green/50 shadow-xl relative overflow-hidden">
                   {/* Decorative badge */}
                   <div className="absolute top-0 right-0 bg-solaki-green text-white text-[10px] font-black px-4 py-1 rounded-bl-xl tracking-wider uppercase">
-                    ★ SOLAKI Accelerated
+                    SOLAKI Accelerated
                   </div>
 
                   <div className="flex items-center justify-between pb-4 border-b border-solaki-border/50 mb-4 mt-2">
                     <div className="flex items-center gap-2.5">
-                      <div className="w-11 h-11 rounded-full bg-gradient-to-tr from-solaki-green to-solaki-coral p-0.5">
+                      <div className="w-11 h-11 rounded-full bg-solaki-green p-0.5">
                         <div className="w-full h-full rounded-full bg-solaki-black flex items-center justify-center text-xs text-white font-bold">
                           BRAND
                         </div>

@@ -2,33 +2,32 @@
 
 @layer base {
   :root {
-    --font-poppins:    "Poppins", sans-serif;
-    --font-inter:      "Inter", sans-serif;
-    --font-montserrat: "Montserrat", sans-serif;
+    --font-jakarta: var(--font-jakarta), "Plus Jakarta Sans", sans-serif;
+    --font-inter:   var(--font-inter), "Inter", sans-serif;
 
-    /* ─── SOLAKI Brand Tokens — Dark Mode (default) ─────────────────── */
-    /* Background */
-    --color-bg-primary:   #0d1a17;    /* deepest bg — dark green-black */
-    --color-bg-secondary: #111d18;    /* card bg */
-    --color-bg-elevated:  #172620;    /* elevated cards */
+    /* ─── SOLAKI Brand Tokens - Dark Mode (default) ─────────────────── */
+    /* Background (Palette: #212121) */
+    --color-bg-primary:   #212121;    /* charcoal dark */
+    --color-bg-secondary: #262626;    /* card surface */
+    --color-bg-elevated:  #2D2D2D;    /* elevated cards */
 
     /* Borders & separators */
-    --color-border:       #1e3329;
-    --color-border-light: #234438;
+    --color-border:       #383838;
+    --color-border-light: #484848;
 
-    /* Text */
+    /* Text (Palette: #ffffff) */
     --color-text-primary: #FFFFFF;
-    --color-text-muted:   #9dc2b5;
-    --color-text-subtle:  #7ca899;
+    --color-text-muted:   #B3B3B3;
+    --color-text-subtle:  #808080;
 
-    /* Brand accents — sesuai gambar */
+    /* Brand accents (Palette: #013e37, #dec83a, #212121, #ffffff) */
     --color-green:        #013e37;    /* primary brand green */
-    --color-green-light:  #025048;    /* lighter green */
-    --color-green-glow:   #10b981;    /* glow / highlight */
-    --color-gold:         #dec83a;    /* yellow-gold accent */
-    --color-gold-dark:    #c4af2a;    /* gold darker */
-    --color-dark:         #212121;    /* near-black */
-    --color-white:        #FFFFFF;
+    --color-green-light:  #025048;    /* hover brand green */
+    --color-green-glow:   #dec83a;    /* gold accent */
+    --color-gold:         #dec83a;    /* vibrant gold */
+    --color-gold-dark:    #c4af2a;    /* darker gold */
+    --color-dark:         #212121;    /* charcoal */
+    --color-white:        #FFFFFF;    /* pure white */
   }
 
   * {
@@ -38,13 +37,13 @@
   }
 
   html {
-    scroll-behavior: smooth;
+    /* Allow native high-performance hardware accelerated scrolling */
   }
 
   body {
     background-color: var(--color-bg-primary);
     color: var(--color-text-primary);
-    font-family: var(--font-montserrat);
+    font-family: var(--font-jakarta);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
@@ -52,60 +51,57 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-poppins);
+    font-family: var(--font-jakarta);
   }
 
   ::selection {
-    background-color: rgba(222,200,58,0.35);
-    color: #FFFFFF;
+    background-color: #dec83a;
+    color: #212121;
   }
 
   ::-webkit-scrollbar { width: 5px; }
   ::-webkit-scrollbar-track { background: var(--color-bg-primary); }
   ::-webkit-scrollbar-thumb { background: var(--color-border-light); border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--color-green-glow); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--color-gold); }
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   TAILWIND THEME EXTENSION — Solaki custom colors
+   TAILWIND THEME EXTENSION: Solaki custom colors
    ═══════════════════════════════════════════════════════════════ */
 @theme {
   /* Backgrounds */
-  --color-solaki-bg:          #0d1a17;
-  --color-solaki-surface:     #111d18;
-  --color-solaki-elevated:    #172620;
-  --color-solaki-card:        #14231d;
+  --color-solaki-bg:          #212121;
+  --color-solaki-surface:     #262626;
+  --color-solaki-elevated:    #2D2D2D;
+  --color-solaki-card:        #212121;
   --color-solaki-black:       #212121;
 
   /* Borders */
-  --color-solaki-border:      #1e3329;
-  --color-solaki-border-l:    #2a4a3b;
+  --color-solaki-border:      #383838;
+  --color-solaki-border-l:    #484848;
 
   /* Text */
   --color-solaki-text:        #FFFFFF;
-  --color-solaki-muted:       #9dc2b5;
-  --color-solaki-subtle:      #7ca899;
+  --color-solaki-muted:       #B3B3B3;
+  --color-solaki-subtle:      #808080;
 
-  /* Brand palette — sesuai gambar */
+  /* Brand palette: #013e37, #dec83a, #212121, #ffffff */
   --color-solaki-green:       #013e37;
   --color-solaki-green-l:     #025048;
-  --color-solaki-glow:        #10b981;
+  --color-solaki-glow:        #dec83a;
   --color-solaki-gold:        #dec83a;
   --color-solaki-gold-d:      #c4af2a;
   --color-solaki-dark:        #212121;
 
-  /* Legacy aliases (agar komponen lama tidak error) */
-  --color-solaki-teal:        #10b981;
-  --color-solaki-teal-l:      #34d399;
+  /* Aliases mapped to 4-color palette */
+  --color-solaki-teal:        #013e37;
+  --color-solaki-teal-l:      #025048;
   --color-solaki-coral:       #dec83a;
-  --color-solaki-indigo:      #0a7a5e;
+  --color-solaki-indigo:      #013e37;
 
   /* Fonts */
-  --font-poppins:             "Poppins", sans-serif;
-  --font-inter:               "Inter", sans-serif;
-  --font-montserrat:          "Montserrat", sans-serif;
-  /* Legacy alias */
-  --font-jakarta:             "Poppins", sans-serif;
+  --font-jakarta:             var(--font-jakarta), "Plus Jakarta Sans", sans-serif;
+  --font-inter:               var(--font-inter), "Inter", sans-serif;
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -147,14 +143,14 @@
   }
 
   .card:hover {
-    border-color: var(--color-border-light);
+    border-color: #dec83a;
     box-shadow: 0 20px 60px rgba(0,0,0,0.5);
   }
 
   /* ── Bento card (used across sections) ── */
   .bento-card {
-    background: linear-gradient(135deg, rgba(23,38,32,0.95) 0%, rgba(17,29,24,0.98) 100%);
-    border: 1px solid var(--color-border);
+    background: #212121;
+    border: 1px solid #333333;
     border-radius: 20px;
     position: relative;
     overflow: hidden;
@@ -162,8 +158,8 @@
   }
 
   .bento-card:hover {
-    border-color: rgba(222,200,58,0.35);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(222,200,58,0.08);
+    border-color: #dec83a;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.6);
     transform: translateY(-3px);
   }
 
@@ -172,10 +168,10 @@
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    padding: 5px 14px;
+    padding: 6px 16px;
     border-radius: 100px;
-    background: rgba(1,62,55,0.20);
-    border: 1px solid rgba(222,200,58,0.30);
+    background: #013e37;
+    border: 1px solid #dec83a;
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.12em;
@@ -184,34 +180,44 @@
     font-family: var(--font-inter);
   }
 
-  /* ── Gradient texts ── */
+  /* ── Solid accent texts (Palette: #dec83a, #ffffff) ── */
   .gradient-text-teal {
-    background: linear-gradient(135deg, #025048, #0a7a5e, #dec83a);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #dec83a;
+    background: none;
+    -webkit-text-fill-color: initial;
+  }
+
+  .gradient-text-green {
+    color: #dec83a;
+    background: none;
+    -webkit-text-fill-color: initial;
+  }
+
+  .gradient-text-coral {
+    color: #dec83a;
+    background: none;
+    -webkit-text-fill-color: initial;
   }
 
   .gradient-text-white {
-    background: linear-gradient(135deg, #FFFFFF 0%, #AAAAAA 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: #FFFFFF;
+    background: none;
+    -webkit-text-fill-color: initial;
   }
 
-  /* ── CTA button (primary — brand green) ── */
+  /* ── CTA button (primary: brand green + gold border) ── */
   .btn-primary {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     padding: 14px 28px;
     border-radius: 14px;
-    background: linear-gradient(135deg, #013e37, #025048);
-    color: white;
+    background: #013e37;
+    color: #FFFFFF;
     font-weight: 700;
     font-size: 14px;
-    font-family: var(--font-poppins);
-    border: 1px solid rgba(222,200,58,0.25);
+    font-family: var(--font-jakarta);
+    border: 1px solid #dec83a;
     cursor: pointer;
     transition: all 0.3s ease;
     text-decoration: none;
@@ -220,22 +226,14 @@
   }
 
   .btn-primary:hover {
-    box-shadow: 0 0 30px rgba(222,200,58,0.25), 0 8px 24px rgba(1,62,55,0.4);
+    background: #dec83a;
+    color: #212121;
+    border-color: #dec83a;
     transform: translateY(-2px);
-    border-color: rgba(222,200,58,0.5);
+    box-shadow: 0 8px 24px rgba(222,200,58,0.25);
   }
 
-  .btn-primary::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(222,200,58,0.08), transparent);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  .btn-primary:hover::before { opacity: 1; }
-
-  /* ── CTA button (secondary — outline) ── */
+  /* ── CTA button (secondary: outline) ── */
   .btn-secondary {
     display: inline-flex;
     align-items: center;
@@ -305,12 +303,9 @@
     filter: grayscale(0%);
   }
 
-  /* ── Hero base gradient (light-mode safe) ── */
+  /* ── Hero base background ── */
   .hero-base-gradient {
-    background:
-      radial-gradient(ellipse 140% 90% at 50% -5%,  rgba(10,122,94,0.55) 0%, rgba(1,62,55,0.28) 40%, transparent 65%),
-      radial-gradient(ellipse 80%  60% at 80% 100%, rgba(222,200,58,0.10) 0%, transparent 55%),
-      radial-gradient(ellipse 70%  50% at 10% 80%,  rgba(1,62,55,0.30) 0%, transparent 55%);
+    background: #212121;
   }
 
 
@@ -337,19 +332,97 @@ html.light .bg-solaki-elevated { background-color: #F0F0F0 !important; }
 html.light .bg-solaki-card   { background-color: #FFFFFF !important; }
 
 /* Text */
-html.light .text-white       { color: #111111 !important; }
-html.light .text-solaki-muted { color: #666666 !important; }
-html.light .text-solaki-subtle { color: #888888 !important; }
-html.light .text-solaki-teal  { color: #047857 !important; }
+html.light .text-white:not(.force-text-white):not(.dark-card-content):not(.dark-card-content *):not(.btn-primary):not(.btn-primary *):not([data-nav-active]):not([data-nav-active] *):not([data-nav-cta]):not([data-nav-cta] *) {
+  color: #111111 !important;
+}
+html.light .text-solaki-muted:not(.dark-card-content):not(.dark-card-content *) { color: #666666 !important; }
+html.light .text-solaki-subtle:not(.dark-card-content):not(.dark-card-content *) { color: #888888 !important; }
+html.light .text-solaki-teal:not(.dark-card-content):not(.dark-card-content *)  { color: #013e37 !important; }
 
-/* Guaranteed text colors regardless of theme */
-.force-text-white { color: #FFFFFF !important; }
+/* Guaranteed high contrast for buttons, active pills, and dark image cards */
+.force-text-white,
+html.light .force-text-white,
+.dark-card-content,
+.dark-card-content p,
+.dark-card-content strong,
+.dark-card-content h1,
+.dark-card-content h2,
+.dark-card-content h3,
+.dark-card-content h4,
+.dark-card-content li,
+html.light .dark-card-content,
+html.light .dark-card-content p,
+html.light .dark-card-content strong,
+html.light .dark-card-content h1,
+html.light .dark-card-content h2,
+html.light .dark-card-content h3,
+html.light .dark-card-content h4,
+html.light .dark-card-content li,
+.btn-primary,
+.btn-primary span,
+html.light .btn-primary,
+html.light .btn-primary span,
+[data-nav-active],
+[data-nav-active] span,
+html.light [data-nav-active],
+html.light [data-nav-active] span,
+[data-nav-cta],
+[data-nav-cta] span,
+html.light [data-nav-cta],
+html.light [data-nav-cta] span {
+  color: #FFFFFF !important;
+}
+
+.dark-card-content .text-solaki-gold,
+html.light .dark-card-content .text-solaki-gold {
+  color: #dec83a !important;
+}
+
+.btn-primary svg,
+html.light .btn-primary svg,
+[data-nav-cta] svg,
+html.light [data-nav-cta] svg {
+  color: #dec83a !important;
+}
+
+.btn-primary:hover,
+.btn-primary:hover span,
+.btn-primary:hover svg,
+html.light .btn-primary:hover,
+html.light .btn-primary:hover span,
+html.light .btn-primary:hover svg,
+[data-nav-cta]:hover,
+[data-nav-cta]:hover span,
+[data-nav-cta]:hover svg,
+html.light [data-nav-cta]:hover,
+html.light [data-nav-cta]:hover span,
+html.light [data-nav-cta]:hover svg {
+  color: #212121 !important;
+}
+
 .force-text-light { color: #E2E8F0 !important; }
 .force-text-dark  { color: #0F172A !important; }
 
-html.light .force-text-white { color: #FFFFFF !important; }
+.hero-badge-label {
+  color: #FFFFFF;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+html.light .hero-badge-label {
+  color: #212121 !important;
+}
+
 html.light .force-text-light { color: #E2E8F0 !important; }
 html.light .force-text-dark  { color: #0F172A !important; }
+
+/* Secondary button in light mode */
+html.light .btn-secondary {
+  color: #212121 !important;
+  border-color: #383838 !important;
+  background: #FFFFFF !important;
+}
 
 /* Borders */
 html.light .border-solaki-border { border-color: #E5E5E5 !important; }
@@ -371,7 +444,7 @@ html.light .card {
   border-color: #E5E5E5 !important;
 }
 
-/* Grid BG in light mode — subtle dots */
+/* Grid BG in light mode: subtle dots */
 html.light .grid-bg {
   background-image:
     linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
@@ -383,10 +456,7 @@ html.light .dot-bg {
 }
 
 html.light .hero-base-gradient {
-  background:
-    radial-gradient(ellipse 140% 90% at 50% -5%, rgba(1,62,55,0.07) 0%, rgba(1,62,55,0.03) 40%, transparent 65%),
-    radial-gradient(ellipse 80% 60% at 80% 100%, rgba(222,200,58,0.04) 0%, transparent 55%),
-    radial-gradient(ellipse 70% 50% at 10% 80%,  rgba(1,62,55,0.04) 0%, transparent 55%) !important;
+  background: #F5F5F5 !important;
 }
 
 
@@ -568,7 +638,9 @@ html.light #showcase {
 }
 
 html.light #showcase .gradient-text-teal {
-  background-image: linear-gradient(135deg, #0d5c46, #12795c, #047857);
+  color: #047857 !important;
+  background: none !important;
+  -webkit-text-fill-color: initial !important;
 }
 
 html.light #showcase :is(.text-solaki-glow, .section-badge) {
@@ -603,23 +675,23 @@ html.light .admin-report-card {
 }
 
 html.light .admin-banner-analytics {
-  background: linear-gradient(135deg, #ECFDF5 0%, #FFFFFF 50%, #F0FDFA 100%) !important;
+  background: #ECFDF5 !important;
   border-color: #A7F3D0 !important;
 }
 
 html.light .admin-banner-insights {
-  background: linear-gradient(135deg, #FAF5FF 0%, #FFFFFF 50%, #FDF2F8 100%) !important;
+  background: #FAF5FF !important;
   border-color: #E9D5FF !important;
 }
 
 html.light .admin-action-box-analytics {
-  background: linear-gradient(135deg, #F0FDF4 0%, #FFFFFF 50%, #F8FAFC 100%) !important;
+  background: #F0FDF4 !important;
   border-color: #BBF7D0 !important;
   box-shadow: 0 2px 12px rgba(16, 185, 129, 0.06) !important;
 }
 
 html.light .admin-action-box-insights {
-  background: linear-gradient(135deg, #FAF5FF 0%, #FFFFFF 50%, #FDF4FF 100%) !important;
+  background: #FAF5FF !important;
   border-color: #E9D5FF !important;
   box-shadow: 0 2px 12px rgba(168, 85, 247, 0.06) !important;
 }

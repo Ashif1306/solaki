@@ -14,6 +14,15 @@ export interface SiteBrandData {
   socialLinkedin: string;
   contactEmail: string;
   contactAddress: string;
+  visionMissionBgEnabled: boolean;
+  visionBgImage: string;
+  missionBgImage: string;
+  valuesBgEnabled: boolean;
+  valuesUnderstandBgImage: string;
+  valuesCustomizeBgImage: string;
+  valuesGrowBgImage: string;
+  solaKiBgEnabled: boolean;
+  solaKiBgImage: string;
 }
 
 export const defaultBrand: SiteBrandData = {
@@ -30,6 +39,15 @@ export const defaultBrand: SiteBrandData = {
   socialLinkedin: "https://linkedin.com/company/solaki",
   contactEmail: "hello@solaki.id",
   contactAddress: "Enrekang / Makassar, Sulawesi Selatan, Indonesia",
+  visionMissionBgEnabled: true,
+  visionBgImage: "/vision-bg.jpg",
+  missionBgImage: "/mission-bg.jpg",
+  valuesBgEnabled: true,
+  valuesUnderstandBgImage: "/values-understand-bg.jpg",
+  valuesCustomizeBgImage: "/values-customize-bg.jpg",
+  valuesGrowBgImage: "/values-grow-bg.jpg",
+  solaKiBgEnabled: true,
+  solaKiBgImage: "/solaki-origin-bg.jpg",
 };
 
 
@@ -37,6 +55,9 @@ export const publicBrandKeys = [
   "logo_type", "logo_image_url", "logo_shape", "logo_text", "logo_subtitle",
   "contact_whatsapp", "contact_whatsapp_message", "contact_email", "contact_address",
   "social_instagram", "social_tiktok", "social_linkedin",
+  "vision_mission_bg_enabled", "vision_card_bg_image", "mission_card_bg_image",
+  "values_bg_enabled", "values_understand_bg_image", "values_customize_bg_image", "values_grow_bg_image",
+  "solaki_card_bg_enabled", "solaki_card_bg_image",
 ];
 
 export function resolveSiteBrand(contents: { key: string; value: string }[]): SiteBrandData {
@@ -44,6 +65,22 @@ export function resolveSiteBrand(contents: { key: string; value: string }[]): Si
   const whatsapp = (map.contact_whatsapp || defaultBrand.whatsapp).replace(/[^0-9]/g, "");
   const whatsappMessage = map.contact_whatsapp_message || defaultBrand.whatsappMessage;
   const shape = map.logo_shape;
+  const visionMissionBgEnabled = map.vision_mission_bg_enabled !== undefined
+    ? map.vision_mission_bg_enabled === "true"
+    : defaultBrand.visionMissionBgEnabled;
+  const visionBgImage = map.vision_card_bg_image || defaultBrand.visionBgImage;
+  const missionBgImage = map.mission_card_bg_image || defaultBrand.missionBgImage;
+  const valuesBgEnabled = map.values_bg_enabled !== undefined
+    ? map.values_bg_enabled === "true"
+    : defaultBrand.valuesBgEnabled;
+  const valuesUnderstandBgImage = map.values_understand_bg_image || defaultBrand.valuesUnderstandBgImage;
+  const valuesCustomizeBgImage = map.values_customize_bg_image || defaultBrand.valuesCustomizeBgImage;
+  const valuesGrowBgImage = map.values_grow_bg_image || defaultBrand.valuesGrowBgImage;
+  const solaKiBgEnabled = map.solaki_card_bg_enabled !== undefined
+    ? map.solaki_card_bg_enabled === "true"
+    : defaultBrand.solaKiBgEnabled;
+  const solaKiBgImage = map.solaki_card_bg_image || defaultBrand.solaKiBgImage;
+
   return {
     logoType: map.logo_type === "image" ? "image" : "svg",
     logoImageUrl: map.logo_image_url || "",
@@ -58,5 +95,14 @@ export function resolveSiteBrand(contents: { key: string; value: string }[]): Si
     socialLinkedin: map.social_linkedin || defaultBrand.socialLinkedin,
     contactEmail: map.contact_email || defaultBrand.contactEmail,
     contactAddress: map.contact_address || defaultBrand.contactAddress,
+    visionMissionBgEnabled,
+    visionBgImage,
+    missionBgImage,
+    valuesBgEnabled,
+    valuesUnderstandBgImage,
+    valuesCustomizeBgImage,
+    valuesGrowBgImage,
+    solaKiBgEnabled,
+    solaKiBgImage,
   };
 }

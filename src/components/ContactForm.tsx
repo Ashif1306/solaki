@@ -15,6 +15,8 @@ import {
   MessageCircle,
   Zap,
   ArrowUpRight,
+  Mail,
+  MapPin,
 } from "lucide-react";
 import { submitLead, type LeadFormData } from "@/app/actions/submitLead";
 import { useSiteBrand } from "@/hooks/useSiteBrand";
@@ -125,21 +127,21 @@ export default function ContactForm() {
   };
 
   return (
-    <section id="contact" ref={sectionRef} className="py-32 relative overflow-hidden bg-solaki-dark scroll-mt-12">
+    <section id="contact" ref={sectionRef} className="pt-10 sm:pt-14 md:pt-16 pb-16 sm:pb-20 md:pb-24 relative overflow-hidden bg-solaki-dark scroll-mt-12">
       {/* Anchor alias for #kontak */}
       <span id="kontak" className="sr-only absolute -top-12 left-0" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_50%,rgba(13,92,70,0.1)_0%,transparent_70%)]" />
       <div className="absolute inset-0 grid-bg opacity-25" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-start">
           {/* Left: Info */}
           <motion.div
-            initial={false}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7 }}
+            initial={{ opacity: 0, x: -24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           >
-            <span className="section-badge mb-8 inline-flex">
+            <span className="section-badge mb-3.5 sm:mb-4 inline-flex">
               <MessageCircle className="w-3 h-3" />
               Inisiasi Kemitraan & Konsultasi
             </span>
@@ -160,7 +162,7 @@ export default function ContactForm() {
               {[
                 { icon: Zap, title: "Comprehensive Brand & Market Diagnosis", desc: "Audit menyeluruh terhadap channel digital, visual system, efisiensi ads, dan benchmarking industri kompetitor." },
                 { icon: CheckCircle2, title: "Dedicated Multidisciplinary Creative Team", desc: "Didukung oleh strategist, visual designer, video creator, dan performance ads engineer berpengalaman." },
-                { icon: MessageCircle, title: "Transparent & Measurable Business Impact", desc: "Pelaporan analitik data berkala tanpa vanity metrics — fokus utama pada ROI, ROAS, dan skala komersial." },
+                { icon: MessageCircle, title: "Transparent & Measurable Business Impact", desc: "Pelaporan analitik data berkala tanpa vanity metrics dengan fokus utama pada ROI, ROAS, dan skala komersial." },
               ].map((item) => (
                 <div key={item.title} className="flex items-start gap-4">
                   <div className="w-10 h-10 rounded-xl bg-solaki-green/15 border border-solaki-green/30 flex items-center justify-center flex-shrink-0">
@@ -179,10 +181,12 @@ export default function ContactForm() {
               <div>
                 <p className="text-solaki-muted text-xs font-inter mb-1 uppercase tracking-wider">Inquiry Langsung & Kolaborasi</p>
                 <p className="text-white font-semibold flex items-center gap-2">
-                  <span>📧 {brand.contactEmail}</span>
+                  <Mail className="w-4 h-4 text-solaki-green shrink-0" />
+                  <span>{brand.contactEmail}</span>
                 </p>
-                <p className="text-solaki-muted text-xs mt-1 font-inter">
-                  📍 {brand.contactAddress}
+                <p className="text-solaki-muted text-xs mt-1.5 font-inter flex items-center gap-2">
+                  <MapPin className="w-4 h-4 text-solaki-muted shrink-0" />
+                  <span>{brand.contactAddress}</span>
                 </p>
               </div>
 
@@ -209,24 +213,25 @@ export default function ContactForm() {
 
           {/* Right: Form */}
           <motion.div
-            initial={false}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.2 }}
+            initial={{ opacity: 0, x: 24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
           >
             <div className="bento-card p-8">
               <AnimatePresence mode="wait">
                 {result?.success ? (
                   <motion.div
                     key="success"
-                    initial={false}
+                    initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
                     className="text-center py-12"
                   >
                     <div className="w-20 h-20 rounded-full bg-solaki-green/20 border border-solaki-green/40 flex items-center justify-center mx-auto mb-6">
                       <CheckCircle2 className="w-10 h-10 text-solaki-green" />
                     </div>
-                    <h3 className="text-2xl font-bold text-white mb-4">Pendaftaran Terkirim! 🎉</h3>
+                    <h3 className="text-2xl font-bold text-white mb-4">Pendaftaran Terkirim!</h3>
                     <p className="text-solaki-muted font-inter leading-relaxed mb-8">
                       {result.message}
                     </p>

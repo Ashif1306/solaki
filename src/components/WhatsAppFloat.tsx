@@ -58,7 +58,7 @@ export default function WhatsAppFloat() {
             >
               <X className="w-3 h-3" />
             </button>
-            <p className="text-xs font-bold text-white pr-3">Halo! 👋</p>
+            <p className="text-xs font-bold text-white pr-3">Konsultasi SOLAKI</p>
             <p className="text-[11px] text-[#888] font-inter mt-0.5 leading-relaxed">
               Ada yang bisa kami bantu? Chat langsung sekarang!
             </p>
@@ -76,7 +76,7 @@ export default function WhatsAppFloat() {
         aria-label="Chat WhatsApp"
         className="relative w-14 h-14 rounded-full flex items-center justify-center shadow-2xl cursor-pointer"
         style={{
-          background: "linear-gradient(135deg, #25D366, #128C5F)",
+          background: "#25D366",
         }}
         whileHover={{ scale: 1.08 }}
         whileTap={{ scale: 0.95 }}

@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { Mail, MapPin, Phone, MessageCircle, ArrowUpRight } from "lucide-react";
 import { useSiteBrand } from "@/hooks/useSiteBrand";
 
@@ -44,9 +45,13 @@ export default function Footer() {
 
   return (
     <footer className="relative bg-solaki-black border-t border-solaki-border/40 overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_30%_100%,rgba(13,92,70,0.06)_0%,transparent_70%)]" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-40px" }}
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10"
+      >
         {/* Main Footer */}
         <div className="py-14 sm:py-18 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12">
           {/* Brand Column */}
@@ -92,7 +97,7 @@ export default function Footer() {
                 <span className="font-jakarta font-black text-xl text-white tracking-wide">
                   {brand.logoText || "SOLAKI"}
                 </span>
-                <p className="text-[10px] text-solaki-teal font-semibold tracking-widest uppercase leading-none">
+                <p className="text-[10px] text-[#dec83a] font-semibold tracking-widest uppercase leading-none">
                   {brand.logoSubtitle || "Creative Agency"}
                 </p>
               </div>
@@ -106,26 +111,26 @@ export default function Footer() {
             <div className="space-y-2.5 text-xs text-solaki-subtle font-inter mb-6">
               {brand.whatsapp && (
                 <div className="flex items-center gap-2.5">
-                  <MessageCircle className="w-4 h-4 text-[#25D366] flex-shrink-0" />
+                  <MessageCircle className="w-4 h-4 text-[#dec83a] flex-shrink-0" />
                   <a
                     href={brand.whatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-white hover:text-solaki-teal transition-colors font-medium flex items-center gap-1 group"
+                    className="text-white hover:text-[#dec83a] transition-colors font-medium flex items-center gap-1 group"
                   >
                     <span>WhatsApp: +{brand.whatsapp}</span>
-                    <ArrowUpRight className="w-3 h-3 text-[#25D366] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                    <ArrowUpRight className="w-3 h-3 text-[#dec83a] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                   </a>
                 </div>
               )}
               <div className="flex items-center gap-2.5">
-                <Mail className="w-4 h-4 text-solaki-teal flex-shrink-0" />
+                <Mail className="w-4 h-4 text-[#dec83a] flex-shrink-0" />
                 <a href={`mailto:${brand.contactEmail}`} className="hover:text-white transition-colors">
                   {brand.contactEmail}
                 </a>
               </div>
               <div className="flex items-center gap-2.5">
-                <MapPin className="w-4 h-4 text-solaki-teal flex-shrink-0" />
+                <MapPin className="w-4 h-4 text-[#dec83a] flex-shrink-0" />
                 <span>{brand.contactAddress}</span>
               </div>
             </div>
@@ -230,7 +235,7 @@ export default function Footer() {
             <span>Tumbuh Berkelanjutan Bersama UMKM Indonesia</span>
           </p>
         </div>
-      </div>
+      </motion.div>
     </footer>
   );
 }

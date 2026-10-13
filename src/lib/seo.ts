@@ -122,7 +122,7 @@ export const serviceStructuredData = [
     "@type": "Service",
     name: "Content Creator",
     description:
-      "Merancang konten visual dan tulisan yang menarik, relevan, dan konsisten dengan identitas brand Anda — mulai dari desain grafis, carousel, caption, hingga short-form video.",
+      "Merancang konten visual dan tulisan yang menarik, relevan, dan konsisten dengan identitas brand Anda, mulai dari desain grafis, carousel, caption, hingga short-form video.",
     provider: { "@id": `${siteUrl}/#organization` },
     areaServed: { "@type": "Country", name: "Indonesia" },
     serviceType: "Content Creation",
@@ -132,7 +132,7 @@ export const serviceStructuredData = [
     "@type": "Service",
     name: "Social Media Management",
     description:
-      "Mengelola media sosial dari perencanaan konten hingga interaksi langsung dengan audiens — memastikan brand Anda aktif, relevan, dan membangun komunitas yang loyal.",
+      "Mengelola media sosial dari perencanaan konten hingga interaksi langsung dengan audiens untuk memastikan brand Anda aktif, relevan, dan membangun komunitas yang loyal.",
     provider: { "@id": `${siteUrl}/#organization` },
     areaServed: { "@type": "Country", name: "Indonesia" },
     serviceType: "Social Media Management",
@@ -142,7 +142,7 @@ export const serviceStructuredData = [
     "@type": "Service",
     name: "Digital Advertising",
     description:
-      "Menjalankan dan mengoptimalkan kampanye iklan berbayar di Meta (Instagram & Facebook) dan TikTok Ads — dengan target audiens yang presisi dan fokus pada hasil nyata.",
+      "Menjalankan dan mengoptimalkan kampanye iklan berbayar di Meta (Instagram & Facebook) dan TikTok Ads dengan target audiens yang presisi dan fokus pada hasil nyata.",
     provider: { "@id": `${siteUrl}/#organization` },
     areaServed: { "@type": "Country", name: "Indonesia" },
     serviceType: "Digital Advertising",

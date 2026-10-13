@@ -27,7 +27,7 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 
-// Benchmark data dari industri — bukan data palsu, ini adalah target realistis
+// Benchmark data dari industri, bukan data palsu, ini adalah target realistis
 // Sumber: rata-rata industri UMKM F&B dan Retail lokal Indonesia
 const benchmarkData = {
   instagram: {
@@ -216,7 +216,6 @@ export default function MetricsDashboard() {
 
   return (
     <section id="live-impact" ref={sectionRef} className="py-32 relative overflow-hidden bg-solaki-black">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_60%,rgba(13,92,70,0.08)_0%,transparent_70%)]" />
       <div className="absolute inset-0 grid-bg opacity-20" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -238,7 +237,7 @@ export default function MetricsDashboard() {
                 <span className="gradient-text-green">Benchmark Data Riil</span>
               </h2>
               <p className="text-solaki-muted font-inter max-w-xl leading-relaxed">
-                Proyeksi pertumbuhan realistis berbasis standar industri digital teruji — menjadi tolok ukur transparansi kerja SOLAKI bagi setiap brand mitra.
+                Proyeksi pertumbuhan realistis berbasis standar industri digital teruji, menjadi tolok ukur transparansi kerja SOLAKI bagi setiap brand mitra.
               </p>
             </div>
             {/* Disclaimer badge */}
@@ -269,7 +268,7 @@ export default function MetricsDashboard() {
                 platform === p
                   ? {
                       background: p === "instagram"
-                        ? "linear-gradient(135deg, rgba(131,58,180,0.3), rgba(217,83,56,0.3))"
+                        ? "#1E293B"
                         : "rgba(0,0,0,0.5)",
                       border: p === "instagram"
                         ? "1px solid rgba(217,83,56,0.4)"
@@ -315,7 +314,7 @@ export default function MetricsDashboard() {
                   onClick={() => setSelectedIdx(i)}
                   className={`w-full text-left p-4 rounded-2xl border transition-all duration-300 ${
                     isSelected
-                      ? "bg-gradient-to-br from-solaki-green/10 to-solaki-dark border-solaki-green/40"
+                      ? "bg-solaki-card border-solaki-green/60"
                       : "bg-solaki-card/40 border-solaki-border/40 hover:border-solaki-green/20"
                   }`}
                 >
@@ -368,12 +367,6 @@ export default function MetricsDashboard() {
                 <div style={{ height: 220 }}>
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={selectedMetric.chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                      <defs>
-                        <linearGradient id="projGrad" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#0D5C46" stopOpacity={0.4} />
-                          <stop offset="95%" stopColor="#0D5C46" stopOpacity={0} />
-                        </linearGradient>
-                      </defs>
                       <CartesianGrid strokeDasharray="3 3" stroke="rgba(36,48,64,0.5)" />
                       <XAxis dataKey="bulan" tick={{ fill: "#8B9BB4", fontSize: 12 }} axisLine={false} tickLine={false} />
                       <YAxis tick={{ fill: "#8B9BB4", fontSize: 12 }} axisLine={false} tickLine={false} />
@@ -384,7 +377,8 @@ export default function MetricsDashboard() {
                         stroke="#0D5C46"
                         strokeWidth={2.5}
                         strokeDasharray="0"
-                        fill="url(#projGrad)"
+                        fill="#0D5C46"
+                        fillOpacity={0.2}
                         dot={{ fill: "#0D5C46", strokeWidth: 2, r: 5, stroke: "#12181F" }}
                         activeDot={{ r: 8, fill: "#12795C", stroke: "#FCEEB5", strokeWidth: 2 }}
                       />
@@ -426,11 +420,11 @@ export default function MetricsDashboard() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.6 }}
-          className="mt-12 p-6 rounded-2xl border border-solaki-green/25 bg-gradient-to-r from-solaki-green/8 to-transparent flex flex-col md:flex-row items-center justify-between gap-4"
+          className="mt-12 p-6 rounded-2xl border border-solaki-green/25 bg-solaki-card/60 flex flex-col md:flex-row items-center justify-between gap-4"
         >
           <div>
             <p className="text-white font-bold mb-1">Ingin melihat proyeksi spesifik untuk bisnis Anda?</p>
-            <p className="text-solaki-muted text-sm font-inter">Tim SOLAKI siap membuat roadmap digital yang dipersonalisasi untuk UMKM Anda — gratis di sesi pertama.</p>
+            <p className="text-solaki-muted text-sm font-inter">Tim SOLAKI siap membuat roadmap digital yang dipersonalisasi untuk UMKM Anda, gratis di sesi pertama.</p>
           </div>
           <motion.button
             onClick={() => document.getElementById("kontak")?.scrollIntoView({ behavior: "smooth" })}

@@ -54,7 +54,7 @@ export async function submitLead(
     return {
       success: true,
       message:
-        "Terima kasih! Permintaan konsultasi Anda telah kami terima. Tim SOLAKI akan segera menghubungi Anda via WhatsApp dalam 1×24 jam. 🚀",
+        "Terima kasih! Permintaan konsultasi Anda telah kami terima. Tim SOLAKI akan segera menghubungi Anda via WhatsApp dalam 1×24 jam.",
       leadId: newLead.id,
     };
   } catch (error) {

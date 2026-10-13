@@ -18,6 +18,7 @@ import {
   Compass,
 } from "lucide-react";
 import LogoPhilosophy from "./LogoPhilosophy";
+import { useSiteBrand } from "@/hooks/useSiteBrand";
 
 const missions = [
   "Menyediakan layanan digital marketing yang profesional dan terjangkau.",
@@ -29,7 +30,7 @@ const missions = [
 const values = [
   {
     keyword: "Understand",
-    desc: "Kami mulai dengan mendengar — memahami bisnis, audiens, dan tujuan Anda secara mendalam sebelum menyusun strategi.",
+    desc: "Kami mulai dengan mendengar, memahami bisnis, audiens, dan tujuan Anda secara mendalam sebelum menyusun strategi.",
     icon: Heart,
     color: "#0D5C46",
     bg: "rgba(13,92,70,0.08)",
@@ -45,7 +46,7 @@ const values = [
   },
   {
     keyword: "Grow",
-    desc: "Kami berorientasi pada pertumbuhan nyata — bukan sekadar engagement, tetapi dampak yang dirasakan oleh bisnis Anda.",
+    desc: "Kami berorientasi pada pertumbuhan nyata, bukan sekadar engagement, tetapi dampak yang dirasakan oleh bisnis Anda.",
     icon: TrendingUp,
     color: "#4F46E5",
     bg: "rgba(79,70,229,0.08)",
@@ -111,11 +112,11 @@ function TeamCard({
       {/* ── TOP TEXT (for Center card) ── */}
       {isCenter && (
         <motion.div
-          initial={false}
+          initial={{ opacity: 0, y: -12 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{
-            delay: 0.15,
-            duration: 0.7,
+            delay: 0.1,
+            duration: 0.5,
             ease: [0.22, 1, 0.36, 1],
           }}
           className="text-center mb-4 z-20 w-full px-2"
@@ -202,7 +203,7 @@ function TeamCard({
 
       {/* ── SLANTED CARD CONTAINER WITH ANIMATION ── */}
       <motion.div
-        initial={false}
+        initial={{ opacity: 0, y: 24, scale: 0.96 }}
         animate={
           isInView
             ? {
@@ -213,8 +214,8 @@ function TeamCard({
             : {}
         }
         transition={{
-          delay: 0.1 + index * 0.1,
-          duration: 0.8,
+          delay: index * 0.08,
+          duration: 0.6,
           ease: [0.22, 1, 0.36, 1],
         }}
         className="relative w-full max-w-[230px] sm:max-w-[250px] md:max-w-[260px] mx-auto py-1.5 group cursor-pointer"
@@ -230,7 +231,7 @@ function TeamCard({
           }`}
           style={{
             clipPath: clipPathStyle,
-            background: `linear-gradient(135deg, ${color} 0%, ${color}99 70%, rgba(8,12,20,0.8) 100%)`,
+            background: color,
             opacity: hovered ? 1 : 0.85,
             filter: `drop-shadow(0 10px 25px ${color}40)`,
           }}
@@ -259,7 +260,7 @@ function TeamCard({
           }`}
           style={{
             clipPath: clipPathStyle,
-            background: "linear-gradient(175deg, #161F2E 0%, #080C14 100%)",
+            background: "#080C14",
             boxShadow: hovered
               ? `0 20px 50px -10px ${color}55`
               : "0 12px 30px -5px rgba(0,0,0,0.6)",
@@ -268,13 +269,7 @@ function TeamCard({
           {/* Subtle grid pattern inside */}
           <div className="absolute inset-0 dot-bg opacity-10 pointer-events-none" />
 
-          {/* Glowing gradient aura */}
-          <div
-            className="absolute inset-0 opacity-40 group-hover:opacity-75 transition-opacity duration-500 pointer-events-none"
-            style={{
-              background: `radial-gradient(circle at 50% 30%, ${color}45 0%, transparent 70%)`,
-            }}
-          />
+
 
           {/* Photo directly filling the card */}
           {hasPhoto ? (
@@ -286,12 +281,8 @@ function TeamCard({
                 className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-108"
                 sizes="(max-width: 768px) 100vw, 33vw"
               />
-              {/* Bottom gradient shade to enhance contrast */}
               <div
-                className="absolute inset-0 pointer-events-none"
-                style={{
-                  background: `linear-gradient(to top, rgba(8,12,20,0.85) 0%, rgba(8,12,20,0.15) 40%, transparent 75%)`,
-                }}
+                className="absolute inset-x-0 bottom-0 h-28 pointer-events-none bg-[#080c14]/85"
               />
               {/* Color tint on hover */}
               <div
@@ -300,22 +291,13 @@ function TeamCard({
               />
             </div>
           ) : (
-            /* Full-bleed stylized portrait silhouette fallback */
-            <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
-              {/* Studio lighting top glow */}
-              <div
-                className="w-full h-full absolute inset-0 pointer-events-none"
-                style={{
-                  background: `radial-gradient(ellipse at 50% 35%, ${color}35 0%, transparent 65%), linear-gradient(180deg, ${color}15 0%, #080C14 100%)`,
-                }}
-              />
-
-              {/* Large Monogram filling center */}
+            <div className="w-full h-full flex flex-col items-center justify-center p-8 text-center relative z-10">
+              {/* Monogram filling center */}
               <div className="relative z-10 transition-transform duration-500 group-hover:scale-110">
                 <div
                   className="w-24 h-24 rounded-3xl flex items-center justify-center mx-auto mb-3 shadow-xl"
                   style={{
-                    background: `linear-gradient(135deg, ${color}35 0%, ${color}15 100%)`,
+                    background: `${color}25`,
                     border: `1.5px solid ${color}70`,
                     boxShadow: `0 12px 35px ${color}30`,
                   }}
@@ -332,13 +314,7 @@ function TeamCard({
             </div>
           )}
 
-          {/* Diagonal Glass Edge Shine */}
-          <div
-            className="absolute top-0 left-0 right-0 h-full w-full pointer-events-none opacity-20 group-hover:opacity-45 transition-opacity duration-500"
-            style={{
-              background: `linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.4) 48%, transparent 52%)`,
-            }}
-          />
+
 
           {/* Border contour outline */}
           <div
@@ -353,11 +329,11 @@ function TeamCard({
       {/* ── BOTTOM TEXT (for Left, Right, & default cards) ── */}
       {!isCenter && (
         <motion.div
-          initial={false}
+          initial={{ opacity: 0, y: 12 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{
-            delay: 0.15 + index * 0.1,
-            duration: 0.7,
+            delay: 0.1 + index * 0.08,
+            duration: 0.5,
             ease: [0.22, 1, 0.36, 1],
           }}
           className="text-center mt-4 z-20 w-full px-2"
@@ -465,7 +441,7 @@ function MobileTeamCard({
           className="absolute inset-0 -translate-x-2.5 -translate-y-1.5 pointer-events-none"
           style={{
             clipPath: clipPathStyle,
-            background: `linear-gradient(135deg, ${color} 0%, ${color}99 70%, rgba(8,12,20,0.8) 100%)`,
+            background: color,
             opacity: 0.9,
             filter: `drop-shadow(0 8px 18px ${color}35)`,
           }}
@@ -476,20 +452,14 @@ function MobileTeamCard({
           className="relative w-full h-[255px] overflow-hidden z-10"
           style={{
             clipPath: clipPathStyle,
-            background: "linear-gradient(175deg, #161F2E 0%, #080C14 100%)",
+            background: "#080C14",
             boxShadow: "0 10px 25px -5px rgba(0,0,0,0.6)",
           }}
         >
           {/* Subtle grid pattern */}
           <div className="absolute inset-0 dot-bg opacity-10 pointer-events-none" />
 
-          {/* Glowing gradient aura */}
-          <div
-            className="absolute inset-0 opacity-50 pointer-events-none"
-            style={{
-              background: `radial-gradient(circle at 50% 30%, ${color}45 0%, transparent 70%)`,
-            }}
-          />
+
 
           {/* Photo */}
           {hasPhoto ? (
@@ -502,25 +472,16 @@ function MobileTeamCard({
                 sizes="230px"
               />
               <div
-                className="absolute inset-0 pointer-events-none"
-                style={{
-                  background: `linear-gradient(to top, rgba(8,12,20,0.85) 0%, rgba(8,12,20,0.15) 40%, transparent 75%)`,
-                }}
+                className="absolute inset-x-0 bottom-0 h-24 pointer-events-none bg-[#080c14]/85"
               />
             </div>
           ) : (
             <div className="absolute inset-0 flex flex-col items-center justify-center p-4 text-center">
-              <div
-                className="w-full h-full absolute inset-0 pointer-events-none"
-                style={{
-                  background: `radial-gradient(ellipse at 50% 35%, ${color}35 0%, transparent 65%), linear-gradient(180deg, ${color}15 0%, #080C14 100%)`,
-                }}
-              />
               <div className="relative z-10">
                 <div
                   className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-2 shadow-xl"
                   style={{
-                    background: `linear-gradient(135deg, ${color}35 0%, ${color}15 100%)`,
+                    background: `${color}25`,
                     border: `1.5px solid ${color}70`,
                     boxShadow: `0 10px 30px ${color}30`,
                   }}
@@ -534,13 +495,7 @@ function MobileTeamCard({
             </div>
           )}
 
-          {/* Diagonal Glass Edge Shine */}
-          <div
-            className="absolute top-0 left-0 right-0 h-full w-full pointer-events-none opacity-25"
-            style={{
-              background: `linear-gradient(105deg, transparent 35%, rgba(255,255,255,0.4) 48%, transparent 52%)`,
-            }}
-          />
+
 
           <div
             className="absolute inset-0 pointer-events-none border border-white/10"
@@ -605,16 +560,22 @@ function MobileTeamMarquee({ team }: { team: TeamMember[] }) {
   const scrollLeftStart = useRef(0);
   const resumeTimer = useRef<NodeJS.Timeout | null>(null);
 
-  // Auto-scroll loop using requestAnimationFrame
+  // Auto-scroll loop using requestAnimationFrame (only when element is visible in viewport)
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
 
+    let isVisible = false;
     let animId: number;
     const speed = 0.8; // smooth ~50px/sec
 
+    const observer = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+    });
+    observer.observe(el);
+
     const tick = () => {
-      if (!isInteracting.current && el) {
+      if (isVisible && !isInteracting.current && el) {
         el.scrollLeft += speed;
         // Seamless loop wrap when 1 set of items scrolled
         const oneSetWidth = el.scrollWidth / 4;
@@ -630,7 +591,10 @@ function MobileTeamMarquee({ team }: { team: TeamMember[] }) {
     };
 
     animId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(animId);
+    return () => {
+      cancelAnimationFrame(animId);
+      observer.disconnect();
+    };
   }, []);
 
   const handleTouchStart = () => {
@@ -709,6 +673,36 @@ const stagger = (i: number) => ({
 });
 
 export default function Philosophy({ team }: { team: TeamMember[] }) {
+  const { brand } = useSiteBrand();
+  const isBgImageActive = brand.visionMissionBgEnabled;
+  const visionBg = brand.visionBgImage || "/vision-bg.jpg";
+  const missionBg = brand.missionBgImage || "/mission-bg.jpg";
+
+  const isValuesBgActive = brand.valuesBgEnabled;
+  const valuesBgMap: Record<string, { image: string; gradient: string; tint: string; iconColor: string }> = {
+    Understand: {
+      image: brand.valuesUnderstandBgImage || "/values-understand-bg.jpg",
+      gradient: "from-[#03110c]/95 via-[#061912]/85 to-[#04120e]/75",
+      tint: "bg-[#0D5C46]/15",
+      iconColor: "#34d399",
+    },
+    Customize: {
+      image: brand.valuesCustomizeBgImage || "/values-customize-bg.jpg",
+      gradient: "from-[#130906]/95 via-[#1a0e0a]/85 to-[#110705]/75",
+      tint: "bg-[#D95338]/15",
+      iconColor: "#ff8066",
+    },
+    Grow: {
+      image: brand.valuesGrowBgImage || "/values-grow-bg.jpg",
+      gradient: "from-[#090818]/95 via-[#0d0c22]/85 to-[#070616]/75",
+      tint: "bg-[#4F46E5]/15",
+      iconColor: "#a5b4fc",
+    },
+  };
+
+  const isSolaKiBgActive = brand.solaKiBgEnabled;
+  const solaKiBg = brand.solaKiBgImage || "/solaki-origin-bg.jpg";
+
   const sectionRef = useRef<HTMLDivElement>(null);
   const teamRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-60px" });
@@ -719,24 +713,23 @@ export default function Philosophy({ team }: { team: TeamMember[] }) {
     <section
       id="about"
       ref={sectionRef}
-      className="py-14 sm:py-20 md:py-28 relative overflow-hidden bg-solaki-surface"
+      className="pt-8 sm:pt-12 md:pt-14 pb-10 sm:pb-14 md:pb-16 relative overflow-hidden bg-solaki-surface"
     >
       {/* Backgrounds */}
       <div className="absolute inset-0 grid-bg opacity-30" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_100%,rgba(13,92,70,0.08)_0%,transparent_70%)]" />
-      <div className="absolute top-0 right-0 w-96 h-96 bg-[radial-gradient(circle,rgba(217,83,56,0.04)_0%,transparent_70%)]" />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-12 sm:space-y-16 md:space-y-20">
 
         {/* ── SECTION 1: Intro ── */}
         <div>
           <motion.div
-            initial={false}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className="text-center mb-14"
           >
-            <span className="section-badge mb-5 inline-flex">
+            <span className="section-badge mb-3 sm:mb-3.5 inline-flex">
               <MapPin className="w-3 h-3" />
               About SOLAKI
             </span>
@@ -756,35 +749,72 @@ export default function Philosophy({ team }: { team: TeamMember[] }) {
 
           {/* Name Origin Card */}
           <motion.div
-            initial={false}
-            animate={isInView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ delay: 0.25, duration: 0.65 }}
+            initial={{ opacity: 0, y: 24, scale: 0.98 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ delay: 0.1, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className="max-w-2xl mx-auto"
           >
-            <div
-              className="bento-card p-8 text-center relative overflow-hidden"
-              style={{ borderColor: "rgba(13,92,70,0.35)" }}
-            >
-              <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_50%,rgba(13,92,70,0.08)_0%,transparent_70%)]" />
-              <div className="relative z-10">
-                <div className="text-5xl font-black text-solaki-teal mb-3 tracking-tight">"Sola ki'"</div>
-                <p className="text-white font-bold text-2xl mb-1">Bersama Kita</p>
-                <p className="text-solaki-muted text-sm font-inter mb-5">
-                  Ungkapan lokal Enrekang, Sulawesi Selatan
-                </p>
-                <div className="flex items-center justify-center gap-3 mb-5">
-                  <div className="w-12 h-px bg-solaki-border" />
-                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-solaki-subtle">Asal Nama SOLAKI</span>
-                  <div className="w-12 h-px bg-solaki-border" />
+            {isSolaKiBgActive ? (
+              <div
+                className="relative overflow-hidden group rounded-3xl border border-solaki-teal/40 hover:border-solaki-gold/50 transition-all duration-300 shadow-2xl p-8 text-center"
+              >
+                {/* Background Image */}
+                <Image
+                  src={solaKiBg}
+                  alt="Asal Nama Sola ki'"
+                  fill
+                  className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                  sizes="(max-width: 768px) 100vw, 672px"
+                />
+                {/* Multi-layered Dark Tint Overlay for Optimal Text Contrast */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#04120e]/96 via-[#071913]/88 to-[#05140f]/80 backdrop-blur-[1px]" />
+                <div className="absolute inset-0 bg-solaki-teal/15 mix-blend-overlay" />
+
+                <div className="relative z-10 dark-card-content">
+                  <div className="text-5xl font-black text-solaki-gold mb-3 tracking-tight drop-shadow-md">"Sola ki'"</div>
+                  <p className="force-text-white font-bold text-2xl mb-1 drop-shadow-md" style={{ color: "#FFFFFF" }}>Bersama Kita</p>
+                  <p className="force-text-white text-sm font-inter mb-5 drop-shadow-sm" style={{ color: "rgba(255, 255, 255, 0.85)" }}>
+                    Ungkapan lokal Enrekang, Sulawesi Selatan
+                  </p>
+                  <div className="flex items-center justify-center gap-3 mb-5">
+                    <div className="w-12 h-px bg-white/20" />
+                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-solaki-gold">Asal Nama SOLAKI</span>
+                    <div className="w-12 h-px bg-white/20" />
+                  </div>
+                  <p className="force-text-white text-sm font-inter leading-relaxed max-w-md mx-auto drop-shadow-sm" style={{ color: "rgba(255, 255, 255, 0.92)" }}>
+                    Filosofi ini bukan sekadar nama. Kami percaya bahwa agency bukan sekadar vendor,
+                    tetapi{" "}
+                    <strong className="force-text-white font-bold" style={{ color: "#FFFFFF" }}>mitra yang berjalan bersama bisnis</strong>{" "}
+                    untuk mencapai tujuan yang sama.
+                  </p>
                 </div>
-                <p className="text-solaki-muted text-sm font-inter leading-relaxed max-w-md mx-auto">
-                  Filosofi ini bukan sekadar nama. Kami percaya bahwa agency bukan sekadar vendor,
-                  tetapi{" "}
-                  <strong className="text-white">mitra yang berjalan bersama bisnis</strong>{" "}
-                  untuk mencapai tujuan yang sama.
-                </p>
               </div>
-            </div>
+            ) : (
+              <div
+                className="bento-card p-8 text-center relative overflow-hidden"
+                style={{ borderColor: "rgba(13,92,70,0.35)" }}
+              >
+                <div className="relative z-10">
+                  <div className="text-5xl font-black text-solaki-teal mb-3 tracking-tight">"Sola ki'"</div>
+                  <p className="text-white font-bold text-2xl mb-1">Bersama Kita</p>
+                  <p className="text-solaki-muted text-sm font-inter mb-5">
+                    Ungkapan lokal Enrekang, Sulawesi Selatan
+                  </p>
+                  <div className="flex items-center justify-center gap-3 mb-5">
+                    <div className="w-12 h-px bg-solaki-border" />
+                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-solaki-subtle">Asal Nama SOLAKI</span>
+                    <div className="w-12 h-px bg-solaki-border" />
+                  </div>
+                  <p className="text-solaki-muted text-sm font-inter leading-relaxed max-w-md mx-auto">
+                    Filosofi ini bukan sekadar nama. Kami percaya bahwa agency bukan sekadar vendor,
+                    tetapi{" "}
+                    <strong className="text-white">mitra yang berjalan bersama bisnis</strong>{" "}
+                    untuk mencapai tujuan yang sama.
+                  </p>
+                </div>
+              </div>
+            )}
           </motion.div>
         </div>
 
@@ -794,9 +824,10 @@ export default function Philosophy({ team }: { team: TeamMember[] }) {
         {/* ── SECTION 2: Vision & Mission ── */}
         <div>
           <motion.div
-            initial={false}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.15, duration: 0.6 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className="text-center mb-8 sm:mb-12"
           >
             <div className="section-badge mb-3 inline-flex items-center gap-1.5 text-xs py-1 px-3">
@@ -813,52 +844,137 @@ export default function Philosophy({ team }: { team: TeamMember[] }) {
 
           <div className="grid lg:grid-cols-2 gap-6 sm:gap-8">
           <motion.div
-            initial={false}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={stagger(0)}
+            initial={{ opacity: 0, x: -24, y: 12 }}
+            whileInView={{ opacity: 1, x: 0, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
           >
-            <div className="bento-card p-8 h-full" style={{ borderColor: "rgba(13,92,70,0.25)" }}>
-              <div
-                className="w-12 h-12 rounded-2xl flex items-center justify-center mb-5"
-                style={{ background: "rgba(13,92,70,0.12)", border: "1px solid rgba(13,92,70,0.3)" }}
-              >
-                <Eye className="w-6 h-6 text-solaki-teal" />
+            {isBgImageActive ? (
+              <div className="relative overflow-hidden group rounded-3xl border border-solaki-teal/30 hover:border-solaki-teal/60 transition-all duration-300 shadow-xl h-full flex flex-col justify-between">
+                {/* Background Image */}
+                <Image
+                  src={visionBg}
+                  alt="Visi SOLAKI"
+                  fill
+                  className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+                {/* Multi-layered Dark Tint Overlay for Optimal Text Contrast */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#04100c]/95 via-[#071913]/85 to-[#05140f]/75 backdrop-blur-[1px]" />
+                <div className="absolute inset-0 bg-solaki-teal/10 mix-blend-overlay" />
+
+                {/* Card Content */}
+                <div className="relative z-10 p-8 h-full flex flex-col justify-between dark-card-content">
+                  <div>
+                    <div
+                      className="w-12 h-12 rounded-2xl flex items-center justify-center mb-5 backdrop-blur-md"
+                      style={{
+                        background: "rgba(13,92,70,0.4)",
+                        border: "1px solid rgba(222,200,58,0.4)",
+                        boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
+                      }}
+                    >
+                      <Eye className="w-6 h-6 text-solaki-gold" />
+                    </div>
+                    <div className="text-[10px] font-black uppercase tracking-[0.2em] text-solaki-gold mb-2">Vision</div>
+                    <h3 className="text-xl sm:text-2xl font-bold force-text-white mb-4 leading-snug drop-shadow-md" style={{ color: "#FFFFFF" }}>
+                      Menjadi Agency Pilihan UMKM Indonesia
+                    </h3>
+                    <p className="force-text-white text-sm sm:text-base font-inter leading-relaxed drop-shadow-sm" style={{ color: "rgba(255, 255, 255, 0.88)" }}>
+                      Menjadi digital marketing agency terpercaya yang membantu bisnis lokal dan UMKM tumbuh secara berkelanjutan melalui strategi kreatif dan berbasis data.
+                    </p>
+                  </div>
+                </div>
               </div>
-              <div className="text-[10px] font-black uppercase tracking-[0.2em] text-solaki-teal mb-2">Vision</div>
-              <h3 className="text-xl font-bold text-white mb-4 leading-snug">
-                Menjadi Agency Pilihan UMKM Indonesia
-              </h3>
-              <p className="text-solaki-muted text-sm font-inter leading-relaxed">
-                Menjadi digital marketing agency terpercaya yang membantu bisnis lokal dan UMKM tumbuh secara berkelanjutan melalui strategi kreatif dan berbasis data.
-              </p>
-            </div>
+            ) : (
+              <div className="bento-card p-8 h-full" style={{ borderColor: "rgba(13,92,70,0.25)" }}>
+                <div
+                  className="w-12 h-12 rounded-2xl flex items-center justify-center mb-5"
+                  style={{ background: "rgba(13,92,70,0.12)", border: "1px solid rgba(13,92,70,0.3)" }}
+                >
+                  <Eye className="w-6 h-6 text-solaki-teal" />
+                </div>
+                <div className="text-[10px] font-black uppercase tracking-[0.2em] text-solaki-teal mb-2">Vision</div>
+                <h3 className="text-xl font-bold text-white mb-4 leading-snug">
+                  Menjadi Agency Pilihan UMKM Indonesia
+                </h3>
+                <p className="text-solaki-muted text-sm font-inter leading-relaxed">
+                  Menjadi digital marketing agency terpercaya yang membantu bisnis lokal dan UMKM tumbuh secara berkelanjutan melalui strategi kreatif dan berbasis data.
+                </p>
+              </div>
+            )}
           </motion.div>
 
           <motion.div
-            initial={false}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={stagger(1)}
+            initial={{ opacity: 0, x: 24, y: 12 }}
+            whileInView={{ opacity: 1, x: 0, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.55, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
           >
-            <div className="bento-card p-8 h-full" style={{ borderColor: "rgba(217,83,56,0.2)" }}>
-              <div
-                className="w-12 h-12 rounded-2xl flex items-center justify-center mb-5"
-                style={{ background: "rgba(217,83,56,0.08)", border: "1px solid rgba(217,83,56,0.25)" }}
-              >
-                <Rocket className="w-6 h-6 text-[#D95338]" />
+            {isBgImageActive ? (
+              <div className="relative overflow-hidden group rounded-3xl border border-[#D95338]/30 hover:border-[#D95338]/60 transition-all duration-300 shadow-xl h-full flex flex-col justify-between">
+                {/* Background Image */}
+                <Image
+                  src={missionBg}
+                  alt="Misi SOLAKI"
+                  fill
+                  className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+                {/* Multi-layered Dark Tint Overlay for Optimal Text Contrast */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#140a08]/95 via-[#190e0b]/85 to-[#120806]/75 backdrop-blur-[1px]" />
+                <div className="absolute inset-0 bg-[#D95338]/10 mix-blend-overlay" />
+
+                {/* Card Content */}
+                <div className="relative z-10 p-8 h-full flex flex-col justify-between dark-card-content">
+                  <div>
+                    <div
+                      className="w-12 h-12 rounded-2xl flex items-center justify-center mb-5 backdrop-blur-md"
+                      style={{
+                        background: "rgba(217,83,56,0.35)",
+                        border: "1px solid rgba(217,83,56,0.45)",
+                        boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
+                      }}
+                    >
+                      <Rocket className="w-6 h-6 text-[#ff8066]" />
+                    </div>
+                    <div className="text-[10px] font-black uppercase tracking-[0.2em] text-[#ff8066] mb-2">Mission</div>
+                    <h3 className="text-xl sm:text-2xl font-bold force-text-white mb-5 leading-snug drop-shadow-md" style={{ color: "#FFFFFF" }}>
+                      Komitmen Kami untuk Bisnis Anda
+                    </h3>
+                    <ul className="space-y-3">
+                      {missions.map((m, i) => (
+                        <li key={i} className="flex items-start gap-3">
+                          <CheckCircle2 className="w-4 h-4 text-solaki-gold mt-0.5 flex-shrink-0" />
+                          <span className="force-text-white text-sm sm:text-base font-inter leading-relaxed drop-shadow-sm" style={{ color: "rgba(255, 255, 255, 0.92)" }}>{m}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
               </div>
-              <div className="text-[10px] font-black uppercase tracking-[0.2em] text-[#D95338] mb-2">Mission</div>
-              <h3 className="text-xl font-bold text-white mb-5 leading-snug">
-                Komitmen Kami untuk Bisnis Anda
-              </h3>
-              <ul className="space-y-3">
-                {missions.map((m, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <CheckCircle2 className="w-4 h-4 text-solaki-teal mt-0.5 flex-shrink-0" />
-                    <span className="text-solaki-muted text-sm font-inter leading-relaxed">{m}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            ) : (
+              <div className="bento-card p-8 h-full" style={{ borderColor: "rgba(217,83,56,0.2)" }}>
+                <div
+                  className="w-12 h-12 rounded-2xl flex items-center justify-center mb-5"
+                  style={{ background: "rgba(217,83,56,0.08)", border: "1px solid rgba(217,83,56,0.25)" }}
+                >
+                  <Rocket className="w-6 h-6 text-[#D95338]" />
+                </div>
+                <div className="text-[10px] font-black uppercase tracking-[0.2em] text-[#D95338] mb-2">Mission</div>
+                <h3 className="text-xl font-bold text-white mb-5 leading-snug">
+                  Komitmen Kami untuk Bisnis Anda
+                </h3>
+                <ul className="space-y-3">
+                  {missions.map((m, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <CheckCircle2 className="w-4 h-4 text-solaki-teal mt-0.5 flex-shrink-0" />
+                      <span className="text-solaki-muted text-sm font-inter leading-relaxed">{m}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </motion.div>
           </div>
         </div>
@@ -866,52 +982,102 @@ export default function Philosophy({ team }: { team: TeamMember[] }) {
         {/* ── SECTION 3: Values ── */}
         <div>
           <motion.div
-            initial={false}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.3, duration: 0.6 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className="text-center mb-12"
           >
             <div className="text-[10px] font-black uppercase tracking-[0.25em] text-solaki-subtle mb-3">Our Values</div>
             <h3 className="text-3xl md:text-4xl font-black text-white">
-              Understand —{" "}
+              Understand ·{" "}
               <span className="gradient-text-teal">Customize</span>{" "}
-              — Grow
+              · Grow
             </h3>
           </motion.div>
 
           <div className="grid md:grid-cols-3 gap-6">
-            {values.map((v, i) => (
-              <motion.div
-                key={v.keyword}
-                initial={false}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={stagger(i)}
-              >
-                <div className="bento-card p-7 h-full flex flex-col" style={{ borderColor: v.border }}>
-                  <div
-                    className="w-12 h-12 rounded-2xl flex items-center justify-center mb-5"
-                    style={{ background: v.bg, border: `1px solid ${v.border}` }}
-                  >
-                    <v.icon className="w-6 h-6" style={{ color: v.color }} />
-                  </div>
-                  <div className="text-[11px] font-black uppercase tracking-[0.2em] mb-2" style={{ color: v.color }}>
-                    {v.keyword}
-                  </div>
-                  <p className="text-solaki-muted text-sm font-inter leading-relaxed flex-grow">
-                    {v.desc}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
+            {values.map((v, i) => {
+              const bgConfig = valuesBgMap[v.keyword] || valuesBgMap.Understand;
+              return (
+                <motion.div
+                  key={v.keyword}
+                  initial={{ opacity: 0, y: 24, scale: 0.98 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  transition={{ delay: i * 0.08, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  {isValuesBgActive ? (
+                    <div
+                      className="relative overflow-hidden group rounded-3xl border transition-all duration-300 shadow-xl h-full flex flex-col justify-between"
+                      style={{ borderColor: `${v.color}45` }}
+                    >
+                      {/* Background Image */}
+                      <Image
+                        src={bgConfig.image}
+                        alt={v.keyword}
+                        fill
+                        className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                      />
+                      {/* Multi-layered Dark Tint Overlay for Optimal Text Contrast */}
+                      <div className={`absolute inset-0 bg-gradient-to-t ${bgConfig.gradient} backdrop-blur-[1px]`} />
+                      <div className={`absolute inset-0 ${bgConfig.tint} mix-blend-overlay`} />
+
+                      {/* Card Content */}
+                      <div className="relative z-10 p-7 h-full flex flex-col justify-between dark-card-content">
+                        <div>
+                          <div
+                            className="w-12 h-12 rounded-2xl flex items-center justify-center mb-5 backdrop-blur-md"
+                            style={{
+                              background: `${v.color}35`,
+                              border: `1px solid ${v.color}60`,
+                              boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
+                            }}
+                          >
+                            <v.icon className="w-6 h-6" style={{ color: bgConfig.iconColor }} />
+                          </div>
+                          <div
+                            className="text-[11px] font-black uppercase tracking-[0.2em] mb-2 drop-shadow-sm"
+                            style={{ color: bgConfig.iconColor }}
+                          >
+                            {v.keyword}
+                          </div>
+                          <p className="force-text-white text-sm font-inter leading-relaxed drop-shadow-sm" style={{ color: "rgba(255, 255, 255, 0.92)" }}>
+                            {v.desc}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="bento-card p-7 h-full flex flex-col" style={{ borderColor: v.border }}>
+                      <div
+                        className="w-12 h-12 rounded-2xl flex items-center justify-center mb-5"
+                        style={{ background: v.bg, border: `1px solid ${v.border}` }}
+                      >
+                        <v.icon className="w-6 h-6" style={{ color: v.color }} />
+                      </div>
+                      <div className="text-[11px] font-black uppercase tracking-[0.2em] mb-2" style={{ color: v.color }}>
+                        {v.keyword}
+                      </div>
+                      <p className="text-solaki-muted text-sm font-inter leading-relaxed flex-grow">
+                        {v.desc}
+                      </p>
+                    </div>
+                  )}
+                </motion.div>
+              );
+            })}
           </div>
         </div>
 
         {/* ── SECTION 4: Team (slanted diagonal photo cards with interactive mobile horizontal marquee) ── */}
         {team.length > 0 && <div ref={teamRef} className="pt-6">
           <motion.div
-            initial={false}
-            animate={isTeamInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.15, duration: 0.6 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className="text-center mb-10 md:mb-16"
           >
             <div className="text-[10px] font-black uppercase tracking-[0.25em] text-solaki-subtle mb-3">Meet The Team</div>

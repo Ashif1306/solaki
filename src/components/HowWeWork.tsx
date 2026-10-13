@@ -10,10 +10,10 @@ const steps = [
     icon: Search,
     title: "Understand",
     subtitle: "Pahami Bisnis Anda",
-    desc: "Kami mulai dengan memahami bisnis Anda secara mendalam — siapa target pasar, apa masalah utama, dan apa tujuan yang ingin dicapai.",
-    color: "#0D5C46",
-    bg: "rgba(13,92,70,0.08)",
-    border: "rgba(13,92,70,0.2)",
+    desc: "Kami mulai dengan memahami bisnis Anda secara mendalam, meliputi siapa target pasar, apa masalah utama, dan apa tujuan yang ingin dicapai.",
+    color: "#dec83a",
+    bg: "rgba(222,200,58,0.08)",
+    border: "rgba(222,200,58,0.25)",
     details: ["Riset target pasar & kompetitor", "Audit aset digital yang ada", "Identifikasi masalah & peluang"],
   },
   {
@@ -22,9 +22,9 @@ const steps = [
     title: "Strategize",
     subtitle: "Susun Strategi Tepat",
     desc: "Berdasarkan pemahaman mendalam tersebut, kami merancang strategi pemasaran digital yang disesuaikan dengan kondisi dan tujuan bisnis Anda.",
-    color: "#D95338",
-    bg: "rgba(217,83,56,0.08)",
-    border: "rgba(217,83,56,0.2)",
+    color: "#dec83a",
+    bg: "rgba(222,200,58,0.08)",
+    border: "rgba(222,200,58,0.25)",
     details: ["Perancangan content pillars", "Kalender editorial bulanan", "Roadmap iklan digital"],
   },
   {
@@ -33,9 +33,9 @@ const steps = [
     title: "Create & Execute",
     subtitle: "Produksi & Eksekusi",
     desc: "Kami memproduksi konten berkualitas dan menjalankan seluruh aktivitas media sosial maupun iklan sesuai strategi yang telah disepakati.",
-    color: "#4F46E5",
-    bg: "rgba(79,70,229,0.08)",
-    border: "rgba(79,70,229,0.2)",
+    color: "#dec83a",
+    bg: "rgba(222,200,58,0.08)",
+    border: "rgba(222,200,58,0.25)",
     details: ["Produksi konten visual & video", "Pengelolaan & publikasi konten", "Setup dan run kampanye iklan"],
   },
   {
@@ -44,9 +44,9 @@ const steps = [
     title: "Analyze & Grow",
     subtitle: "Evaluasi & Optimasi",
     desc: "Kami mengevaluasi performa secara berkala berdasarkan data nyata, kemudian mengoptimalkan strategi agar bisnis Anda terus berkembang.",
-    color: "#0D5C46",
-    bg: "rgba(13,92,70,0.08)",
-    border: "rgba(13,92,70,0.2)",
+    color: "#dec83a",
+    bg: "rgba(222,200,58,0.08)",
+    border: "rgba(222,200,58,0.25)",
     details: ["Laporan performa berkala", "Analisis engagement & konversi", "Optimasi strategi berkelanjutan"],
   },
 ];
@@ -59,20 +59,20 @@ export default function HowWeWork() {
     <section
       id="process"
       ref={sectionRef}
-      className="py-28 relative overflow-hidden bg-solaki-surface"
+      className="pt-8 sm:pt-12 md:pt-14 pb-12 sm:pb-16 md:pb-20 relative overflow-hidden bg-solaki-surface"
     >
       <div className="absolute inset-0 grid-bg opacity-40" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_0%,rgba(13,92,70,0.06)_0%,transparent_70%)]" />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <motion.div
-          initial={false}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7 }}
-          className="text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="text-center mb-10 sm:mb-12"
         >
-          <span className="section-badge mb-6 inline-flex">
+          <span className="section-badge mb-3 sm:mb-3.5 inline-flex">
             <Rocket className="w-3 h-3" />
             Cara Kerja SOLAKI
           </span>
@@ -85,21 +85,22 @@ export default function HowWeWork() {
           </p>
         </motion.div>
 
-        {/* Steps — desktop: 4 columns, mobile: stacked */}
+        {/* Steps: desktop 4 columns, mobile stacked */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-12">
           {steps.map((step, i) => (
             <motion.div
               key={step.title}
-              initial={false}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: i * 0.1, duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
+              initial={{ opacity: 0, y: 25, scale: 0.98 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ delay: i * 0.08, duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
               className="relative"
             >
               {/* Connector line for desktop */}
               {i < steps.length - 1 && (
                 <div
                   className="hidden lg:block absolute top-8 left-full w-5 h-px z-10"
-                  style={{ background: `linear-gradient(to right, ${step.color}40, transparent)` }}
+                  style={{ background: `${step.color}40` }}
                 />
               )}
 
@@ -153,9 +154,10 @@ export default function HowWeWork() {
 
         {/* CTA */}
         <motion.div
-          initial={false}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.5, duration: 0.6 }}
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ delay: 0.25, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
           className="text-center"
         >
           <motion.button

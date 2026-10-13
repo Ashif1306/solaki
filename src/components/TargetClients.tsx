@@ -70,19 +70,20 @@ export default function TargetClients() {
     <section
       id="target-clients"
       ref={sectionRef}
-      className="pt-6 sm:pt-10 pb-20 sm:pb-28 relative overflow-hidden bg-solaki-bg"
+      className="pt-8 sm:pt-12 md:pt-14 pb-14 sm:pb-18 md:pb-20 relative overflow-hidden bg-solaki-bg"
     >
       <div className="absolute inset-0 dot-bg opacity-40" />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <motion.div
-          initial={false}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7 }}
-          className="text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="text-center mb-10 sm:mb-12"
         >
-          <span className="section-badge mb-6 inline-flex">
+          <span className="section-badge mb-3 sm:mb-3.5 inline-flex">
             <Users className="w-3 h-3" />
             Target Klien SOLAKI
           </span>
@@ -97,9 +98,10 @@ export default function TargetClients() {
 
         {/* Problem callout */}
         <motion.div
-          initial={false}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.2, duration: 0.6 }}
+          initial={{ opacity: 0, y: 24, scale: 0.99 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
           className="mb-14"
         >
           <div className="bento-card p-7 max-w-3xl mx-auto" style={{ borderColor: "rgba(13,92,70,0.25)" }}>
@@ -110,9 +112,10 @@ export default function TargetClients() {
               {clientProblems.map((problem, i) => (
                 <motion.div
                   key={i}
-                  initial={false}
-                  animate={isInView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ delay: 0.3 + i * 0.08 }}
+                  initial={{ opacity: 0, x: -12 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  transition={{ delay: 0.08 + i * 0.05, duration: 0.4 }}
                   className="flex items-start gap-3"
                 >
                   <div className="w-1.5 h-1.5 rounded-full bg-solaki-teal flex-shrink-0 mt-2" />
@@ -128,9 +131,10 @@ export default function TargetClients() {
           {targetClients.map((client, i) => (
             <motion.div
               key={client.label}
-              initial={false}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.3 + i * 0.08, duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
+              initial={{ opacity: 0, y: 24, scale: 0.98 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ delay: i * 0.08, duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
             >
               <div
                 className="bento-card p-5 flex items-start gap-4"
@@ -153,9 +157,10 @@ export default function TargetClients() {
 
         {/* Value proposition */}
         <motion.div
-          initial={false}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.7, duration: 0.6 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.5 }}
           className="grid sm:grid-cols-3 gap-4 max-w-3xl mx-auto"
         >
           {[
@@ -165,9 +170,10 @@ export default function TargetClients() {
           ].map((val, i) => (
             <motion.div
               key={val.word}
-              initial={false}
-              animate={isInView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ delay: 0.7 + i * 0.08 }}
+              initial={{ opacity: 0, scale: 0.96 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ delay: i * 0.08, duration: 0.45 }}
               className="bento-card p-5 text-center"
             >
               <div className="text-base font-black text-solaki-teal mb-2">{val.word}</div>
@@ -177,9 +183,10 @@ export default function TargetClients() {
         </motion.div>
 
         <motion.div
-          initial={false}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ delay: 0.9 }}
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ delay: 0.15, duration: 0.5 }}
           className="text-center mt-10"
         >
           <motion.button

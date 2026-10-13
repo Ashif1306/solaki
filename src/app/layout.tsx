@@ -1,29 +1,22 @@
 import type { Metadata } from "next";
 import { siteUrl, siteName, siteTitle, siteDescription, siteKeywords } from "@/lib/seo";
-import { Poppins, Inter, Montserrat } from "next/font/google";
+import { Plus_Jakarta_Sans, Inter } from "next/font/google";
 import { Suspense } from "react";
 import "./globals.css";
 import { ThemeProvider } from "@/context/ThemeContext";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import { Analytics } from "@vercel/analytics/next";
 
-const poppins = Poppins({
+const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  variable: "--font-poppins",
-  weight: ["400", "500", "600", "700", "800", "900"],
+  variable: "--font-jakarta",
+  weight: ["300", "400", "500", "600", "700", "800"],
   display: "swap",
 });
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
-  weight: ["300", "400", "500", "600", "700"],
-  display: "swap",
-});
-
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  variable: "--font-montserrat",
   weight: ["300", "400", "500", "600", "700"],
   display: "swap",
 });
@@ -110,7 +103,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className="scroll-smooth" suppressHydrationWarning>
+    <html lang="id" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
@@ -136,7 +129,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${poppins.variable} ${inter.variable} ${montserrat.variable} font-montserrat antialiased transition-colors duration-300 bg-solaki-black text-white`}
+        className={`${plusJakarta.variable} ${inter.variable} font-jakarta antialiased transition-colors duration-300 bg-solaki-black text-white`}
       >
         <ThemeProvider>
           <Suspense fallback={null}>

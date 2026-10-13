@@ -99,21 +99,6 @@ export default function StatsCounter() {
     >
       {/* Background */}
       <div className="absolute inset-0 grid-bg opacity-20" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_50%,rgba(13,92,70,0.06)_0%,transparent_70%)]" />
-
-      {/* Animated glowing orbs */}
-      <motion.div
-        className="absolute top-0 left-1/4 w-64 h-64 rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(13,92,70,0.08) 0%, transparent 70%)" }}
-        animate={{ scale: [1, 1.3, 1], opacity: [0.5, 0.8, 0.5] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-      />
-      <motion.div
-        className="absolute bottom-0 right-1/4 w-80 h-80 rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle, rgba(217,83,56,0.06) 0%, transparent 70%)" }}
-        animate={{ scale: [1.2, 1, 1.2], opacity: [0.4, 0.7, 0.4] }}
-        transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-      />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Label */}

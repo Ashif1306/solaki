@@ -27,8 +27,8 @@ const defaultTeam = [
     role: "Founder & Brand Strategist",
     icon: Crown,
     initials: "MNZ",
-    color: "#0D5C46",
-    colorBg: "rgba(13,92,70,0.15)",
+    color: "#dec83a",
+    colorBg: "#013e37",
     description:
       "Bertanggung jawab atas arah strategis agensi, positioning brand, pengembangan model bisnis, serta membina hubungan kolaboratif erat dengan klien utama.",
     skills: ["Brand Strategy", "Market Positioning", "Business Development", "Client Relations"],
@@ -36,8 +36,7 @@ const defaultTeam = [
       instagram: "#",
       linkedin: "#",
     },
-    gradient: "from-emerald-950/40 to-solaki-dark",
-    accentGlow: "rgba(13,92,70,0.2)",
+    accentGlow: "rgba(222,200,58,0.2)",
   },
   {
     id: 2,
@@ -45,8 +44,8 @@ const defaultTeam = [
     role: "Social Media & Design Specialist",
     icon: Palette,
     initials: "ITY",
-    color: "#D95338",
-    colorBg: "rgba(217,83,56,0.15)",
+    color: "#dec83a",
+    colorBg: "#013e37",
     description:
       "Mengelola ekosistem konten media sosial, produksi desain grafis berdaya pikat tinggi, dan menjaga konsistensi identitas visual brand mitra.",
     skills: ["Content Creation", "Graphic Design", "Brand Aesthetics", "Visual Consistency"],
@@ -54,8 +53,7 @@ const defaultTeam = [
       instagram: "#",
       linkedin: "#",
     },
-    gradient: "from-red-950/40 to-solaki-dark",
-    accentGlow: "rgba(217,83,56,0.2)",
+    accentGlow: "rgba(222,200,58,0.2)",
   },
   {
     id: 3,
@@ -63,8 +61,8 @@ const defaultTeam = [
     role: "Digital Advertising & Client Relation Officer",
     icon: Target,
     initials: "KMA",
-    color: "#4F46E5",
-    colorBg: "rgba(79,70,229,0.15)",
+    color: "#dec83a",
+    colorBg: "#013e37",
     description:
       "Menangani eksekusi dan optimasi digital advertising (Meta & TikTok Ads) dengan alokasi budget efisien, serta koordinasi komunikasi aktif dengan mitra.",
     skills: ["Digital Advertising", "Meta & TikTok Ads", "Campaign Optimization", "Client Relations"],
@@ -72,8 +70,7 @@ const defaultTeam = [
       instagram: "#",
       linkedin: "#",
     },
-    gradient: "from-indigo-950/40 to-solaki-dark",
-    accentGlow: "rgba(79,70,229,0.2)",
+    accentGlow: "rgba(222,200,58,0.2)",
   },
 ];
 
@@ -129,15 +126,14 @@ export default function TeamSection() {
                 role: m.role,
                 icon: idx === 0 ? Crown : idx === 1 ? Palette : Target,
                 initials: m.initials || "SOL",
-                color: m.color || (idx === 0 ? "#0D5C46" : idx === 1 ? "#D95338" : "#4F46E5"),
-                colorBg: `${m.color || "#0D5C46"}20`,
+                color: m.color || "#dec83a",
+                colorBg: "#013e37",
                 description: m.description,
                 skills: m.skills || [],
                 socials: {
                   instagram: m.instagram || "#",
                   linkedin: m.linkedin || "#",
                 },
-                gradient: idx === 0 ? "from-emerald-950/40 to-solaki-dark" : idx === 1 ? "from-red-950/40 to-solaki-dark" : "from-indigo-950/40 to-solaki-dark",
                 accentGlow: `${m.color || "#0D5C46"}25`,
               }))
             );
@@ -149,7 +145,6 @@ export default function TeamSection() {
 
   return (
     <section id="tim" ref={sectionRef} className="py-32 relative overflow-hidden bg-solaki-black">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_30%,rgba(13,92,70,0.06)_0%,transparent_70%)]" />
       <div className="absolute inset-0 grid-bg opacity-20" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -195,14 +190,8 @@ export default function TeamSection() {
                 >
                   {/* Top Banner / Avatar Header */}
                   <div
-                    className={`h-40 bg-gradient-to-br ${member.gradient} relative flex items-center justify-center border-b border-white/5 overflow-hidden`}
+                    className="h-40 bg-solaki-dark relative flex items-center justify-center border-b border-white/5 overflow-hidden"
                   >
-                    <div
-                      className="absolute inset-0 opacity-40"
-                      style={{
-                        background: `radial-gradient(circle at 50% 50%, ${member.accentGlow}, transparent 70%)`,
-                      }}
-                    />
 
                     {/* Initials badge */}
                     <div

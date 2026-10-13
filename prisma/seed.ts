@@ -1,4 +1,4 @@
-// Prisma seeding script — data awal dari profil SOLAKI
+// Prisma seeding script: data awal dari profil SOLAKI
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 
@@ -29,75 +29,75 @@ async function main() {
     {
       key: "hero_tagline",
       value: "Bersama Kita Tumbuh",
-      label: "Hero — Tagline Utama",
+      label: "Hero: Tagline Utama",
       type: "text",
     },
     {
       key: "hero_headline",
       value: "Strategi Digital yang Personal, Terjangkau, dan Terukur",
-      label: "Hero — Headline",
+      label: "Hero: Headline",
       type: "text",
     },
     {
       key: "hero_subtitle",
       value:
-        "SOLAKI hadir sebagai mitra bisnis — bukan sekadar vendor jasa. Kami membantu UMKM dan bisnis lokal tumbuh melalui konten kreatif, pengelolaan media sosial, dan iklan digital yang benar-benar sesuai kebutuhan bisnis Anda.",
-      label: "Hero — Subtitle / Deskripsi",
+        "SOLAKI hadir sebagai mitra bisnis, bukan sekadar vendor jasa. Kami membantu UMKM dan bisnis lokal tumbuh melalui konten kreatif, pengelolaan media sosial, dan iklan digital yang benar-benar sesuai kebutuhan bisnis Anda.",
+      label: "Hero: Subtitle / Deskripsi",
       type: "textarea",
     },
     {
       key: "hero_cta_primary",
       value: "Konsultasi Gratis",
-      label: "Hero — Teks Tombol Utama",
+      label: "Hero: Teks Tombol Utama",
       type: "text",
     },
     {
       key: "hero_cta_secondary",
       value: "Lihat Layanan Kami",
-      label: "Hero — Teks Tombol Sekunder",
+      label: "Hero: Teks Tombol Sekunder",
       type: "text",
     },
     {
       key: "philosophy_badge",
       value: "Filosofi & Identitas",
-      label: "Filosofi — Badge",
+      label: "Filosofi: Badge",
       type: "text",
     },
     {
       key: "philosophy_headline",
       value: "Berakar Lokal, Bergerak Digital",
-      label: "Filosofi — Headline",
+      label: "Filosofi: Headline",
       type: "text",
     },
     {
       key: "philosophy_intro",
       value:
-        "Nama SOLAKI diambil dari frasa lokal Enrekang, Sulawesi Selatan — \"Sola ki\" — yang berarti \"Bersama Kita\". Filosofi ini bukan sekadar nama; ia merepresentasikan cara kami bekerja: berdampingan dengan klien, memahami bisnis mereka secara mendalam, dan tumbuh bersama.",
-      label: "Filosofi — Paragraf Intro",
+        "Nama SOLAKI diambil dari frasa lokal Enrekang, Sulawesi Selatan (\"Sola ki\") yang berarti \"Bersama Kita\". Filosofi ini bukan sekadar nama; ia merepresentasikan cara kami bekerja: berdampingan dengan klien, memahami bisnis mereka secara mendalam, dan tumbuh bersama.",
+      label: "Filosofi: Paragraf Intro",
       type: "textarea",
     },
     {
       key: "contact_email",
       value: "hello@solaki.id",
-      label: "Kontak — Email",
+      label: "Kontak: Email",
       type: "text",
     },
     {
       key: "contact_whatsapp",
       value: "628xxxxxxxxxx",
-      label: "Kontak — Nomor WhatsApp (tanpa +)",
+      label: "Kontak: Nomor WhatsApp (tanpa +)",
       type: "text",
     },
     {
       key: "contact_instagram",
       value: "@solaki.id",
-      label: "Kontak — Instagram",
+      label: "Kontak: Instagram",
       type: "text",
     },
     {
       key: "contact_location",
       value: "Enrekang, Sulawesi Selatan, Indonesia",
-      label: "Kontak — Lokasi",
+      label: "Kontak: Lokasi",
       type: "text",
     },
   ];
@@ -119,7 +119,7 @@ async function main() {
       title: "Content Creator",
       subtitle: "Konten yang Bicara ke Audiens",
       description:
-        "Merancang konten visual dan tulisan yang menarik, relevan, dan konsisten dengan identitas brand Anda — mulai dari desain grafis, carousel, caption, hingga short-form video.",
+        "Merancang konten visual dan tulisan yang menarik, relevan, dan konsisten dengan identitas brand Anda, mulai dari desain grafis, carousel, caption, hingga short-form video.",
       features: [
         "Desain grafis & template brand",
         "Copywriting & caption strategy",
@@ -135,7 +135,7 @@ async function main() {
       title: "Social Media Management",
       subtitle: "Kehadiran Digital yang Konsisten",
       description:
-        "Mengelola media sosial dari perencanaan konten hingga interaksi langsung dengan audiens — memastikan brand Anda aktif, relevan, dan membangun komunitas yang loyal.",
+        "Mengelola media sosial dari perencanaan konten hingga interaksi langsung dengan audiens untuk memastikan brand Anda aktif, relevan, dan membangun komunitas yang loyal.",
       features: [
         "Perencanaan & penjadwalan konten",
         "Pengelolaan Instagram, TikTok, Facebook",
@@ -151,7 +151,7 @@ async function main() {
       title: "Digital Advertising",
       subtitle: "Iklan yang Menghasilkan Konversi",
       description:
-        "Menjalankan dan mengoptimalkan kampanye iklan berbayar di Meta (Instagram & Facebook) dan TikTok Ads — dengan target audiens yang presisi dan fokus pada hasil nyata.",
+        "Menjalankan dan mengoptimalkan kampanye iklan berbayar di Meta (Instagram & Facebook) dan TikTok Ads dengan target audiens yang presisi dan fokus pada hasil nyata.",
       features: [
         "Setup & manajemen Meta Ads",
         "Setup & manajemen TikTok Ads",
@@ -292,7 +292,7 @@ async function main() {
   const siteSettings = [
     { key: "site_name", value: "Solaki", label: "Nama Website/Agency" },
     { key: "site_tagline", value: "Creative Agency", label: "Sub-tagline di Logo" },
-    { key: "og_title", value: "Solaki — Creative Digital Agency untuk UMKM", label: "OG Title" },
+    { key: "og_title", value: "Solaki | Creative Digital Agency untuk UMKM", label: "OG Title" },
     { key: "og_description", value: "Mitra digital personal untuk bisnis lokal dan UMKM. Tumbuh bersama melalui konten kreatif, media sosial, dan iklan digital yang terukur.", label: "OG Description" },
   ];
 

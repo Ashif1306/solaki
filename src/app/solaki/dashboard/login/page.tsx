@@ -44,7 +44,6 @@ export default function AdminLoginPage() {
     <div className="min-h-screen bg-solaki-black flex items-center justify-center p-4 relative overflow-hidden">
       {/* Background decorations */}
       <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_30%,rgba(13,92,70,0.12)_0%,transparent_70%)] pointer-events-none" />
 
       <div className="w-full max-w-md relative z-10">
         {/* Card */}
